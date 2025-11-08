@@ -174,6 +174,63 @@ Use GitHub Issues with the feature template:
 - Alternative solutions considered
 - Additional context
 
+## 🎨 Contributing Skills
+
+Skills are the core of AgentFoundry. To contribute a Skill:
+
+### Skill Format
+
+See [Skill Format Specification](./docs/architecture/skill-format-spec.md) for complete details.
+
+**Required files**:
+- `skill.yaml` - Metadata and configuration
+- `README.md` - Human-readable documentation
+- `src/tools/` - Tool implementations
+- `tests/` - Unit and integration tests (>80% coverage)
+- `examples/` - Usage examples
+
+### Skill Quality Checklist
+
+Before submitting a Skill:
+- [ ] `skill.yaml` is complete and valid
+- [ ] All required fields populated
+- [ ] README with installation, usage, and examples
+- [ ] Tests with >80% coverage passing
+- [ ] Security scan passed (no critical issues)
+- [ ] License file included
+- [ ] At least one working tool implemented
+- [ ] Examples demonstrate all features
+
+### Skill Categories
+
+Choose appropriate category:
+- `memory-storage` - Long-term memory, caching, state
+- `data-retrieval` - Search, APIs, web scraping
+- `data-processing` - Transform, analyze, compute
+- `communication` - Email, Slack, notifications
+- `file-operations` - Read, write, parse files
+- `reasoning` - Chain-of-thought, planning
+- `validation` - Testing, verification
+- `monitoring` - Logging, telemetry, errors
+- `security` - Auth, encryption, secrets
+- `integration` - Third-party service wrappers
+
+### Testing Your Skill
+
+```bash
+# Validate skill format
+agentforge validate ./my-skill
+
+# Run tests
+cd my-skill
+npm test  # or pytest for Python skills
+
+# Test as MCP server
+agentforge mcp ./my-skill
+```
+
+---
+
 ## 📦 Package-Specific Guidelines
 
 ### @agentfoundry/web (Frontend)

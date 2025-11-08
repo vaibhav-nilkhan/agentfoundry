@@ -121,6 +121,25 @@ pnpm --filter @agentfoundry/db studio
 
 > **💡 Port Conflicts?** See [PORT_CONFIGURATION.md](./PORT_CONFIGURATION.md) for how to customize all ports.
 
+## 📚 Documentation
+
+### 🚀 Getting Started
+- **[Getting Started Guide](./docs/guides/getting-started.md)** - Complete developer onboarding and setup
+- **[Skill Format Specification](./docs/architecture/skill-format-spec.md)** - Canonical Skill format (skill.yaml, testing, security)
+- **[MCP Integration Guide](./docs/guides/mcp-integration.md)** - Model Context Protocol implementation
+
+### 📋 Planning & Roadmap
+- **[Execution Roadmap](./docs/planning/execution-roadmap.md)** - 90-day strategic roadmap with critical decisions
+- **[2-Week Sprint Plan](./docs/planning/2-week-sprint.md)** - Day-by-day action plan to MVP alpha
+- **[Documentation Hub](./docs/README.md)** - Central documentation index
+
+### 🏗️ Architecture
+- **[Architecture Overview](./ARCHITECTURE.md)** - System architecture and design decisions
+- **[Port Configuration](./PORT_CONFIGURATION.md)** - Multi-project port management guide
+- **[Migration Guide](./MIGRATION.md)** - Express.js → NestJS migration notes
+
+---
+
 ## 📚 Package Documentation
 
 ### [@agentfoundry/web](./packages/web)
@@ -231,26 +250,54 @@ vercel --prod
 pnpm --filter @agentfoundry/db migrate:deploy
 ```
 
-## 🎯 Roadmap
+## 🎯 Quick Start with AgentFoundry CLI
 
-### MVP (Months 1-3)
-- ✅ Monorepo setup
-- ✅ Core packages scaffolding
-- 🚧 MCP integration
-- 🚧 Basic marketplace UI
-- 🚧 Validation pipeline
+```bash
+# Create a new Skill
+agentforge create my-skill --template=basic
 
-### Beta (Months 3-6)
-- Private alpha with 10-20 developers
-- 100+ validated Skills
-- Claude Skills adapter
-- Review and rating system
+# Validate a Skill
+agentforge validate
 
-### Production (Months 6-12)
-- Public launch
-- GPT Actions adapter
+# Run Skill as MCP server (works with Claude Desktop)
+agentforge mcp ./my-skill
+
+# Publish to marketplace
+agentforge publish
+```
+
+See the [Getting Started Guide](./docs/guides/getting-started.md) for detailed instructions.
+
+---
+
+## 🗺️ Roadmap
+
+See [Execution Roadmap](./docs/planning/execution-roadmap.md) for detailed 90-day plan.
+
+### Week 1-2: Foundation ✅
+- ✅ Monorepo setup (Turborepo + 7 packages)
+- ✅ NestJS backend with OpenAPI/Swagger
+- ✅ Supabase Auth integration
+- ✅ Skill format specification
+- ✅ MCP integration guide
+- 🚧 Build 20 production Skills
+
+### Week 3-6: Core MVP
+- 🚧 Marketplace UI (browse, search, filter)
+- 🚧 Skill validation pipeline
+- 🚧 MCP adapter implementation
+- 🚧 CLI install command
+
+### Week 7-10: Private Alpha
+- 20-30 design partners
+- Alpha feedback loop
+- Rapid iteration
+
+### Months 3-6: Public Beta
+- Product Hunt launch
+- Cross-platform support (Claude Skills, OpenAI Agents)
 - Enterprise features
-- Monetization and billing
+- $500K-$1M ARR target
 
 ## 🤝 Contributing
 
