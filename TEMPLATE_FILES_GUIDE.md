@@ -9,16 +9,16 @@ All blank/template files created for you to paste content into on GitHub.
 ### 1. Skill Format Specification
 **Location**: `docs/architecture/skill-format-spec.md`
 **Purpose**: Define the canonical AgentFoundry Skill format
-**Status**: ✏️ Ready for content
+**Status**: ✅ Complete
 **Priority**: 🔴 CRITICAL
 
-**What to paste**:
-- Directory structure definition
-- skill.json schema explanation
-- SKILL.md format
-- Implementation requirements
-- Testing requirements
-- Examples
+**Contents**:
+- skill.yaml manifest specification
+- Directory structure (src/tools/, tests/, examples/)
+- TypeScript and Python tool examples
+- MCP server auto-generation
+- Security best practices
+- Publishing workflow
 
 ---
 
@@ -38,15 +38,15 @@ All blank/template files created for you to paste content into on GitHub.
 ### 3. MCP Integration Guide
 **Location**: `docs/guides/mcp-integration.md`
 **Purpose**: Document MCP integration approach
-**Status**: ✏️ Ready for content
+**Status**: ✅ Complete
 **Priority**: 🔴 CRITICAL
 
-**What to paste**:
-- MCP architecture
-- Implementation details
-- Code examples
-- Testing approach
-- Deployment instructions
+**Contents**:
+- Phase 1: MCP Server Generator (Days 1-3)
+- Phase 2: GitHub MCP Registry publishing (Days 4-5)
+- Phase 3: MCP Client implementation (Days 6-7)
+- Testing guide with Claude Desktop
+- Common issues and solutions
 
 ---
 
@@ -198,11 +198,11 @@ agentfoundry/
 ├── docs/
 │   ├── README.md                    ← ✅ Documentation hub
 │   ├── architecture/
-│   │   ├── skill-format-spec.md    ← ✏️ Paste content
+│   │   ├── skill-format-spec.md    ← ✅ Complete
 │   │   └── skill-schema.json       ← ✅ Complete
 │   ├── guides/
 │   │   ├── getting-started.md      ← ✅ Complete
-│   │   └── mcp-integration.md      ← ✏️ Paste content
+│   │   └── mcp-integration.md      ← ✅ Complete
 │   └── planning/
 │       ├── execution-roadmap.md    ← ✏️ Update progress
 │       └── 2-week-sprint.md        ← ✅ Complete
