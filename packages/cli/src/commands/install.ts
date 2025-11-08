@@ -15,14 +15,13 @@
 
 import chalk from 'chalk';
 import ora from 'ora';
-import axios from 'axios';
 
 interface InstallOptions {
   version?: string;
   dev?: boolean;
 }
 
-export async function installCommand(skillName: string, options: InstallOptions) {
+export async function installCommand(skillName: string, _options: InstallOptions) {
   console.log(chalk.blue(`\n📦 Installing Skill: ${skillName}\n`));
 
   const spinner = ora('Fetching Skill from marketplace...').start();

@@ -1,0 +1,13 @@
+name: hello-world
+version: 1.0.0
+description: A simple Hello World skill for testing MCP adapter
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.dev
+
+license: MIT
+platforms:
+  - mcp
+  - claude-skills
+permissions: []

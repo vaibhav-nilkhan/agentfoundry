@@ -9,6 +9,7 @@ import { initCommand } from './commands/init';
 import { validateCommand } from './commands/validate';
 import { publishCommand } from './commands/publish';
 import { loginCommand } from './commands/login';
+import { mcpCommand } from './commands/mcp';
 
 const program = new Command();
 
@@ -54,5 +55,8 @@ program
   .command('login')
   .description('Authenticate with AgentFoundry')
   .action(loginCommand);
+
+// Add MCP command
+program.addCommand(mcpCommand);
 
 program.parse();
