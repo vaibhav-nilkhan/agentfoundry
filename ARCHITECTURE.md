@@ -17,7 +17,7 @@ AgentFoundry is a multi-tier platform designed for building, validating, and dis
                             │
 ┌───────────────────────────▼──────────────────────────────────┐
 │                      API Gateway                              │
-│                   (Express.js + Firebase Auth)                │
+│                   (NestJS + Supabase Auth)                    │
 └───────────────────────────┬──────────────────────────────────┘
                             │
         ┌───────────────────┼───────────────────┐
@@ -65,13 +65,13 @@ AgentFoundry is a multi-tier platform designed for building, validating, and dis
 
 ### 2. API Layer (`@agentfoundry/api`)
 
-**Technology**: Express.js, TypeScript, Firebase Admin SDK
+**Technology**: NestJS, TypeScript, Supabase Auth
 
 **Responsibilities**:
-- RESTful API for all client operations
-- Authentication and authorization middleware
-- Business logic orchestration
-- Rate limiting and request validation
+- RESTful API with OpenAPI/Swagger documentation
+- Supabase JWT authentication and authorization
+- Modular service architecture with dependency injection
+- Business logic orchestration and validation
 
 **Key Endpoints**:
 ```
@@ -275,11 +275,11 @@ Future: Skills are cryptographically signed by author for integrity verification
 |----------|-----------|-----------|
 | **Monorepo** | Turborepo + pnpm | Fast builds, shared dependencies, code reuse |
 | **Frontend** | Next.js 15 | SSR, API routes, React ecosystem, Vercel deployment |
-| **API** | Express.js | Mature, flexible, TypeScript support |
-| **Database** | PostgreSQL | Relational data, ACID, full-text search |
+| **API** | NestJS | Modular architecture, OpenAPI generation, dependency injection |
+| **Database** | PostgreSQL (self-hosted) | Relational data, ACID, full-text search, full control |
 | **ORM** | Prisma | Type-safe queries, migrations, developer experience |
 | **Validator** | Python + FastAPI | Best tooling for AST analysis, fast async API |
-| **Auth** | Firebase | Free tier, proven, multi-provider support |
+| **Auth** | Supabase Auth | Free tier, open-source, integrates with PostgreSQL |
 | **Cache** | Redis | Fast, distributed, pub/sub support |
 
 ## Deployment Architecture
@@ -292,7 +292,7 @@ Future: Skills are cryptographically signed by author for integrity verification
 └────────┬─────────┘
          │
 ┌────────▼─────────┐
-│  Railway API     │  (Express.js backend)
+│  Railway API     │  (NestJS backend)
 │  + PostgreSQL    │
 │  + Redis         │
 └────────┬─────────┘
