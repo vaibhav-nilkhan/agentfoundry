@@ -29,7 +29,11 @@ export async function run(input: z.infer<typeof inputSchema>): Promise<TrendOutp
   const currentAnalysis = await analyzeCodebase({
     repo_url: validated.repo_url,
     branch: 'main',
-    config: {},
+    config: {
+      avg_hourly_rate: 100,
+      team_size: 5,
+      include_test_files: false,
+    },
   });
 
   const currentValue = currentAnalysis.total_debt_cost_annual;

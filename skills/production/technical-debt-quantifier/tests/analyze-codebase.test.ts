@@ -55,7 +55,11 @@ describe('analyze_codebase', () => {
       analyzeCodebase({
         repo_url: 'not-a-url',
         branch: 'main',
-        config: {},
+        config: {
+          avg_hourly_rate: 100,
+          team_size: 5,
+          include_test_files: false,
+        },
       })
     ).rejects.toThrow('Invalid input');
   });
@@ -64,7 +68,11 @@ describe('analyze_codebase', () => {
     const result = await analyzeCodebase({
       repo_url: 'https://github.com/test/repo',
       branch: 'main',
-      config: {},
+      config: {
+        avg_hourly_rate: 100,
+        team_size: 5,
+        include_test_files: false,
+      },
     });
 
     expect(result.metadata.config.avg_hourly_rate).toBe(100);

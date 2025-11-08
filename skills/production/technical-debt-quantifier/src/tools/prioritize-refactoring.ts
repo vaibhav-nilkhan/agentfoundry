@@ -32,7 +32,11 @@ export async function run(input: z.infer<typeof inputSchema>): Promise<Prioritiz
   const analysis = await analyzeCodebase({
     repo_url: validated.repo_url,
     branch: 'main',
-    config: {},
+    config: {
+      avg_hourly_rate: 100,
+      team_size: 5,
+      include_test_files: false,
+    },
   });
 
   // Generate refactoring tasks from top problem files
