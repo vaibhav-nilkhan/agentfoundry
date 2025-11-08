@@ -1,0 +1,235 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - linked to Firebase Auth
+model User {
+  id            String   @id @default(cuid())
+  firebaseUid   String   @unique
+  email         String   @unique
+  displayName   String?
+  avatarUrl     String?
+
+  // Profile fields
+  bio           String?
+  website       String?
+  githubUrl     String?
+  twitterUrl    String?
+
+  // Reputation and trust
+  reputation    Int      @default(0)
+  verified      Boolean  @default(false)
+
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  skills        Skill[]
+  reviews       Review[]
+  skillUsage    SkillUsage[]
+
+  @@index([firebaseUid])
+  @@index([email])
+}
+
+// Skill model - core entity
+model Skill {
+  id              String   @id @default(cuid())
+
+  // Metadata
+  name            String
+  slug            String   @unique
+  description     String
+  longDescription String?
+
+  // Categorization
+  category        String
+  tags            String[]
+
+  // Version control
+  version         String   @default("1.0.0")
+  versions        SkillVersion[]
+
+  // Author
+  authorId        String
+  author          User     @relation(fields: [authorId], references: [id])
+
+  // Validation status
+  status          SkillStatus @default(PENDING)
+  validatedAt     DateTime?
+
+  // Compatibility
+  platforms       Platform[]
+  dependencies    String[]
+
+  // Manifest and code
+  manifestUrl     String
+  codeUrl         String?
+  documentationUrl String?
+
+  // Pricing
+  pricingType     PricingType @default(FREE)
+  price           Float?
+
+  // Stats
+  downloads       Int      @default(0)
+  rating          Float    @default(0.0)
+  reviewCount     Int      @default(0)
+
+  // Security
+  permissions     String[]
+  safetyScore     Float?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  publishedAt     DateTime?
+
+  // Relations
+  reviews         Review[]
+  usage           SkillUsage[]
+  validationResults ValidationResult[]
+
+  @@index([slug])
+  @@index([authorId])
+  @@index([status])
+  @@index([category])
+}
+
+// Skill versions for history tracking
+model SkillVersion {
+  id              String   @id @default(cuid())
+  skillId         String
+  skill           Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  version         String
+  manifestUrl     String
+  codeUrl         String
+  changelog       String?
+
+  createdAt       DateTime @default(now())
+
+  @@unique([skillId, version])
+  @@index([skillId])
+}
+
+// Validation results for each Skill
+model ValidationResult {
+  id              String   @id @default(cuid())
+  skillId         String
+  skill           Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  // Validation details
+  validationType  ValidationType
+  status          ValidationStatus
+
+  // Results
+  passed          Boolean
+  score           Float?
+  issues          Json?
+  metadata        Json?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+
+  @@index([skillId])
+  @@index([status])
+}
+
+// Reviews for Skills
+model Review {
+  id              String   @id @default(cuid())
+
+  skillId         String
+  skill           Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  rating          Int      // 1-5 stars
+  title           String?
+  comment         String?
+
+  // Moderation
+  flagged         Boolean  @default(false)
+  verified        Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([skillId, userId])
+  @@index([skillId])
+  @@index([userId])
+}
+
+// Skill usage tracking
+model SkillUsage {
+  id              String   @id @default(cuid())
+
+  skillId         String
+  skill           Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+
+  // Usage metadata
+  platform        Platform
+  success         Boolean
+  executionTime   Int?     // milliseconds
+  errorMessage    String?
+
+  createdAt       DateTime @default(now())
+
+  @@index([skillId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// Enums
+enum SkillStatus {
+  PENDING
+  VALIDATING
+  APPROVED
+  REJECTED
+  DEPRECATED
+}
+
+enum PricingType {
+  FREE
+  PAID
+  FREEMIUM
+}
+
+enum Platform {
+  CLAUDE_SKILLS
+  GPT_ACTIONS
+  MCP
+  LANGCHAIN
+  MISTRAL
+}
+
+enum ValidationType {
+  STATIC_ANALYSIS
+  PERMISSION_SCAN
+  SECURITY_AUDIT
+  BEHAVIOR_TEST
+  LLM_VALIDATION
+}
+
+enum ValidationStatus {
+  PENDING
+  RUNNING
+  PASSED
+  FAILED
+  WARNING
+}
