@@ -416,34 +416,89 @@ If you can bootstrap (personal funds, consulting, etc.) for 6-9 months, you'll h
 
 ---
 
-## 🛠️ TECH STACK RECOMMENDATIONS
+## 🛠️ OUR TECH STACK (FINALIZED)
 
-### Backend
-- **Language**: Python (for LLM ecosystem compatibility) or Go (for performance)
-- **Framework**: FastAPI (Python) or Gin (Go)
-- **Database**: PostgreSQL (user data, Skills metadata)
-- **Vector DB**: Pinecone or Weaviate (Skill search/recommendations)
+### Backend API
+- **Framework**: NestJS (TypeScript)
+  - Modular architecture with dependency injection
+  - Auto-generated OpenAPI/Swagger documentation
+  - Built-in validation, error handling, guards
+- **Language**: TypeScript (full type safety, enterprise-ready)
+- **API Docs**: Swagger UI at `/api/docs`
+
+### Authentication
+- **Auth Provider**: Supabase Auth
+  - Open-source PostgreSQL-integrated auth
+  - Email + Google OAuth
+  - JWT-based authentication
+  - No vendor lock-in
+
+### Database
+- **Database**: PostgreSQL 15 (self-hosted)
+- **ORM**: Prisma
+  - Type-safe queries
+  - Auto-generated client
+  - Migration management
+- **Future**: Vector DB for Skill search (Pinecone or pgvector)
 - **Queue**: Redis (validation jobs, async tasks)
-- **Storage**: S3 (Skill files, logs)
+
+### Validator Microservice
+- **Language**: Python 3.11
+- **Framework**: FastAPI
+  - AST parsing for static analysis
+  - Async/await for I/O operations
+  - Pydantic for validation
 
 ### Frontend
-- **Framework**: Next.js (React, good for dev tools)
-- **UI**: Tailwind + Shadcn/UI (fast iteration)
-- **IDE**: Monaco Editor (powers VS Code) or CodeMirror
-- **Visualization**: Recharts or D3.js
+- **Framework**: Next.js 15 (React 18)
+- **UI Library**: Tailwind CSS + shadcn/ui
+- **Auth Client**: Supabase JS SDK
+- **State Management**: React Context + hooks
+- **Code Editor**: Monaco Editor (VS Code engine)
 
 ### Infrastructure
-- **Cloud**: AWS or GCP (both fine, AWS has more developer tools)
-- **Orchestration**: Kubernetes (for Skill execution sandboxing)
+- **Hosting - Frontend**: Vercel
+- **Hosting - Backend**: Railway (API + Validator)
+- **Hosting - Database**: Railway PostgreSQL or Supabase
+- **File Storage**: S3 or Cloudflare R2
 - **CI/CD**: GitHub Actions
-- **Monitoring**: DataDog or Grafana
-- **Error Tracking**: Sentry
+- **Monitoring**: Sentry (error tracking)
+- **Analytics**: PostHog or Mixpanel
 
-### Development
-- **Monorepo**: Nx or Turborepo
-- **Testing**: Pytest (Python), Jest (JavaScript)
-- **Linting**: Ruff (Python), ESLint (JavaScript)
-- **Documentation**: Docusaurus or GitBook
+### Development Tools
+- **Monorepo**: Turborepo (optimal caching, fast builds)
+- **Package Manager**: pnpm (efficient, fast)
+- **Testing - Frontend**: Jest + React Testing Library
+- **Testing - Backend**: Jest + Supertest
+- **Testing - Validator**: Pytest
+- **Linting**: ESLint (TypeScript/JS), Ruff (Python)
+- **Formatting**: Prettier (TypeScript/JS), Black (Python)
+- **Type Checking**: TypeScript strict mode
+
+### Why This Stack?
+
+**NestJS over Express/FastAPI**:
+- ✅ Enterprise architecture out of the box
+- ✅ Auto-generated OpenAPI docs (critical for developers)
+- ✅ Dependency injection and modularity
+- ✅ TypeScript native (better DX)
+
+**Supabase Auth over Firebase**:
+- ✅ Open-source (no vendor lock-in)
+- ✅ PostgreSQL-integrated (one database)
+- ✅ Better acquisition story
+- ✅ Self-hosting option for enterprise
+
+**Prisma over TypeORM**:
+- ✅ Superior TypeScript support
+- ✅ Auto-generated types
+- ✅ Intuitive migration system
+- ✅ Great developer experience
+
+**Turborepo over Nx**:
+- ✅ Simpler configuration
+- ✅ Faster builds with remote caching
+- ✅ Better for TypeScript monorepos
 
 ---
 
