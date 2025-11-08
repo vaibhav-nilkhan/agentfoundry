@@ -45,10 +45,10 @@ agentfoundry/
 | Layer | Technology |
 |-------|-----------|
 | **Frontend** | Next.js 15, Tailwind CSS, shadcn/ui |
-| **Backend API** | Express.js, Node.js, TypeScript |
-| **Database** | PostgreSQL 15, Prisma ORM |
+| **Backend API** | NestJS, TypeScript, OpenAPI/Swagger |
+| **Database** | PostgreSQL 15 (self-hosted), Prisma ORM |
 | **Validator** | Python, FastAPI, AST parsing |
-| **Auth** | Firebase Authentication (Spark plan) |
+| **Auth** | Supabase Auth (open-source) |
 | **Cache** | Redis |
 | **Hosting** | Vercel (frontend), Railway (backend/validator) |
 
@@ -77,6 +77,10 @@ cp packages/web/.env.example packages/web/.env.local
 cp packages/api/.env.example packages/api/.env
 cp packages/validator/.env.example packages/validator/.env
 
+# ⚠️ IMPORTANT: Configure ports to avoid conflicts
+# Edit .env files and change PORT values if you're running other projects
+# See PORT_CONFIGURATION.md for detailed guide
+
 # Set up database
 cd packages/db
 pnpm prisma migrate dev
@@ -99,26 +103,31 @@ pnpm dev
 Or run services individually:
 
 ```bash
-# Frontend (http://localhost:3000)
+# Frontend (http://localhost:3100 by default, configurable via PORT env var)
 pnpm --filter @agentfoundry/web dev
 
-# API (http://localhost:4000)
+# API (http://localhost:4100 by default, configurable via PORT env var)
 pnpm --filter @agentfoundry/api dev
 
-# Validator (http://localhost:5000)
+# Swagger API Docs (http://localhost:4100/api/docs)
+# Available once API is running
+
+# Validator (http://localhost:5100 by default, configurable via PORT env var)
 cd packages/validator && poetry run uvicorn app.main:app --reload
 
-# Prisma Studio (database UI)
+# Prisma Studio (http://localhost:5555, use --port flag to change)
 pnpm --filter @agentfoundry/db studio
 ```
+
+> **💡 Port Conflicts?** See [PORT_CONFIGURATION.md](./PORT_CONFIGURATION.md) for how to customize all ports.
 
 ## 📚 Package Documentation
 
 ### [@agentfoundry/web](./packages/web)
-Next.js frontend with marketplace UI, authentication, and Skill discovery.
+Next.js frontend with marketplace UI, Supabase authentication, and Skill discovery.
 
 ### [@agentfoundry/api](./packages/api)
-Express.js REST API handling Skills, users, and authentication.
+NestJS REST API with OpenAPI/Swagger docs, handling Skills, users, and authentication.
 
 ### [@agentfoundry/validator](./packages/validator)
 Python microservice for static analysis, permission scanning, and security validation.
