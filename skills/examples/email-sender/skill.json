@@ -1,0 +1,44 @@
+{
+  "name": "email-sender",
+  "version": "1.0.0",
+  "description": "Send emails via SMTP or SendGrid API",
+  "author": "AgentFoundry Team",
+  "platforms": ["MCP", "CLAUDE_SKILLS"],
+  "permissions": [
+    "network.http",
+    "email.send"
+  ],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "send_email",
+      "description": "Send an email to one or more recipients",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Email recipients"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Email subject"
+          },
+          "body": {
+            "type": "string",
+            "description": "Email body (plain text or HTML)"
+          },
+          "html": {
+            "type": "boolean",
+            "description": "Whether body is HTML",
+            "default": false
+          }
+        },
+        "required": ["to", "subject", "body"]
+      }
+    }
+  ]
+}

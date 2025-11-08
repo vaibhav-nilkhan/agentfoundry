@@ -1,0 +1,42 @@
+{
+  "name": "web-search",
+  "version": "1.0.0",
+  "description": "Search the web using Brave Search or Google Custom Search API",
+  "author": "AgentFoundry Team",
+  "platforms": ["MCP", "CLAUDE_SKILLS"],
+  "permissions": [
+    "network.http"
+  ],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "search_web",
+      "description": "Search the web for information",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "max_results": {
+            "type": "number",
+            "description": "Maximum number of results to return",
+            "default": 10
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  ],
+  "environment": {
+    "BRAVE_API_KEY": {
+      "description": "Brave Search API key",
+      "required": false
+    },
+    "GOOGLE_API_KEY": {
+      "description": "Google Custom Search API key",
+      "required": false
+    }
+  }
+}
