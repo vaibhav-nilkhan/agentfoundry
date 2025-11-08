@@ -68,7 +68,7 @@ Enterprise (Custom):
    ```
    my-skill/
    ├── SKILL.md              # Human & LLM readable description
-   ├── skill.json            # Metadata (version, dependencies, permissions)
+   ├── skill.yaml            # Metadata (version, dependencies, permissions)
    ├── tools/                # Code and scripts
    │   ├── function1.py
    │   └── function2.js
@@ -532,7 +532,7 @@ If you can bootstrap (personal funds, consulting, etc.) for 6-9 months, you'll h
 ## 📞 NEXT ACTIONS (This Week)
 
 ### If You Haven't Already:
-1. [ ] Finalize Skill format specification (SKILL.md structure, skill.json schema)
+1. [ ] Finalize Skill format specification (README.md structure, skill.yaml schema)
 2. [ ] Set up development environment (repo, CI/CD, infrastructure)
 3. [ ] Create design mockups for core flows (browse Skills, install, publish)
 4. [ ] Write initial 10 Skills yourself (learn what's hard/easy)

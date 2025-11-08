@@ -37,7 +37,7 @@
 
 **Morning (Day 1)**:
 - [ ] Finalize Skill format specification
-  - Directory structure (`skill.json`, `SKILL.md`, `src/`, `tests/`)
+  - Directory structure (`skill.yaml`, `README.md`, `src/`, `tests/`)
   - JSON schema with validation rules
   - Platform compatibility matrix (MCP, Claude Skills, GPT Actions)
   - Permission model definition
@@ -128,7 +128,7 @@
 
 **Deliverables**:
 - 20 Skills in `skills/examples/` with:
-  - `skill.json` manifest
+  - `skill.yaml` manifest
   - `SKILL.md` documentation
   - `src/` implementation (Python or TypeScript)
   - `tests/` unit tests

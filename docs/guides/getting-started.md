@@ -168,7 +168,7 @@ agentfoundry/
    mkdir -p skills/examples/my-skill/{src,tests,docs,examples}
    ```
 
-2. **Create `skill.json` manifest**:
+2. **Create `skill.yaml` manifest**:
    ```json
    {
      "name": "my-skill",

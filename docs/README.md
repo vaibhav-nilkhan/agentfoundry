@@ -13,13 +13,13 @@ Technical specifications and architectural decisions
 
 - **[skill-format-spec.md](./architecture/skill-format-spec.md)** - Canonical Skill format specification
   - Directory structure definition
-  - `skill.json` schema explanation
+  - `skill.yaml` schema explanation
   - `SKILL.md` format
   - Implementation requirements
   - Testing requirements
   - Examples
 
-- **[skill-schema.json](./architecture/skill-schema.json)** - JSON schema for `skill.json` validation
+- **[skill-schema.json](./architecture/skill-schema.json)** - JSON schema for `skill.yaml` validation
   - Machine-readable schema
   - Validation rules
   - Field definitions
@@ -75,7 +75,7 @@ Roadmaps, sprint plans, and progress tracking
 ### For Developers Building Skills
 1. **[Skill Format Specification](./architecture/skill-format-spec.md)** - Learn the Skill format
 2. **[MCP Integration Guide](./guides/mcp-integration.md)** - Understand MCP compatibility
-3. **[skill-schema.json](./architecture/skill-schema.json)** - Validate your `skill.json`
+3. **[skill-schema.json](./architecture/skill-schema.json)** - Validate your `skill.yaml`
 
 ### For Project Planning
 1. **[Execution Roadmap](./planning/execution-roadmap.md)** - Track overall progress
