@@ -7,7 +7,7 @@ All blank/template files created for you to paste content into on GitHub.
 ## 📋 Critical Priority Files (Week 1-2)
 
 ### 1. Skill Format Specification
-**Location**: `docs/specifications/SKILL_FORMAT.md`
+**Location**: `docs/architecture/skill-format-spec.md`
 **Purpose**: Define the canonical AgentFoundry Skill format
 **Status**: ✏️ Ready for content
 **Priority**: 🔴 CRITICAL
@@ -23,20 +23,20 @@ All blank/template files created for you to paste content into on GitHub.
 ---
 
 ### 2. JSON Schema
-**Location**: `docs/specifications/skill-schema.json`
+**Location**: `docs/architecture/skill-schema.json`
 **Purpose**: Machine-readable skill.json validation
-**Status**: ✏️ Ready for content (has basic structure)
+**Status**: ✅ Has structure (complete)
 **Priority**: 🔴 CRITICAL
 
-**What to paste**:
-- Refine schema if needed
-- Add more validation rules
-- Add examples
+**What to refine**:
+- Add more validation rules if needed
+- Extend examples
+- Add custom validators
 
 ---
 
 ### 3. MCP Integration Guide
-**Location**: `docs/MCP_INTEGRATION.md`
+**Location**: `docs/guides/mcp-integration.md`
 **Purpose**: Document MCP integration approach
 **Status**: ✏️ Ready for content
 **Priority**: 🔴 CRITICAL
@@ -146,8 +146,8 @@ All blank/template files created for you to paste content into on GitHub.
 
 ## 📊 Tracking & Documentation
 
-### 8. Roadmap Tracker
-**Location**: `ROADMAP_TRACKER.md`
+### 8. Execution Roadmap
+**Location**: `docs/planning/execution-roadmap.md`
 **Purpose**: Track progress against execution roadmap
 **Status**: ✏️ Ready for updates
 **Priority**: 🟢 MEDIUM
@@ -160,15 +160,52 @@ All blank/template files created for you to paste content into on GitHub.
 
 ---
 
+### 9. Documentation Hub
+**Location**: `docs/README.md`
+**Purpose**: Central documentation index
+**Status**: ✅ Complete
+**Priority**: 🟢 MEDIUM
+
+---
+
+### 10. Getting Started Guide
+**Location**: `docs/guides/getting-started.md`
+**Purpose**: Developer onboarding and setup guide
+**Status**: ✅ Complete
+**Priority**: 🟡 HIGH
+
+---
+
+### 11. 2-Week Sprint Plan
+**Location**: `docs/planning/2-week-sprint.md`
+**Purpose**: Detailed day-by-day action plan for MVP alpha
+**Status**: ✅ Complete
+**Priority**: 🔴 CRITICAL
+
+**Contents**:
+- Day-by-day breakdown (14 days)
+- Task priorities and assignments
+- Budget breakdown ($6,000)
+- Success metrics
+- Red flags and mitigation strategies
+
+---
+
 ## 📂 Directory Structure Created
 
 ```
 agentfoundry/
 ├── docs/
-│   ├── specifications/
-│   │   ├── SKILL_FORMAT.md         ← ✏️ Paste content
-│   │   └── skill-schema.json       ← ✅ Has structure
-│   └── MCP_INTEGRATION.md          ← ✏️ Paste content
+│   ├── README.md                    ← ✅ Documentation hub
+│   ├── architecture/
+│   │   ├── skill-format-spec.md    ← ✏️ Paste content
+│   │   └── skill-schema.json       ← ✅ Complete
+│   ├── guides/
+│   │   ├── getting-started.md      ← ✅ Complete
+│   │   └── mcp-integration.md      ← ✏️ Paste content
+│   └── planning/
+│       ├── execution-roadmap.md    ← ✏️ Update progress
+│       └── 2-week-sprint.md        ← ✅ Complete
 ├── skills/
 │   └── examples/
 │       ├── web-search/
@@ -190,7 +227,6 @@ agentfoundry/
 │   │   └── skill_validator.py     ← ✏️ Paste implementation
 │   └── cli/src/commands/
 │       └── install.ts              ← ✏️ Paste implementation
-├── ROADMAP_TRACKER.md              ← ✏️ Update progress
 └── TEMPLATE_FILES_GUIDE.md         ← 📖 This file
 ```
 
