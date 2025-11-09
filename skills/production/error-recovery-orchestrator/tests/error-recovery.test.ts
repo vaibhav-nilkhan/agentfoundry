@@ -14,7 +14,8 @@ describe('Error Recovery Orchestrator', () => {
           completed_steps: 2,
           previous_step: 'fetch_data',
           next_step: 'process_data'
-        }
+        },
+        prediction_window_minutes: 5
       };
 
       const result = await detectFailure.run(input);
@@ -210,7 +211,8 @@ describe('Error Recovery Orchestrator', () => {
           max_step_duration_ms: 1000,
           max_error_rate: 0.2,
           max_memory_mb: 1024
-        }
+        },
+        prediction_window_minutes: 5
       };
 
       const result = await monitorHealth.run(input);
@@ -233,7 +235,8 @@ describe('Error Recovery Orchestrator', () => {
           max_step_duration_ms: 10000,
           max_error_rate: 0.2,
           max_memory_mb: 1024
-        }
+        },
+        prediction_window_minutes: 5
       };
 
       const result = await monitorHealth.run(input);
@@ -279,7 +282,8 @@ describe('Error Recovery Orchestrator', () => {
           max_step_duration_ms: 5000,
           max_error_rate: 0.1,
           max_memory_mb: 1024
-        }
+        },
+        prediction_window_minutes: 5
       };
 
       const result = await monitorHealth.run(input);
@@ -296,7 +300,8 @@ describe('Error Recovery Orchestrator', () => {
           step_durations_ms: [20000, 25000],
           error_count: 3,
           warning_count: 7
-        }
+        },
+        prediction_window_minutes: 5
       };
 
       const result = await monitorHealth.run(input);
@@ -324,6 +329,7 @@ describe('Error Recovery Orchestrator', () => {
           { strategy: 'retry', result: 'failure', details: { attempts: 3 } },
           { strategy: 'fallback', result: 'success', details: { alternative: 'cache' } }
         ],
+        include_recommendations: true,
         context: {
           environment: 'production' as const,
           agent_version: '1.0.0'
@@ -355,6 +361,7 @@ describe('Error Recovery Orchestrator', () => {
         recovery_attempts: [
           { strategy: 'retry', result: 'failure', details: {} }
         ],
+        include_recommendations: true,
         context: {
           environment: 'staging' as const,
           agent_version: '1.0.0'
@@ -364,7 +371,7 @@ describe('Error Recovery Orchestrator', () => {
       const result = await generatePostmortem.run(input);
 
       expect(result.postmortem.root_cause_analysis.primary_cause).toContain('Authentication');
-      expect(result.postmortem.root_cause_analysis.category).toBeDefined();
+      expect(result.postmortem.root_cause_analysis.contributing_factors).toBeDefined();
     });
 
     it('should assess impact based on environment', async () => {
@@ -378,6 +385,7 @@ describe('Error Recovery Orchestrator', () => {
           ]
         },
         recovery_attempts: [],
+        include_recommendations: true,
         context: {
           environment: 'production' as const,
           agent_version: '1.0.0'
@@ -402,7 +410,8 @@ describe('Error Recovery Orchestrator', () => {
         },
         recovery_attempts: [
           { strategy: 'retry', result: 'failure', details: {} }
-        ]
+        ],
+        include_recommendations: true
       };
 
       const result = await generatePostmortem.run(input);
@@ -449,7 +458,8 @@ describe('Error Recovery Orchestrator', () => {
             { step: 'test', status: 'failure', duration_ms: 100, timestamp: '2025-01-01T10:00:00Z' }
           ]
         },
-        recovery_attempts: []
+        recovery_attempts: [],
+        include_recommendations: true
       };
 
       const result = await generatePostmortem.run(input);

@@ -8,7 +8,9 @@ author:
   email: team@agentfoundry.ai
   url: https://agentfoundry.ai
 
-category: infrastructure
+categories:
+  - infrastructure
+  - reliability
 tags:
   - reliability
   - error-recovery
