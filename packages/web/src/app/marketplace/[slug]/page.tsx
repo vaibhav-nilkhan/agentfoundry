@@ -1,45 +1,28 @@
 /**
  * Skill Detail Page
- *
- * [Paste your Skill detail implementation]
- *
- * Features:
- * - Skill information and metadata
- * - Installation instructions
- * - Reviews and ratings
- * - Version history
- * - Documentation
+ * Marketplace placeholder - redirects to specific skill pages
  */
 
 interface SkillDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function SkillDetailPage({ params }: SkillDetailPageProps) {
-  // [Paste implementation]
+export default async function SkillDetailPage({ params }: SkillDetailPageProps) {
+  const { slug } = await params;
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Skill header */}
-      <div className="mb-8">
-        {/* [Paste skill header UI] */}
-      </div>
-
-      {/* Installation */}
-      <div className="mb-8">
-        {/* [Paste installation UI] */}
-      </div>
-
-      {/* Documentation */}
-      <div className="mb-8">
-        {/* [Paste documentation UI] */}
-      </div>
-
-      {/* Reviews */}
-      <div className="mb-8">
-        {/* [Paste reviews UI] */}
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">Skill: {slug}</h1>
+        <p className="text-muted-foreground">
+          This is a placeholder marketplace page. Visit{' '}
+          <a href="/skills/error-recovery-orchestrator" className="text-primary hover:underline">
+            /skills/error-recovery-orchestrator
+          </a>{' '}
+          for the full skill detail page.
+        </p>
       </div>
     </div>
   );

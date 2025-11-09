@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
-
 export const metadata: Metadata = {
-  title: 'AgentFoundry - The GitHub + App Store for AI Agents',
+  title: 'AgentFoundry - Infrastructure Skills for AI Agents',
   description:
-    'Build, validate, and publish reusable AI Skills that work seamlessly across Claude, GPT, and open-source models.',
-  keywords: ['AI', 'Agents', 'Skills', 'Marketplace', 'Claude', 'GPT', 'MCP'],
+    'The AWS of AI agents. Infrastructure skills that make all other skills work better. Error recovery, health monitoring, and agent reliability.',
+  keywords: ['AI', 'Agents', 'Infrastructure', 'Error Recovery', 'Reliability', 'MCP', 'Claude'],
 };
 
 export default function RootLayout({
@@ -17,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="dark">
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
