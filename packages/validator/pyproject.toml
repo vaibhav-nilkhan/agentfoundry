@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "AgentFoundry Skill Validation Microservice"
 authors = ["AgentFoundry Team"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
