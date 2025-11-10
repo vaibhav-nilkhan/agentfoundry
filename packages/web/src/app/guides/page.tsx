@@ -16,7 +16,7 @@ export default function GuidesPage() {
         {/* Header */}
         <section className="py-20 px-6">
           <div className="container mx-auto max-w-5xl text-center">
-            <Badge variant="accent" className="mb-6">
+            <Badge variant="default" className="mb-6">
               Integration Guides
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
@@ -42,7 +42,7 @@ export default function GuidesPage() {
                       </div>
                       <div>
                         <CardTitle className="text-3xl">Claude Desktop (MCP)</CardTitle>
-                        <Badge variant="accent" className="mt-2">Easiest Setup</Badge>
+                        <Badge variant="default" className="mt-2">Easiest Setup</Badge>
                       </div>
                     </div>
                   </div>
@@ -614,7 +614,7 @@ services:
               Choose your integration method and start building reliable agents today.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="accent" asChild>
+              <Button size="lg" variant="default" asChild>
                 <Link href="/signup">Get API Key</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>

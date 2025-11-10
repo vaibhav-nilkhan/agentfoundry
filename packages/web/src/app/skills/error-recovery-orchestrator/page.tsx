@@ -28,7 +28,7 @@ export default function ErrorRecoveryOrchestratorPage() {
                   Error Recovery Orchestrator
                 </h1>
                 <div className="flex items-center gap-3 mt-2">
-                  <Badge variant="accent">Production Ready</Badge>
+                  <Badge variant="default">Production Ready</Badge>
                   <Badge variant="default">v1.0.0</Badge>
                   <Badge variant="outline">Infrastructure Skill</Badge>
                 </div>
@@ -41,7 +41,7 @@ export default function ErrorRecoveryOrchestratorPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <Button size="lg" variant="accent" asChild>
+              <Button size="lg" variant="default" asChild>
                 <Link href="/guides">View Integration Guide</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
@@ -157,7 +157,7 @@ export default function ErrorRecoveryOrchestratorPage() {
         <section id="tools" className="py-20 px-6 bg-card">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <Badge variant="accent" className="mb-4">4 Production Tools</Badge>
+              <Badge variant="default" className="mb-4">4 Production Tools</Badge>
               <h2 className="text-4xl font-bold mb-4">
                 Complete Error Recovery Pipeline
               </h2>
@@ -180,7 +180,7 @@ export default function ErrorRecoveryOrchestratorPage() {
                         <CardDescription>Classify errors and recommend recovery strategies</CardDescription>
                       </div>
                     </div>
-                    <Badge variant="accent">~50ms latency</Badge>
+                    <Badge variant="default">~50ms latency</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -260,7 +260,7 @@ export default function ErrorRecoveryOrchestratorPage() {
                         <CardDescription>Execute recovery strategies with intelligent backoff</CardDescription>
                       </div>
                     </div>
-                    <Badge variant="accent">~200-500ms</Badge>
+                    <Badge variant="default">~200-500ms</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -364,7 +364,7 @@ export default function ErrorRecoveryOrchestratorPage() {
                         <CardDescription>Predict failures before they happen</CardDescription>
                       </div>
                     </div>
-                    <Badge variant="accent">&lt;50ms latency</Badge>
+                    <Badge variant="default">&lt;50ms latency</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -480,7 +480,7 @@ export default function ErrorRecoveryOrchestratorPage() {
                         <CardDescription>Automated incident reports with action items</CardDescription>
                       </div>
                     </div>
-                    <Badge variant="accent">~2s generation</Badge>
+                    <Badge variant="default">~2s generation</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -654,7 +654,7 @@ export default function ErrorRecoveryOrchestratorPage() {
               Start with the free Developer plan. 1,000 skill executions/month included.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="accent" asChild>
+              <Button size="lg" variant="default" asChild>
                 <Link href="/guides">View Integration Guide</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>

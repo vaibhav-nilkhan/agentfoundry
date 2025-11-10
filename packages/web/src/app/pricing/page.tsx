@@ -15,7 +15,7 @@ export default function PricingPage() {
         {/* Header */}
         <section className="py-20 px-6">
           <div className="container mx-auto max-w-5xl text-center">
-            <Badge variant="accent" className="mb-6">
+            <Badge variant="default" className="mb-6">
               Simple, Transparent Pricing
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
@@ -82,7 +82,7 @@ export default function PricingPage() {
               {/* Team Tier - Popular */}
               <Card className="border-primary glow-blue relative">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <Badge variant="accent">Most Popular</Badge>
+                  <Badge variant="default">Most Popular</Badge>
                 </div>
                 <CardHeader>
                   <Badge variant="default" className="w-fit mb-4">For Startups & Teams</Badge>
@@ -132,7 +132,7 @@ export default function PricingPage() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" variant="accent" asChild>
+                  <Button className="w-full" variant="default" asChild>
                     <Link href="/signup?plan=team">Start 14-Day Trial</Link>
                   </Button>
                 </CardFooter>
@@ -329,7 +329,7 @@ export default function PricingPage() {
               Start with the free Developer plan. Upgrade when you're ready to scale.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="accent" asChild>
+              <Button size="lg" variant="default" asChild>
                 <Link href="/signup">Start Free</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>

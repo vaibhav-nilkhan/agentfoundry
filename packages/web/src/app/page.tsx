@@ -4,8 +4,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { CodeBlock, InlineCode } from '@/components/ui/CodeBlock';
+import { CodeBlock } from '@/components/ui/CodeBlock';
 
 export default function Home() {
   return (
@@ -13,221 +12,95 @@ export default function Home() {
       <Navigation />
 
       <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="pt-32 pb-20 px-6 grid-bg relative overflow-hidden">
-          {/* Gradient orbs for visual interest */}
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
+        {/* Hero Section - Clean & Professional */}
+        <section className="pt-32 pb-24 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 gradient-subtle" />
 
-          <div className="container mx-auto relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
-              <Badge variant="accent" className="mb-6">
-                Infrastructure Skills for AI Agents
-              </Badge>
+          <div className="container mx-auto relative z-10 max-w-6xl">
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50 border border-border/40 backdrop-blur-sm mb-8">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-sm font-medium">Infrastructure Skills for AI Agents</span>
+            </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                The <span className="text-primary">AWS</span> of{' '}
-                <span className="text-accent">AI Agents</span>
-              </h1>
+            {/* Main Headline */}
+            <h1 className="mb-6 max-w-4xl">
+              Make your agents <br className="hidden sm:block" />
+              reliable in production
+            </h1>
 
-              <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-                Infrastructure skills that make all other skills work better.
-                Error recovery, health monitoring, and agent reliability at scale.
-              </p>
+            <p className="text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed">
+              Infrastructure skills that make all other skills work better.
+              Automatic error recovery, health monitoring, and failure prediction
+              for production AI agent systems.
+            </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-                <Button size="lg" variant="accent" asChild>
-                  <Link href="/guides">View Integration Guide</Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link href="#skills">Explore Infrastructure Skills</Link>
-                </Button>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-16">
+              <Button size="lg" className="shine-hover" asChild>
+                <Link href="/guides">
+                  Get Started
+                  <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="#demo">See Demo</Link>
+              </Button>
+            </div>
+
+            {/* Social Proof */}
+            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span>Production-ready</span>
               </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-2">36% → 80%+</div>
-                  <div className="text-sm text-muted-foreground">Agent success rate improvement</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-accent mb-2">&lt;100ms</div>
-                  <div className="text-sm text-muted-foreground">Error detection latency</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-2">99.9%</div>
-                  <div className="text-sm text-muted-foreground">Uptime with monitoring</div>
-                </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span>&lt;100ms latency</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Open source</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Problem Statement */}
-        <section className="py-20 px-6 bg-card">
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
-              <Badge variant="destructive" className="mb-4">The Reliability Crisis</Badge>
-              <h2 className="text-4xl font-bold mb-4">
-                Why Agents Fail in Production
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Current agent success rates are stuck at 36%. Every skill you add compounds the problem.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <span className="text-destructive">⚠️</span> Error Compounding
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Each skill has a 10% failure rate. Chain 5 skills together and your workflow
-                    success rate drops to 59%. At 10 skills: 35% success rate.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <span className="text-destructive">💥</span> No Recovery Mechanism
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Agents crash on transient network errors, rate limits, or temporary outages.
-                    No retry logic, no fallbacks, no error classification.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <span className="text-destructive">🔍</span> Zero Observability
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    You can't see health metrics, predict failures before they happen, or understand
-                    why workflows fail. No monitoring = flying blind.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <span className="text-destructive">📉</span> Silent Degradation
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Performance degrades slowly over time. Memory leaks, increasing latency, and
-                    cascading failures go unnoticed until complete breakdown.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Solution - Infrastructure Skills */}
-        <section id="skills" className="py-20 px-6">
+        {/* Demo Section */}
+        <section id="demo" className="py-24 px-6 bg-secondary/30">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <Badge variant="accent" className="mb-4">The Solution</Badge>
-              <h2 className="text-4xl font-bold mb-4">
-                Infrastructure Skills: The Foundation Layer
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Just like AWS provides compute, storage, and networking for apps,
-                AgentFoundry provides error recovery, health monitoring, and reliability for agents.
+              <h2 className="mb-4">See it in action</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Add intelligent error recovery to your agents in minutes.
+                No configuration required.
               </p>
             </div>
 
-            {/* Error Recovery Orchestrator Showcase */}
-            <div className="mb-16">
-              <Card className="border-primary/30 bg-gradient-to-br from-card to-primary/5">
-                <CardHeader>
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center glow-blue">
-                        <span className="text-2xl">🛡️</span>
-                      </div>
-                      <div>
-                        <CardTitle className="text-2xl">Error Recovery Orchestrator</CardTitle>
-                        <Badge variant="accent" className="mt-1">Production Ready</Badge>
-                      </div>
-                    </div>
-                    <Button variant="accent" asChild>
-                      <Link href="/skills/error-recovery-orchestrator">View Details</Link>
-                    </Button>
-                  </div>
-                  <CardDescription className="text-base">
-                    Intelligent error detection, recovery, and health monitoring for agent workflows.
-                    Automatically classify errors, execute recovery strategies, and prevent cascading failures.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-6 mb-8">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
-                        <span className="text-accent font-bold">1</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-1">Detect Failures</h4>
-                        <p className="text-sm text-muted-foreground">
-                          &lt;100ms error classification. Transient vs permanent, network vs auth.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
-                        <span className="text-accent font-bold">2</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-1">Execute Recovery</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Retry with exponential backoff, rollback, fallback, or skip strategies.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
-                        <span className="text-accent font-bold">3</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-1">Monitor Health</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Predict failures 5+ minutes before they happen. Proactive intervention.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Code Example */}
+              <div>
+                <CodeBlock
+                  title="agent.ts"
+                  code={`import { ErrorRecovery } from '@agentfoundry/skills';
 
-                  {/* Code Example */}
-                  <div className="space-y-4">
-                    <h4 className="text-sm font-semibold text-muted-foreground">Quick Start Example</h4>
-                    <CodeBlock
-                      language="typescript"
-                      title="Integrate in 3 lines"
-                      code={`import { ErrorRecoveryOrchestrator } from '@agentfoundry/skills';
-
-// Your agent workflow
 async function myAgentWorkflow() {
   try {
-    const result = await riskyOperation();
+    const result = await fetchUserData();
     return result;
   } catch (error) {
     // Automatically detect and recover
-    const recovery = await ErrorRecoveryOrchestrator.recover({
+    const recovery = await ErrorRecovery.recover({
       error_message: error.message,
-      strategy: 'auto', // or 'retry', 'rollback', 'fallback'
+      strategy: 'auto',
       max_attempts: 3
     });
 
@@ -237,126 +110,221 @@ async function myAgentWorkflow() {
     throw recovery.error;
   }
 }`}
-                    />
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span className="text-accent">✓</span> Zero configuration required
-                      <span className="text-muted-foreground">•</span>
-                      <span className="text-accent">✓</span> Works with any AI agent framework
-                      <span className="text-muted-foreground">•</span>
-                      <span className="text-accent">✓</span> Production-tested
-                    </div>
+                />
+              </div>
+
+              {/* Benefits */}
+              <div className="space-y-8">
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Coming Soon Skills */}
-            <div className="mb-8">
-              <h3 className="text-2xl font-bold mb-8 text-center">
-                More Infrastructure Skills Coming Soon
-              </h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="opacity-75 hover:opacity-100 transition-opacity">
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                        <span className="text-xl">🔄</span>
-                      </div>
-                      <CardTitle className="text-xl">State Persistence Manager</CardTitle>
-                    </div>
-                    <Badge variant="outline" className="w-fit">Coming Q2 2025</Badge>
-                  </CardHeader>
-                  <CardContent>
+                  <div>
+                    <h3 className="font-semibold mb-2">Instant classification</h3>
                     <p className="text-muted-foreground">
-                      Automatic checkpointing and state recovery. Resume workflows from any point after crashes.
+                      Detects error type in &lt;100ms. Transient vs permanent, network vs auth.
                     </p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
 
-                <Card className="opacity-75 hover:opacity-100 transition-opacity">
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                        <span className="text-xl">⚡</span>
-                      </div>
-                      <CardTitle className="text-xl">Resource Optimizer</CardTitle>
-                    </div>
-                    <Badge variant="outline" className="w-fit">Coming Q2 2025</Badge>
-                  </CardHeader>
-                  <CardContent>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Smart recovery</h3>
                     <p className="text-muted-foreground">
-                      Intelligent rate limiting, request batching, and cost optimization across all API calls.
+                      Exponential backoff with jitter. Retry, rollback, fallback, or skip.
                     </p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Predictive monitoring</h3>
+                    <p className="text-muted-foreground">
+                      Predicts failures 5+ minutes before they happen. Proactive intervention.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="py-20 px-6 bg-card">
-          <div className="container mx-auto max-w-5xl">
+        {/* Stats Section */}
+        <section className="py-24 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="text-center">
+                <div className="text-5xl font-bold mb-2">36% → 80%+</div>
+                <p className="text-muted-foreground">
+                  Success rate improvement with error recovery enabled
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl font-bold mb-2">&lt;100ms</div>
+                <p className="text-muted-foreground">
+                  Error detection and classification latency
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl font-bold mb-2">99.9%</div>
+                <p className="text-muted-foreground">
+                  Uptime with health monitoring and predictions
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Grid */}
+        <section className="py-24 px-6 bg-secondary/30">
+          <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <Badge variant="default" className="mb-4">Simple Integration</Badge>
-              <h2 className="text-4xl font-bold mb-4">
-                Add to Any Agent in Minutes
-              </h2>
+              <h2 className="mb-4">Complete infrastructure toolkit</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Works with Claude Desktop, custom applications, or self-hosted deployments.
-                No vendor lock-in.
+                Everything you need to make your agents production-ready.
+                From error recovery to health monitoring.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl">📦</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">1. Install Skill</h3>
-                <p className="text-muted-foreground">
-                  <InlineCode>npm install @agentfoundry/error-recovery</InlineCode> or use our Claude Desktop MCP
-                </p>
-              </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="hover-lift">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    Error Recovery Orchestrator
+                  </CardTitle>
+                  <CardDescription>
+                    Intelligent error detection, classification, and recovery. Handles transient failures automatically.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Pattern-based error classification
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Exponential backoff with jitter
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Automated postmortem generation
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl">⚙️</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">2. Configure</h3>
-                <p className="text-muted-foreground">
-                  Optional: Set retry limits, backoff strategy, health thresholds. Or use smart defaults.
-                </p>
-              </div>
+              <Card className="hover-lift">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    </div>
+                    Health Monitoring
+                  </CardTitle>
+                  <CardDescription>
+                    Real-time health scoring and failure prediction. Know about problems before they happen.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Statistical anomaly detection
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      5+ minute failure prediction
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Actionable recommendations
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl">🚀</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">3. Deploy</h3>
-                <p className="text-muted-foreground">
-                  Your agent now has enterprise-grade error recovery. Monitor in real-time.
-                </p>
-              </div>
+              <Card className="hover-lift opacity-60">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                      </svg>
+                    </div>
+                    State Persistence
+                    <span className="ml-auto text-xs bg-secondary px-2 py-1 rounded">Coming Soon</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Automatic checkpointing and state recovery. Resume workflows from any point after crashes.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="hover-lift opacity-60">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    Resource Optimizer
+                    <span className="ml-auto text-xs bg-secondary px-2 py-1 rounded">Coming Soon</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Intelligent rate limiting, request batching, and cost optimization across all API calls.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-6">
+        <section className="py-32 px-6">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Ready to Make Your Agents <span className="text-accent">Reliable</span>?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join developers building production-grade AI agents with infrastructure skills.
+            <h2 className="mb-6">Ready to build reliable agents?</h2>
+            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
+              Start with the free Developer plan. 1,000 skill executions/month included.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="accent" asChild>
-                <Link href="/guides">View Integration Guide</Link>
+              <Button size="lg" className="shine-hover" asChild>
+                <Link href="/guides">Get Started</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/skills/error-recovery-orchestrator">Explore Error Recovery</Link>
+                <Link href="/pricing">View Pricing</Link>
               </Button>
             </div>
           </div>
