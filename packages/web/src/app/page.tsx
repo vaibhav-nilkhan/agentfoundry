@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 
 export default function Home() {
@@ -187,127 +187,150 @@ async function myAgentWorkflow() {
           </div>
         </section>
 
-        {/* Features Grid */}
+        {/* Production Skills Showcase */}
         <section className="py-24 px-6 bg-secondary/30">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <h2 className="mb-4">Complete infrastructure toolkit</h2>
+              <h2 className="mb-4">Production-ready AI agent skills</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Everything you need to make your agents production-ready.
-                From error recovery to health monitoring.
+                From infrastructure to developer tools to content intelligence.
+                Battle-tested skills that solve real problems.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="hover-lift">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                      </svg>
-                    </div>
-                    Error Recovery Orchestrator
-                  </CardTitle>
-                  <CardDescription>
-                    Intelligent error detection, classification, and recovery. Handles transient failures automatically.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Pattern-based error classification
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Exponential backoff with jitter
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Automated postmortem generation
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Error Recovery Orchestrator */}
+              <Link href="/skills/error-recovery-orchestrator">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                      </div>
+                      Error Recovery Orchestrator
+                    </CardTitle>
+                    <CardDescription>
+                      Intelligent error detection and automatic recovery for production AI agents.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
 
-              <Card className="hover-lift">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                      </svg>
-                    </div>
-                    Health Monitoring
-                  </CardTitle>
-                  <CardDescription>
-                    Real-time health scoring and failure prediction. Know about problems before they happen.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Statistical anomaly detection
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      5+ minute failure prediction
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Actionable recommendations
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
+              {/* API Contract Guardian */}
+              <Link href="/skills/api-contract-guardian">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      API Contract Guardian
+                    </CardTitle>
+                    <CardDescription>
+                      Detect breaking API changes and generate tests before shipping.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
 
-              <Card className="hover-lift opacity-60">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
-                      </svg>
-                    </div>
-                    State Persistence
-                    <span className="ml-auto text-xs bg-secondary px-2 py-1 rounded">Coming Soon</span>
-                  </CardTitle>
-                  <CardDescription>
-                    Automatic checkpointing and state recovery. Resume workflows from any point after crashes.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+              {/* Code Security Audit */}
+              <Link href="/skills/code-security-audit">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      </div>
+                      Code Security Audit
+                    </CardTitle>
+                    <CardDescription>
+                      AI-powered security scanning with automated fixes and exploit generation.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
 
-              <Card className="hover-lift opacity-60">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
-                    Resource Optimizer
-                    <span className="ml-auto text-xs bg-secondary px-2 py-1 rounded">Coming Soon</span>
-                  </CardTitle>
-                  <CardDescription>
-                    Intelligent rate limiting, request batching, and cost optimization across all API calls.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+              {/* GitHub PR Analyzer */}
+              <Link href="/skills/github-pr-analyzer">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                      </div>
+                      GitHub PR Analyzer
+                    </CardTitle>
+                    <CardDescription>
+                      Intelligent pull request analysis with security scanning and reviewer suggestions.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              {/* Technical Debt Quantifier */}
+              <Link href="/skills/technical-debt-quantifier">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      Technical Debt Quantifier
+                    </CardTitle>
+                    <CardDescription>
+                      Quantify tech debt in dollar values with ROI-based refactoring prioritization.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              {/* Content Gap Analyzer */}
+              <Link href="/skills/content-gap-analyzer">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      </div>
+                      Content Gap Analyzer
+                    </CardTitle>
+                    <CardDescription>
+                      Find content gaps vs competitors and generate SEO-optimized briefs.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              {/* Viral Content Predictor */}
+              <Link href="/skills/viral-content-predictor">
+                <Card className="hover-lift h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                      </div>
+                      Viral Content Predictor
+                    </CardTitle>
+                    <CardDescription>
+                      Predict content virality before publishing with AI-powered scoring and optimization.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
             </div>
           </div>
         </section>
