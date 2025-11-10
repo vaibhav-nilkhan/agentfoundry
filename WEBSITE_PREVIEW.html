@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentFoundry - Website Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066FF',     // Electric Blue
+                        accent: '#00FF88',      // Neon Green
+                        background: '#0F172A',  // Slate-950
+                        card: '#1E293B',        // Slate-800
+                        border: '#334155',      // Slate-700
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0F172A;
+            color: #F1F5F9;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Grid background */
+        .grid-bg {
+            background-image:
+                linear-gradient(to right, rgba(0, 102, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 102, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Glow effects */
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .glow-green {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Terminal style */
+        .terminal {
+            background: #000;
+            border: 1px solid #334155;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.875rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Animations */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 102, 255, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(0, 102, 255, 0.5); }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-[#334155] bg-[#0F172A]/80 backdrop-blur-xl">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center font-bold text-white">
+                        AF
+                    </div>
+                    <span class="text-xl font-bold">
+                        Agent<span class="text-primary">Foundry</span>
+                    </span>
+                </div>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#" class="text-sm text-gray-400 hover:text-primary transition-colors">Skills</a>
+                    <a href="#" class="text-sm text-gray-400 hover:text-primary transition-colors">Integration Guides</a>
+                    <a href="#" class="text-sm text-gray-400 hover:text-primary transition-colors">Pricing</a>
+                    <a href="#" class="text-sm text-gray-400 hover:text-primary transition-colors">Docs</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button class="px-4 py-2 text-sm hover:bg-accent/10 hover:text-accent transition-colors rounded-lg">
+                        Sign In
+                    </button>
+                    <button class="px-6 py-2 bg-accent text-black font-medium rounded-lg glow-green hover:bg-accent/90 transition-all text-sm">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 grid-bg relative overflow-hidden">
+        <!-- Gradient orbs -->
+        <div class="absolute top-20 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto relative z-10 max-w-4xl text-center">
+            <div class="inline-block px-4 py-1 bg-accent/20 text-accent border border-accent/30 rounded-full text-sm font-semibold mb-6">
+                Infrastructure Skills for AI Agents
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                The <span class="text-primary">AWS</span> of <span class="text-accent">AI Agents</span>
+            </h1>
+
+            <p class="text-xl md:text-2xl text-gray-400 mb-8">
+                Infrastructure skills that make all other skills work better.
+                Error recovery, health monitoring, and agent reliability at scale.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <button class="px-8 py-3 bg-accent text-black font-medium rounded-lg glow-green hover:bg-accent/90 transition-all">
+                    View Integration Guide
+                </button>
+                <button class="px-8 py-3 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-all">
+                    Explore Infrastructure Skills
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
+                <div>
+                    <div class="text-4xl font-bold text-primary mb-2">36% → 80%+</div>
+                    <div class="text-sm text-gray-400">Agent success rate improvement</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent mb-2">&lt;100ms</div>
+                    <div class="text-sm text-gray-400">Error detection latency</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-primary mb-2">99.9%</div>
+                    <div class="text-sm text-gray-400">Uptime with monitoring</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design System Showcase -->
+    <section class="py-20 px-6 bg-[#1E293B]">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Infrastructure-First Design System</h2>
+                <p class="text-lg text-gray-400">Electric Blue + Neon Green. Dark mode primary. AWS/Vercel/Railway aesthetic.</p>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6">Color Palette</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="text-center">
+                        <div class="w-full h-20 bg-primary rounded-lg mb-2 glow-blue"></div>
+                        <div class="text-sm font-mono">#0066FF</div>
+                        <div class="text-xs text-gray-400">Electric Blue</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-20 bg-accent rounded-lg mb-2 glow-green"></div>
+                        <div class="text-sm font-mono">#00FF88</div>
+                        <div class="text-xs text-gray-400">Neon Green</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-20 bg-[#0F172A] border border-gray-700 rounded-lg mb-2"></div>
+                        <div class="text-sm font-mono">#0F172A</div>
+                        <div class="text-xs text-gray-400">Slate-950</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-20 bg-[#1E293B] border border-gray-700 rounded-lg mb-2"></div>
+                        <div class="text-sm font-mono">#1E293B</div>
+                        <div class="text-xs text-gray-400">Slate-800</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-20 bg-[#334155] rounded-lg mb-2"></div>
+                        <div class="text-sm font-mono">#334155</div>
+                        <div class="text-xs text-gray-400">Slate-700</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6">Buttons</h3>
+                <div class="flex flex-wrap gap-4">
+                    <button class="px-6 py-2 bg-primary text-white font-medium rounded-lg glow-blue hover:bg-primary/90 transition-all">
+                        Primary Button
+                    </button>
+                    <button class="px-6 py-2 bg-accent text-black font-medium rounded-lg glow-green hover:bg-accent/90 transition-all">
+                        Accent Button
+                    </button>
+                    <button class="px-6 py-2 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-all">
+                        Outline Button
+                    </button>
+                    <button class="px-6 py-2 bg-[#334155] text-white rounded-lg hover:bg-[#475569] transition-all">
+                        Secondary Button
+                    </button>
+                    <button class="px-6 py-2 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg">
+                        Ghost Button
+                    </button>
+                </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6">Badges</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded-md text-xs font-semibold">
+                        Production Ready
+                    </span>
+                    <span class="px-3 py-1 bg-accent/20 text-accent border border-accent/30 rounded-md text-xs font-semibold">
+                        Infrastructure Skill
+                    </span>
+                    <span class="px-3 py-1 bg-[#334155] text-white rounded-md text-xs font-semibold">
+                        v1.0.0
+                    </span>
+                    <span class="px-3 py-1 border border-gray-700 text-gray-300 rounded-md text-xs font-semibold">
+                        Coming Q2 2025
+                    </span>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6">Cards</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-[#334155] bg-[#1E293B] rounded-lg p-6 hover:border-primary/50 transition-all">
+                        <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center text-2xl mb-4">
+                            🛡️
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">Error Recovery Orchestrator</h4>
+                        <p class="text-gray-400">
+                            Intelligent error detection, recovery, and health monitoring for agent workflows.
+                        </p>
+                    </div>
+
+                    <div class="border border-primary/30 bg-gradient-to-br from-[#1E293B] to-primary/5 rounded-lg p-6 animate-pulse-glow">
+                        <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center text-2xl mb-4">
+                            ⚡
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">Resource Optimizer</h4>
+                        <p class="text-gray-400">
+                            Intelligent rate limiting, request batching, and cost optimization across all API calls.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Block -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6">Code Block (Terminal Style)</h3>
+                <div class="terminal">
+                    <div class="flex items-center gap-2 mb-3 pb-3 border-b border-[#334155]">
+                        <span class="terminal-dot bg-red-500"></span>
+                        <span class="terminal-dot bg-yellow-500"></span>
+                        <span class="terminal-dot bg-green-500"></span>
+                        <span class="text-gray-400 text-xs ml-2">error-recovery.ts</span>
+                    </div>
+                    <pre class="text-gray-300"><code>import { ErrorRecoveryOrchestrator } from '@agentfoundry/skills';
+
+async function myAgentWorkflow() {
+  try {
+    const result = await riskyOperation();
+    return result;
+  } catch (error) {
+    // Automatically detect and recover
+    const recovery = await ErrorRecoveryOrchestrator.recover({
+      error_message: error.message,
+      strategy: 'auto',
+      max_attempts: 3
+    });
+
+    if (recovery.success) {
+      return recovery.result;
+    }
+    throw recovery.error;
+  }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Error Recovery Orchestrator Showcase -->
+    <section class="py-20 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-1 bg-accent/20 text-accent border border-accent/30 rounded-full text-sm font-semibold mb-4">
+                    The Solution
+                </div>
+                <h2 class="text-4xl font-bold mb-4">Infrastructure Skills: The Foundation Layer</h2>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+                    Just like AWS provides compute, storage, and networking for apps,
+                    AgentFoundry provides error recovery, health monitoring, and reliability for agents.
+                </p>
+            </div>
+
+            <div class="border border-primary/30 bg-gradient-to-br from-[#1E293B] to-primary/5 rounded-lg p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center glow-blue text-2xl">
+                        🛡️
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold">Error Recovery Orchestrator</h3>
+                        <span class="inline-block px-3 py-1 bg-accent/20 text-accent border border-accent/30 rounded-md text-xs font-semibold mt-1">
+                            Production Ready
+                        </span>
+                    </div>
+                </div>
+
+                <p class="text-gray-400 mb-8">
+                    Intelligent error detection, recovery, and health monitoring for agent workflows.
+                    Automatically classify errors, execute recovery strategies, and prevent cascading failures.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
+                            <span class="text-accent font-bold">1</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Detect Failures</h4>
+                            <p class="text-sm text-gray-400">
+                                &lt;100ms error classification. Transient vs permanent, network vs auth.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
+                            <span class="text-accent font-bold">2</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Execute Recovery</h4>
+                            <p class="text-sm text-gray-400">
+                                Retry with exponential backoff, rollback, fallback, or skip strategies.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
+                            <span class="text-accent font-bold">3</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Monitor Health</h4>
+                            <p class="text-sm text-gray-400">
+                                Predict failures 5+ minutes before they happen. Proactive intervention.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#334155] bg-[#1E293B] py-12 px-6">
+        <div class="container mx-auto max-w-6xl text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center font-bold text-white">
+                    AF
+                </div>
+                <span class="text-lg font-bold">
+                    Agent<span class="text-primary">Foundry</span>
+                </span>
+            </div>
+            <p class="text-sm text-gray-400 mb-2">
+                Infrastructure Skills for AI Agents
+            </p>
+            <p class="text-xs text-gray-500">
+                The AWS of AI agents. Making agents reliable at scale.
+            </p>
+            <div class="mt-8 text-sm text-gray-500">
+                © 2025 AgentFoundry. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add copy functionality to code blocks
+        document.querySelectorAll('.terminal').forEach(block => {
+            const code = block.querySelector('code').textContent;
+            const header = block.querySelector('.flex');
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'Copy';
+            copyBtn.className = 'text-xs text-gray-400 hover:text-accent transition-colors px-2 py-1 rounded border border-[#334155] hover:border-accent/50 ml-auto';
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(code);
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+            };
+            header.appendChild(copyBtn);
+        });
+    </script>
+</body>
+</html>
