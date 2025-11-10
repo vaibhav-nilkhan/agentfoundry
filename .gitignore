@@ -62,6 +62,9 @@ poetry.lock
 packages/db/migrations/
 !packages/db/migrations/.gitkeep
 
+# TypeScript
+*.tsbuildinfo
+
 # Logs
 logs/
 *.log
