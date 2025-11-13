@@ -4,7 +4,7 @@ export interface Skill {
   slug: string;
   tagline: string;
   description: string;
-  category: 'infrastructure' | 'developer-tools' | 'content-intelligence' | 'security';
+  category: 'infrastructure' | 'developer-tools' | 'content-intelligence' | 'security' | 'design';
   icon: string;
   version: string;
   author: string;
@@ -318,6 +318,34 @@ export const skills: Skill[] = [
     platforms: ['web', 'desktop', 'api'],
     repository: 'https://github.com/agentfoundry/skills/viral-content-predictor',
     documentation: 'https://docs.agentfoundry.dev/skills/viral-content-predictor'
+  },
+  {
+    id: 'agentfoundry-design-system',
+    name: 'AgentFoundry Design System',
+    slug: 'agentfoundry-design-system',
+    tagline: 'Avoid generic AI aesthetics with professional design',
+    description: 'Professional design system for AI agent UIs. Avoids Inter fonts, purple gradients, and glow effects. Clean color palettes, typography, animations, and component patterns inspired by Claude.ai, Linear, and Vercel.',
+    category: 'design',
+    icon: 'palette',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 0,
+    rating: 5.0,
+    pricing: {
+      model: 'free',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['Complete design system access', 'All color palettes & typography', 'Animation patterns', 'Component examples']
+        }
+      ]
+    },
+    tools: [],
+    tags: ['design-system', 'frontend', 'ui', 'professional', 'clean-design', 'anti-slop'],
+    platforms: ['web', 'desktop'],
+    repository: 'https://github.com/agentfoundry/skills/agentfoundry-design-system',
+    documentation: 'https://docs.agentfoundry.dev/skills/agentfoundry-design-system'
   }
 ];
 
@@ -326,5 +354,6 @@ export const categories = [
   { id: 'infrastructure', name: 'Infrastructure', count: skills.filter(s => s.category === 'infrastructure').length },
   { id: 'developer-tools', name: 'Developer Tools', count: skills.filter(s => s.category === 'developer-tools').length },
   { id: 'security', name: 'Security', count: skills.filter(s => s.category === 'security').length },
-  { id: 'content-intelligence', name: 'Content Intelligence', count: skills.filter(s => s.category === 'content-intelligence').length }
+  { id: 'content-intelligence', name: 'Content Intelligence', count: skills.filter(s => s.category === 'content-intelligence').length },
+  { id: 'design', name: 'Design', count: skills.filter(s => s.category === 'design').length }
 ];

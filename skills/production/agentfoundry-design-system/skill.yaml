@@ -1,0 +1,64 @@
+schema_version: "1.0"
+name: agentfoundry-design-system
+version: 1.0.0
+description: Professional design system for AI agent UIs. Avoids generic aesthetics (Inter fonts, purple gradients, glow effects) in favor of clean, professional developer tool styling.
+
+author:
+  name: AgentFoundry
+  email: skills@agentfoundry.dev
+  url: https://agentfoundry.dev
+
+platforms:
+  - web
+  - desktop
+
+permissions:
+  - none_required
+
+categories:
+  - design
+  - frontend
+  - ui-ux
+
+tags:
+  - design-system
+  - frontend
+  - ui
+  - professional
+  - clean-design
+  - anti-slop
+  - typography
+  - color-palette
+  - animations
+
+# This is a knowledge skill (no tools, just instructions)
+tools: []
+
+dependencies:
+  runtime: []
+  development: []
+
+pricing:
+  model: free
+  tiers:
+    - name: Free
+      price: 0
+      limits:
+        requests_per_month: unlimited
+      features:
+        - Complete design system access
+        - All color palettes and typography
+        - Animation patterns
+        - Component examples
+        - Professional templates
+
+metadata:
+  repository: https://github.com/agentfoundry/skills/agentfoundry-design-system
+  documentation: https://docs.agentfoundry.dev/skills/agentfoundry-design-system
+  license: MIT
+  keywords:
+    - design-system
+    - frontend-design
+    - professional-ui
+    - anti-slop
+    - claude-skill
