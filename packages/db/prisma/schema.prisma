@@ -29,6 +29,12 @@ model User {
   reputation    Int      @default(0)
   verified      Boolean  @default(false)
 
+  // Admin and moderation
+  role          UserRole @default(USER)
+  status        UserStatus @default(ACTIVE)
+  suspendedAt   DateTime?
+  suspendedReason String?
+
   // Stripe integration
   stripeCustomerId String?  @unique
 
@@ -339,4 +345,16 @@ enum SubscriptionStatus {
   INCOMPLETE
   INCOMPLETE_EXPIRED
   UNPAID
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
 }

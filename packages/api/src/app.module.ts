@@ -14,6 +14,7 @@ import { UsageTrackingModule } from './modules/usage-tracking/usage-tracking.mod
 import { SkillExecutionModule } from './modules/skill-execution/skill-execution.module';
 import { SubscriptionModule } from './modules/subscriptions/subscription.module';
 import { StripeModule } from './modules/stripe/stripe.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { StripeModule } from './modules/stripe/stripe.module';
     SkillExecutionModule,
     SubscriptionModule,
     StripeModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
