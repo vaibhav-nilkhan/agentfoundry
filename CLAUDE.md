@@ -594,6 +594,51 @@ pnpm db:studio
 # Opens at http://localhost:5555
 ```
 
+### 6. Working with the Admin Panel
+
+The admin panel is located at `/admin` and provides comprehensive platform management.
+
+**Frontend Location**: `packages/web/src/app/admin/`
+**Backend Location**: `packages/api/src/modules/admin/`
+
+**Key Pages**:
+- `/admin` - Dashboard with real-time metrics
+- `/admin/users` - User management (roles, status)
+- `/admin/skills` - Skill moderation (approve/reject)
+- `/admin/subscriptions` - Subscription monitoring
+- `/admin/analytics` - Revenue and growth charts
+
+**Adding Admin Features**:
+```bash
+# 1. Create frontend page
+touch packages/web/src/app/admin/feature/page.tsx
+
+# 2. Add backend endpoint in packages/api/src/modules/admin/admin.controller.ts
+@Get('feature')
+@ApiOperation({ summary: 'Get feature data' })
+async getFeatureData() {
+  return this.adminService.getFeatureData();
+}
+
+# 3. Add service method in admin.service.ts
+async getFeatureData() {
+  return await this.prisma.feature.findMany();
+}
+
+# 4. Connect frontend to API
+const response = await fetch(`${API_BASE_URL}/api/admin/feature`, {
+  headers: { 'Content-Type': 'application/json' },
+  cache: 'no-store',
+});
+```
+
+**Security**:
+- All admin endpoints use `@UseGuards(ApiKeyGuard, AdminGuard)`
+- Only users with role `ADMIN` or `MODERATOR` can access
+- See `packages/api/src/common/guards/admin.guard.ts`
+
+**Documentation**: See [ADMIN_PANEL.md](./docs/ADMIN_PANEL.md) for complete API reference
+
 ---
 
 ## Important Files & Directories
@@ -618,6 +663,7 @@ pnpm db:studio
 | `ARCHITECTURE.md` | System architecture and design decisions |
 | `CONTRIBUTING.md` | Contribution guidelines and workflows |
 | `SETUP.md` | Detailed setup instructions |
+| `docs/ADMIN_PANEL.md` | Complete admin panel documentation and API reference |
 | `PORT_CONFIGURATION.md` | Port management for multi-project development |
 | `MIGRATION.md` | Express.js → NestJS migration notes |
 | `skills/SKILL_SPECIFICATION.md` | Canonical Skill format specification |
@@ -642,10 +688,13 @@ pnpm db:studio
 **API (`packages/api/`)**:
 - `src/main.ts` - Application bootstrap
 - `src/app.module.ts` - Root module with all imports
-- `src/modules/` - Feature modules (auth, skills, users, validation)
+- `src/modules/` - Feature modules (auth, skills, users, validation, admin)
+- `src/modules/admin/` - Admin panel backend (dashboard, users, skills, subscriptions)
+- `src/common/guards/` - Security guards (ApiKeyGuard, AdminGuard)
 
 **Web (`packages/web/`)**:
 - `src/app/page.tsx` - Homepage
+- `src/app/admin/` - Admin panel frontend (dashboard, users, skills, analytics)
 - `src/lib/supabase.ts` - Supabase client configuration
 - `tailwind.config.js` - Tailwind CSS configuration
 
