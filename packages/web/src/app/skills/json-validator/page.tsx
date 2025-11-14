@@ -161,8 +161,55 @@ export default function JsonValidatorPage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* Use Cases */}
         <section className="py-20 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <Badge variant="default" className="mb-4">Real-World Applications</Badge>
+              <h2 className="text-4xl font-bold mb-4">
+                Who Uses JSON Validator?
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">LLM Application Developers</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p><strong>Use case:</strong> Building chatbots that return structured data</p>
+                  <p><strong>Challenge:</strong> 30% of LLM outputs are malformed JSON</p>
+                  <p><strong>Solution:</strong> Auto-fix + retry reduces invalid rate to &lt;5%</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">API Integration Teams</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p><strong>Use case:</strong> Validating API responses before processing</p>
+                  <p><strong>Challenge:</strong> No schema for legacy APIs, manual validation error-prone</p>
+                  <p><strong>Solution:</strong> Generate schemas from examples, auto-validate all responses</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">Production AI Systems</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p><strong>Use case:</strong> Multi-agent systems with structured communication</p>
+                  <p><strong>Challenge:</strong> Agent crashes when receiving invalid JSON from other agents</p>
+                  <p><strong>Solution:</strong> Validation layer with auto-fix prevents 83% of crashes</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-20 px-6 bg-card">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-4xl font-bold mb-6">
               Ready to Fix JSON Errors?
