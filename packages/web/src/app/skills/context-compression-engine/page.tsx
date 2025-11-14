@@ -161,8 +161,55 @@ export default function ContextCompressionEnginePage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* Use Cases */}
         <section className="py-20 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <Badge variant="default" className="mb-4">Real-World Applications</Badge>
+              <h2 className="text-4xl font-bold mb-4">
+                Who Uses Context Compression Engine?
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">Long-Running Agents</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p><strong>Use case:</strong> Customer support chatbots with 100+ message conversations</p>
+                  <p><strong>Challenge:</strong> Context window fills up after 50 messages, conversations crash</p>
+                  <p><strong>Solution:</strong> Compress by 70% while preserving key context, 10x longer sessions</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">Research Assistants</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p><strong>Use case:</strong> Agents analyzing multiple long documents</p>
+                  <p><strong>Challenge:</strong> Cannot fit all documents in context, quality suffers</p>
+                  <p><strong>Solution:</strong> Relevance ranking + deduplication keeps only essential info</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">Cost-Conscious Teams</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p><strong>Use case:</strong> High-volume production agents with token costs escalating</p>
+                  <p><strong>Challenge:</strong> $10K+/month in API costs, 80% is redundant context</p>
+                  <p><strong>Solution:</strong> 70% token reduction = $7K/month savings with same quality</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-20 px-6 bg-card">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-4xl font-bold mb-6">
               Ready to Optimize Context?
