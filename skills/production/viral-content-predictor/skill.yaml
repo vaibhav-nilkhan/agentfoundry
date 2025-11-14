@@ -281,23 +281,30 @@ config:
 
 pricing:
   type: freemium
+  distribution_model: hybrid  # FREE: client-side, PREMIUM: server-side only
   tiers:
     - name: free
       price: 0
+      distribution: client-side  # Code distributed as npm package
       limits:
-        predictions_per_month: 5
+        predictions_per_month: 100
         platforms: 1
+        tools: [predict_virality]  # Basic prediction only
     - name: creator
       price: 39
+      distribution: server-side  # Code runs on AgentFoundry servers ONLY
       limits:
         predictions_per_month: unlimited
         platforms: all
+        tools: [predict_virality, optimize_content, test_variations, discover_viral_patterns]
     - name: pro
       price: 99
+      distribution: server-side  # Code runs on AgentFoundry servers ONLY
       limits:
         predictions_per_month: unlimited
         platforms: all
-        features: [api_access, white_label]
+        tools: [predict_virality, optimize_content, test_variations, discover_viral_patterns]
+        features: [api_access, white_label, priority_support]
 
 validation:
   static_checks:

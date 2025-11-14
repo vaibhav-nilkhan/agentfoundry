@@ -8,6 +8,13 @@ import { SkillsModule } from './modules/skills/skills.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ValidationModule } from './modules/validation/validation.module';
+// NEW: Hybrid Protection System modules
+import { ApiKeyModule } from './modules/api-keys/api-key.module';
+import { UsageTrackingModule } from './modules/usage-tracking/usage-tracking.module';
+import { SkillExecutionModule } from './modules/skill-execution/skill-execution.module';
+import { SubscriptionModule } from './modules/subscriptions/subscription.module';
+import { StripeModule } from './modules/stripe/stripe.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -21,6 +28,13 @@ import { ValidationModule } from './modules/validation/validation.module';
     AuthModule,
     UsersModule,
     ValidationModule,
+    // NEW: Hybrid Protection System
+    ApiKeyModule,
+    UsageTrackingModule,
+    SkillExecutionModule,
+    SubscriptionModule,
+    StripeModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
