@@ -1,0 +1,33 @@
+{
+  "name": "@agentfoundry-skills/agent-reliability-wrapper",
+  "version": "1.0.0",
+  "description": "Production-grade reliability wrapper for AI agents - solves 75% failure rate",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "agent",
+    "reliability",
+    "retry",
+    "error-handling",
+    "production",
+    "ai-agents"
+  ],
+  "author": "AgentFoundry",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.3.0"
+  }
+}
