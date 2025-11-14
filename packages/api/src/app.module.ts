@@ -12,6 +12,8 @@ import { ValidationModule } from './modules/validation/validation.module';
 import { ApiKeyModule } from './modules/api-keys/api-key.module';
 import { UsageTrackingModule } from './modules/usage-tracking/usage-tracking.module';
 import { SkillExecutionModule } from './modules/skill-execution/skill-execution.module';
+import { SubscriptionModule } from './modules/subscriptions/subscription.module';
+import { StripeModule } from './modules/stripe/stripe.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { SkillExecutionModule } from './modules/skill-execution/skill-execution.
     ApiKeyModule,
     UsageTrackingModule,
     SkillExecutionModule,
+    SubscriptionModule,
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
