@@ -1,0 +1,225 @@
+schema_version: "1.0"
+name: context-compression-engine
+version: 1.0.0
+description: Intelligently reduce context size by 60-80% while preserving meaning and critical information for long-running conversations
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.ai
+  url: https://agentfoundry.ai
+
+categories:
+  - infrastructure
+  - performance
+  - optimization
+tags:
+  - context-compression
+  - token-optimization
+  - cost-reduction
+  - efficiency
+
+pricing:
+  model: usage
+  tiers:
+    free:
+      limit: 50
+      period: month
+      price: 0
+    pro:
+      limit: unlimited
+      period: month
+      price: 49
+    enterprise:
+      limit: unlimited
+      period: month
+      price: 299
+
+platforms:
+  - mcp
+  - claude_skills
+  - openai_actions
+
+tools:
+  - name: compress_context
+    description: Reduce context size by 60-80% while preserving meaning and critical information
+    entry: src/tools/compress-context.ts
+    input_schema:
+      type: object
+      required:
+        - context
+        - target_reduction
+      properties:
+        context:
+          description: Full context to compress (string or message array)
+        target_reduction:
+          type: number
+          description: Target reduction (0.5 = 50% reduction)
+          minimum: 0.1
+          maximum: 0.9
+          default: 0.6
+        preservation_priority:
+          type: object
+          properties:
+            recent_messages:
+              type: number
+              default: 0.8
+            user_messages:
+              type: number
+              default: 0.9
+            system_instructions:
+              type: number
+              default: 1.0
+            facts_and_data:
+              type: number
+              default: 0.7
+        compression_strategy:
+          type: string
+          enum: [aggressive, balanced, conservative]
+          default: balanced
+        preserve_exact:
+          type: array
+          items:
+            type: string
+          description: Strings to never compress
+    output_schema:
+      type: object
+      properties:
+        compressed_context:
+          description: Compressed context
+        compression_stats:
+          type: object
+        preserved_elements:
+          type: object
+        information_loss_estimate:
+          type: object
+        metadata:
+          type: object
+
+  - name: analyze_relevance
+    description: Score and rank information by relevance to current task
+    entry: src/tools/analyze-relevance.ts
+    input_schema:
+      type: object
+      required:
+        - context
+        - current_task
+      properties:
+        context:
+          description: Context to analyze
+        current_task:
+          type: string
+          description: Current task or goal
+        scoring_factors:
+          type: object
+          properties:
+            recency:
+              type: number
+              default: 0.3
+            semantic_similarity:
+              type: number
+              default: 0.4
+            user_importance:
+              type: number
+              default: 0.2
+            data_density:
+              type: number
+              default: 0.1
+        return_top_n:
+          type: integer
+          description: Return only top N items
+          minimum: 1
+    output_schema:
+      type: object
+      properties:
+        ranked_items:
+          type: array
+        summary:
+          type: object
+        recommendations:
+          type: object
+
+  - name: deduplicate_semantic
+    description: Remove semantically redundant information intelligently
+    entry: src/tools/deduplicate-semantic.ts
+    input_schema:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          description: Content to deduplicate
+        similarity_threshold:
+          type: number
+          default: 0.85
+          minimum: 0.5
+          maximum: 1.0
+        preservation_strategy:
+          type: string
+          enum: [keep_first, keep_most_detailed, merge]
+          default: keep_most_detailed
+    output_schema:
+      type: object
+      properties:
+        deduplicated_content:
+          description: Deduplicated content
+        duplicates_found:
+          type: array
+        statistics:
+          type: object
+
+  - name: summarize_progressive
+    description: Multi-level summarization (summary of summaries) for hierarchical compression
+    entry: src/tools/summarize-progressive.ts
+    input_schema:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: Content to summarize
+        levels:
+          type: integer
+          default: 2
+          minimum: 1
+          maximum: 3
+        target_length_per_level:
+          type: array
+          items:
+            type: integer
+          description: Token counts per level
+        preserve_structure:
+          type: boolean
+          default: true
+    output_schema:
+      type: object
+      properties:
+        summaries:
+          type: array
+        final_summary:
+          type: string
+        information_hierarchy:
+          type: object
+
+dependencies:
+  runtime:
+    - zod: ^3.22.0
+
+permissions:
+  - network: Optional for LLM-based summarization
+
+documentation:
+  readme: README.md
+  examples:
+    - examples/compress-long-conversation.md
+    - examples/relevance-scoring.md
+    - examples/deduplication.md
+
+metrics:
+  tracked:
+    - compression_ratio
+    - information_retention
+    - processing_time
+    - cost_savings
+  reporting: true
+  retention_days: 90
