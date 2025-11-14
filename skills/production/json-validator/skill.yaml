@@ -1,0 +1,271 @@
+schema_version: "1.0"
+name: json-validator
+version: 1.0.0
+description: Automatic JSON schema validation with auto-fix, retry logic, and schema generation for reliable LLM outputs
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.ai
+  url: https://agentfoundry.ai
+
+categories:
+  - infrastructure
+  - validation
+  - data-quality
+tags:
+  - json
+  - validation
+  - schema
+  - auto-fix
+  - reliability
+
+pricing:
+  model: usage
+  tiers:
+    free:
+      limit: 100
+      period: month
+      price: 0
+    pro:
+      limit: unlimited
+      period: month
+      price: 19
+    enterprise:
+      limit: unlimited
+      period: month
+      price: 149
+
+platforms:
+  - mcp
+  - claude_skills
+  - openai_actions
+
+tools:
+  - name: validate_json
+    description: Validate JSON against schema with detailed error reporting and fix suggestions
+    entry: src/tools/validate-json.ts
+    input_schema:
+      type: object
+      required:
+        - json_data
+        - schema
+      properties:
+        json_data:
+          description: JSON data to validate (string or object)
+        schema:
+          type: object
+          description: JSON Schema definition
+        strict_mode:
+          type: boolean
+          description: Strict validation (fail on warnings)
+          default: false
+        include_suggestions:
+          type: boolean
+          description: Include fix suggestions
+          default: true
+    output_schema:
+      type: object
+      properties:
+        is_valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+              message:
+                type: string
+              expected:
+                type: string
+              actual:
+                type: string
+        warnings:
+          type: array
+        suggestions:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+              fix:
+                type: string
+              reason:
+                type: string
+        metadata:
+          type: object
+
+  - name: auto_fix_json
+    description: Automatically fix common JSON formatting errors (missing commas, quotes, brackets)
+    entry: src/tools/auto-fix-json.ts
+    input_schema:
+      type: object
+      required:
+        - json_string
+      properties:
+        json_string:
+          type: string
+          description: Potentially malformed JSON string
+        fix_level:
+          type: string
+          enum: [conservative, moderate, aggressive]
+          default: moderate
+          description: How aggressive to be with fixes
+        preserve_comments:
+          type: boolean
+          default: false
+          description: Preserve JSON5-style comments
+    output_schema:
+      type: object
+      properties:
+        fixed_json:
+          type: string
+          description: Fixed JSON string
+        is_valid:
+          type: boolean
+        fixes_applied:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              location:
+                type: string
+              original:
+                type: string
+              fixed:
+                type: string
+        parse_result:
+          description: Parsed JSON object if valid
+        confidence:
+          type: number
+          description: Confidence in fixes (0-100)
+
+  - name: retry_with_schema
+    description: Retry LLM call with enhanced schema instructions when JSON is invalid
+    entry: src/tools/retry-with-schema.ts
+    input_schema:
+      type: object
+      required:
+        - llm_call
+        - schema
+        - invalid_output
+      properties:
+        llm_call:
+          type: object
+          description: LLM call configuration
+          properties:
+            model:
+              type: string
+            prompt:
+              type: string
+            temperature:
+              type: number
+        schema:
+          type: object
+          description: Expected JSON schema
+        invalid_output:
+          type: string
+          description: The invalid JSON that was returned
+        max_retries:
+          type: integer
+          default: 3
+          minimum: 1
+          maximum: 5
+        enhance_prompt:
+          type: boolean
+          default: true
+          description: Add schema guidance to prompt
+    output_schema:
+      type: object
+      properties:
+        success:
+          type: boolean
+        valid_json:
+          description: Valid JSON output
+        attempts:
+          type: integer
+        attempt_log:
+          type: array
+          items:
+            type: object
+        total_cost:
+          type: number
+          description: Total token cost
+
+  - name: generate_schema
+    description: Generate JSON Schema from example JSON objects using type inference
+    entry: src/tools/generate-schema.ts
+    input_schema:
+      type: object
+      required:
+        - examples
+      properties:
+        examples:
+          type: array
+          description: Array of example JSON objects
+          items:
+            description: Example JSON object
+        schema_options:
+          type: object
+          properties:
+            infer_required:
+              type: boolean
+              default: true
+            add_descriptions:
+              type: boolean
+              default: false
+            strict_types:
+              type: boolean
+              default: true
+            include_examples:
+              type: boolean
+              default: true
+    output_schema:
+      type: object
+      properties:
+        schema:
+          type: object
+          description: Generated JSON Schema
+        confidence:
+          type: number
+          description: Confidence in schema (0-100)
+        analysis:
+          type: object
+          properties:
+            total_examples:
+              type: integer
+            fields_found:
+              type: integer
+            type_conflicts:
+              type: array
+        metadata:
+          type: object
+
+dependencies:
+  runtime:
+    - zod: ^3.22.0
+    - ajv: ^8.12.0
+    - jsonrepair: ^3.6.0
+
+permissions:
+  - network: Required for LLM retry calls
+
+documentation:
+  readme: README.md
+  examples:
+    - examples/validate-llm-output.md
+    - examples/auto-fix-malformed.md
+    - examples/generate-schema.md
+
+metrics:
+  tracked:
+    - validation_success_rate
+    - auto_fix_success_rate
+    - retry_success_rate
+    - average_retries
+  reporting: true
+  retention_days: 90
