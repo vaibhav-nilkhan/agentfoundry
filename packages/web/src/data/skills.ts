@@ -346,6 +346,135 @@ export const skills: Skill[] = [
     platforms: ['web', 'desktop'],
     repository: 'https://github.com/agentfoundry/skills/agentfoundry-design-system',
     documentation: 'https://docs.agentfoundry.dev/skills/agentfoundry-design-system'
+  },
+  {
+    id: 'tool-calling-wrapper',
+    name: 'Tool Calling Wrapper',
+    slug: 'tool-calling-wrapper',
+    tagline: 'Universal cross-framework tool execution with retry logic',
+    description: 'Solve tool calling reliability with cross-framework compatibility. Reduce 75% tool calling failures with automatic retry, schema validation, and framework conversion for LangChain, LlamaIndex, MCP, OpenAI, and Claude.',
+    category: 'infrastructure',
+    icon: 'wrench',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 0,
+    rating: 5.0,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['100 tool calls/month', 'Basic retry logic', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 29,
+          features: ['Unlimited tool calls', 'Advanced retry strategies', 'Cross-framework conversion', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 149,
+          features: ['Custom integrations', 'On-premise deployment', 'SLA guarantees', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'validate_tool_schema', description: 'Pre-execution validation' },
+      { name: 'execute_with_retry', description: 'Retry with exponential backoff' },
+      { name: 'verify_output', description: 'Post-execution verification' },
+      { name: 'convert_tool_format', description: 'Cross-framework conversion' }
+    ],
+    tags: ['tools', 'reliability', 'infrastructure', 'cross-framework'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/tool-calling-wrapper',
+    documentation: 'https://docs.agentfoundry.dev/skills/tool-calling-wrapper'
+  },
+  {
+    id: 'json-validator',
+    name: 'JSON Validator',
+    slug: 'json-validator',
+    tagline: 'Automatic JSON validation with auto-fix and retry',
+    description: 'Solve 30% invalid JSON rate from LLM outputs. Auto-fix malformed JSON, retry failed calls with enhanced prompts, and generate schemas from examples.',
+    category: 'infrastructure',
+    icon: 'code',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 0,
+    rating: 5.0,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['100 validations/month', 'Basic auto-fix', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 19,
+          features: ['Unlimited validations', 'Retry with LLM', 'Schema generation', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 149,
+          features: ['Custom schemas', 'On-premise deployment', 'SLA guarantees', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'validate_json', description: 'Validate JSON against schema' },
+      { name: 'auto_fix_json', description: 'Auto-fix common JSON errors' },
+      { name: 'retry_with_schema', description: 'Retry LLM with enhanced schema' },
+      { name: 'generate_schema', description: 'Generate schema from examples' }
+    ],
+    tags: ['json', 'validation', 'infrastructure', 'llm-output'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/json-validator',
+    documentation: 'https://docs.agentfoundry.dev/skills/json-validator'
+  },
+  {
+    id: 'context-compression-engine',
+    name: 'Context Compression Engine',
+    slug: 'context-compression-engine',
+    tagline: 'Reduce context by 60-80% while preserving meaning',
+    description: 'Solve context window bloat and token cost explosion. Intelligent compression, relevance ranking, semantic deduplication, and progressive summarization.',
+    category: 'infrastructure',
+    icon: 'archive',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 0,
+    rating: 5.0,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['50 compressions/month', 'Basic strategies', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 29,
+          features: ['Unlimited compressions', 'Advanced relevance scoring', 'All strategies', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 199,
+          features: ['Custom compression strategies', 'API access', 'SLA guarantees', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'compress_context', description: 'Compress context by 60-80%' },
+      { name: 'analyze_relevance', description: 'Score and rank by relevance' },
+      { name: 'deduplicate_semantic', description: 'Remove redundant content' },
+      { name: 'summarize_progressive', description: 'Multi-level summaries' }
+    ],
+    tags: ['compression', 'context', 'infrastructure', 'token-optimization'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/context-compression-engine',
+    documentation: 'https://docs.agentfoundry.dev/skills/context-compression-engine'
   }
 ];
 
