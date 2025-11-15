@@ -1,0 +1,170 @@
+schema_version: "1.0"
+name: memory-synthesis-engine
+version: 1.0.0
+description: Maintain context across days/weeks/months with hierarchical memory and semantic retrieval for long-running agent tasks
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.ai
+  url: https://agentfoundry.ai
+
+categories:
+  - context-management
+  - memory
+  - infrastructure
+tags:
+  - long-term-memory
+  - context-preservation
+  - knowledge-graph
+  - session-continuity
+
+pricing:
+  model: usage
+  tiers:
+    free:
+      limit: 25
+      period: month
+      price: 0
+    pro:
+      limit: unlimited
+      period: month
+      price: 49
+    enterprise:
+      limit: unlimited
+      period: month
+      price: 299
+
+platforms:
+  - mcp
+  - claude_skills
+  - openai_actions
+  - langchain
+
+tools:
+  - name: store_memory
+    description: Persist important context with metadata
+    entry: src/tools/store-memory.ts
+    input_schema:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+        memory_type:
+          type: string
+          enum: [working, short_term, long_term]
+          default: short_term
+        importance:
+          type: number
+          minimum: 0
+          maximum: 1
+        tags:
+          type: array
+          items:
+            type: string
+    output_schema:
+      type: object
+      properties:
+        memory_id:
+          type: string
+        stored_at:
+          type: string
+        memory_type:
+          type: string
+
+  - name: retrieve_relevant
+    description: Semantic memory search and retrieval
+    entry: src/tools/retrieve-relevant.ts
+    input_schema:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+        memory_types:
+          type: array
+          items:
+            type: string
+        limit:
+          type: integer
+          default: 10
+        similarity_threshold:
+          type: number
+          default: 0.7
+    output_schema:
+      type: object
+      properties:
+        memories:
+          type: array
+        relevance_scores:
+          type: object
+        total_found:
+          type: integer
+
+  - name: build_knowledge_graph
+    description: Connect related concepts and build knowledge structures
+    entry: src/tools/build-knowledge-graph.ts
+    input_schema:
+      type: object
+      required:
+        - memories
+      properties:
+        memories:
+          type: array
+        max_connections:
+          type: integer
+          default: 100
+    output_schema:
+      type: object
+      properties:
+        graph:
+          type: object
+        entities:
+          type: array
+        relationships:
+          type: array
+
+  - name: resume_session
+    description: Continue from previous state with full context
+    entry: src/tools/resume-session.ts
+    input_schema:
+      type: object
+      required:
+        - session_id
+      properties:
+        session_id:
+          type: string
+        include_context:
+          type: boolean
+          default: true
+    output_schema:
+      type: object
+      properties:
+        restored_context:
+          type: object
+        last_activity:
+          type: string
+        context_summary:
+          type: string
+
+dependencies:
+  runtime:
+    - zod: ^3.22.0
+
+permissions:
+  - storage: For memory persistence
+  - network: Optional for vector embeddings
+
+documentation:
+  readme: README.md
+
+metrics:
+  tracked:
+    - memories_stored
+    - retrievals_performed
+    - sessions_resumed
+    - graph_nodes_created
+  reporting: true
+  retention_days: 90

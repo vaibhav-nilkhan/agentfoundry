@@ -1,0 +1,12 @@
+{
+  "name": "@agentfoundry/decision-explainer",
+  "version": "1.0.0",
+  "description": "Transparent decision breakdowns and audit trails for AI agents",
+  "main": "dist/index.js",
+  "keywords": ["explainability", "audit-trail", "compliance"],
+  "author": "AgentFoundry Team <team@agentfoundry.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}
