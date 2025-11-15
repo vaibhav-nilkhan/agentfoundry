@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
 
 export const metadata = {
   title: 'Tier 2 Skills Showcase | AgentFoundry',
@@ -28,32 +27,6 @@ const skills = [
       'Budget enforcement: 100% (hard limits)',
       'Avg. cost reduction: 50%',
     ],
-    exampleTools: [
-      {
-        name: 'predict-cost',
-        description: 'Pre-execution cost estimation',
-        input: 'Workflow with model calls',
-        output: 'Cost breakdown + total estimate',
-      },
-      {
-        name: 'track-spending',
-        description: 'Real-time budget monitoring',
-        input: 'Actual API calls + budget limit',
-        output: 'Budget utilization % + alerts',
-      },
-      {
-        name: 'optimize-workflow',
-        description: 'Suggest cheaper alternatives',
-        input: 'Current workflow',
-        output: '40-60% cost savings',
-      },
-      {
-        name: 'set-budget-alerts',
-        description: 'Configure spending notifications',
-        input: 'Budget + thresholds',
-        output: 'Alert configuration',
-      },
-    ],
   },
   {
     id: 'multi-agent',
@@ -72,32 +45,6 @@ const skills = [
       'Coordination overhead: <5% (vs 40% manual)',
       'Conflict resolution: 95% automated',
       'Parallel speedup: 2.5x',
-    ],
-    exampleTools: [
-      {
-        name: 'orchestrate-agents',
-        description: 'Coordinate multiple agents',
-        input: 'Task + agent capabilities',
-        output: 'Execution plan with dependencies',
-      },
-      {
-        name: 'resolve-conflicts',
-        description: 'Handle agent disagreements',
-        input: 'Conflicting agent outputs',
-        output: 'Evidence-based resolution',
-      },
-      {
-        name: 'aggregate-results',
-        description: 'Combine parallel outputs',
-        input: 'Multiple agent results',
-        output: 'Unified coherent result',
-      },
-      {
-        name: 'monitor-progress',
-        description: 'Track workflow status',
-        input: 'Task ID',
-        output: 'Real-time agent status + resources',
-      },
     ],
   },
   {
@@ -118,32 +65,6 @@ const skills = [
       'Compliance: SOC2, HIPAA, GDPR, AML',
       'Stakeholder satisfaction: 85%',
     ],
-    exampleTools: [
-      {
-        name: 'explain-decision',
-        description: 'Step-by-step reasoning',
-        input: 'Decision + context',
-        output: 'Reasoning steps + key factors',
-      },
-      {
-        name: 'score-confidence',
-        description: 'Confidence scoring',
-        input: 'Decision + evidence',
-        output: 'Confidence % + uncertainties',
-      },
-      {
-        name: 'generate-audit-trail',
-        description: 'Compliance-ready logs',
-        input: 'Decision + reasoning',
-        output: 'Tamper-proof audit log',
-      },
-      {
-        name: 'visualize-reasoning',
-        description: 'Decision tree visualization',
-        input: 'Decision tree structure',
-        output: 'Mermaid/text diagram',
-      },
-    ],
   },
   {
     id: 'memory-synthesis',
@@ -162,32 +83,6 @@ const skills = [
       'Memory retention: 95% (vs 60%)',
       'Retrieval precision: 88% @ k=5',
       'Context restoration: <500ms',
-    ],
-    exampleTools: [
-      {
-        name: 'store-memory',
-        description: 'Hierarchical storage',
-        input: 'Content + tier + importance',
-        output: 'Stored memory with expiration',
-      },
-      {
-        name: 'retrieve-relevant',
-        description: 'Semantic retrieval',
-        input: 'Natural language query',
-        output: 'Relevant memories + scores',
-      },
-      {
-        name: 'build-knowledge-graph',
-        description: 'Entity relationship extraction',
-        input: 'Memory collection',
-        output: 'Graph with entities + edges',
-      },
-      {
-        name: 'resume-session',
-        description: 'Context restoration',
-        input: 'Session ID',
-        output: 'Restored context + suggestions',
-      },
     ],
   },
 ];
@@ -227,21 +122,21 @@ const useCases = [
   },
 ];
 
-const borderColors = {
+const borderColors: Record<string, string> = {
   yellow: 'border-yellow-500/30',
   blue: 'border-blue-500/30',
   purple: 'border-purple-500/30',
   green: 'border-green-500/30',
 };
 
-const bgColors = {
+const bgColors: Record<string, string> = {
   yellow: 'bg-yellow-50/5',
   blue: 'bg-blue-50/5',
   purple: 'bg-purple-50/5',
   green: 'bg-green-50/5',
 };
 
-const badgeColors = {
+const badgeColors: Record<string, string> = {
   yellow: 'bg-yellow-500/10 text-yellow-600',
   blue: 'bg-blue-500/10 text-blue-600',
   purple: 'bg-purple-500/10 text-purple-600',
@@ -255,7 +150,7 @@ export default function ShowcasePage() {
       <section className="border-b bg-gradient-to-b from-background to-muted/20">
         <div className="container mx-auto px-6 py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 px-3 py-1" variant="secondary">
+            <Badge className="mb-4 px-3 py-1">
               Interactive Demos
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -283,7 +178,7 @@ export default function ShowcasePage() {
         </div>
       </section>
 
-      {/* Skills Grid */}
+      {/* Skills Showcase */}
       <section className="container mx-auto px-6 py-16">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold mb-4">All 4 Tier 2 Skills</h2>
@@ -292,139 +187,111 @@ export default function ShowcasePage() {
           </p>
         </div>
 
-        <div className="grid gap-8">
+        <div className="grid gap-8 max-w-6xl mx-auto">
           {skills.map((skill) => (
             <Card
               key={skill.id}
-              className={`border-2 ${borderColors[skill.color as keyof typeof borderColors]} ${bgColors[skill.color as keyof typeof bgColors]}`}
+              className={`border-2 ${borderColors[skill.color]} ${bgColors[skill.color]}`}
             >
               <CardHeader>
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <Badge className={`mb-2 ${badgeColors[skill.color as keyof typeof badgeColors]}`}>
+                <div className="flex items-start justify-between mb-4 flex-wrap gap-4">
+                  <div className="flex-1">
+                    <Badge className={`mb-2 ${badgeColors[skill.color]}`}>
                       Priority #{skill.priority}
                     </Badge>
-                    <CardTitle className="text-2xl flex items-center gap-3">
+                    <CardTitle className="text-2xl flex items-center gap-3 mb-2">
                       <span className="text-3xl">{skill.icon}</span>
                       {skill.name}
                     </CardTitle>
+                    <CardDescription className="text-base">
+                      {skill.description}
+                    </CardDescription>
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-muted-foreground">Revenue Potential</div>
                     <div className="text-lg font-bold text-primary">{skill.revenue}</div>
                   </div>
                 </div>
-                <CardDescription className="text-base">{skill.description}</CardDescription>
               </CardHeader>
 
-              <CardContent>
-                <Tabs defaultValue="overview" className="w-full">
-                  <TabsList className="grid grid-cols-4 w-full">
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="tools">Tools ({skill.tools})</TabsTrigger>
-                    <TabsTrigger value="metrics">Metrics</TabsTrigger>
-                    <TabsTrigger value="demo">Run Demo</TabsTrigger>
-                  </TabsList>
+              <CardContent className="space-y-6">
+                {/* Pain Point & Solution */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
+                      <span className="text-red-500">⚠️</span> Pain Point
+                    </h4>
+                    <p className="text-sm text-muted-foreground bg-red-50/10 p-3 rounded border border-red-200/20">
+                      {skill.painPoint}
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
+                      <span className="text-green-500">✅</span> Solution
+                    </h4>
+                    <p className="text-sm text-muted-foreground bg-green-50/10 p-3 rounded border border-green-200/20">
+                      {skill.solution}
+                    </p>
+                  </div>
+                </div>
 
-                  <TabsContent value="overview" className="space-y-4 mt-6">
-                    <div>
-                      <h4 className="font-semibold mb-2 flex items-center gap-2">
-                        <span className="text-red-500">⚠️</span> Pain Point
-                      </h4>
-                      <p className="text-sm text-muted-foreground bg-red-50/10 p-3 rounded border border-red-200/20">
-                        {skill.painPoint}
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2 flex items-center gap-2">
-                        <span className="text-green-500">✅</span> Solution
-                      </h4>
-                      <p className="text-sm text-muted-foreground bg-green-50/10 p-3 rounded border border-green-200/20">
-                        {skill.solution}
-                      </p>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-3">
-                      <div className="text-center p-3 bg-muted/30 rounded">
-                        <div className="text-2xl font-bold text-primary">{skill.tools}</div>
-                        <div className="text-xs text-muted-foreground">Tools</div>
+                {/* Performance Metrics */}
+                <div>
+                  <h4 className="font-semibold mb-3">Performance Benchmarks</h4>
+                  <div className="grid md:grid-cols-3 gap-3">
+                    {skill.metrics.map((metric, idx) => (
+                      <div key={idx} className="flex items-center gap-3 p-3 bg-muted/20 rounded text-sm">
+                        <span className="text-green-500 text-lg flex-shrink-0">✓</span>
+                        <span>{metric}</span>
                       </div>
-                      <div className="text-center p-3 bg-muted/30 rounded">
-                        <div className="text-2xl font-bold text-primary">{skill.examples}</div>
-                        <div className="text-xs text-muted-foreground">Examples</div>
-                      </div>
-                      <div className="text-center p-3 bg-muted/30 rounded">
-                        <div className="text-2xl font-bold text-primary">100%</div>
-                        <div className="text-xs text-muted-foreground">Test Coverage</div>
-                      </div>
-                    </div>
-                  </TabsContent>
+                    ))}
+                  </div>
+                </div>
 
-                  <TabsContent value="tools" className="mt-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {skill.exampleTools.map((tool, idx) => (
-                        <div key={idx} className="p-4 bg-muted/20 rounded-lg border">
-                          <div className="font-mono text-sm font-semibold mb-2 text-primary">
-                            {tool.name}
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {tool.description}
-                          </p>
-                          <div className="flex items-center gap-2 text-xs">
-                            <Badge variant="outline" className="font-mono">
-                              Input: {tool.input}
-                            </Badge>
-                            <span>→</span>
-                            <Badge variant="outline" className="font-mono">
-                              Output: {tool.output}
-                            </Badge>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
+                {/* Quick Stats */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="text-center p-3 bg-muted/30 rounded">
+                    <div className="text-2xl font-bold text-primary">{skill.tools}</div>
+                    <div className="text-xs text-muted-foreground">Tools</div>
+                  </div>
+                  <div className="text-center p-3 bg-muted/30 rounded">
+                    <div className="text-2xl font-bold text-primary">{skill.examples}</div>
+                    <div className="text-xs text-muted-foreground">Examples</div>
+                  </div>
+                  <div className="text-center p-3 bg-muted/30 rounded">
+                    <div className="text-2xl font-bold text-primary">100%</div>
+                    <div className="text-xs text-muted-foreground">Coverage</div>
+                  </div>
+                </div>
 
-                  <TabsContent value="metrics" className="mt-6">
-                    <div className="space-y-3">
-                      <h4 className="font-semibold mb-4">Performance Benchmarks</h4>
-                      {skill.metrics.map((metric, idx) => (
-                        <div key={idx} className="flex items-center gap-3 p-3 bg-muted/20 rounded">
-                          <span className="text-green-500 text-xl">✓</span>
-                          <span className="text-sm">{metric}</span>
-                        </div>
-                      ))}
+                {/* Run Demo */}
+                <div className="space-y-3">
+                  <div className="p-4 bg-slate-900 text-slate-100 rounded-lg font-mono text-sm">
+                    <div className="mb-2 text-slate-400"># Run the interactive demo</div>
+                    <div className="text-green-400">
+                      $ npx tsx examples/tier2-showcase/{skill.demoFile}
                     </div>
-                  </TabsContent>
-
-                  <TabsContent value="demo" className="mt-6">
-                    <div className="space-y-4">
-                      <div className="p-4 bg-slate-900 text-slate-100 rounded-lg font-mono text-sm">
-                        <div className="mb-2 text-slate-400"># Run the demo</div>
-                        <div className="text-green-400">
-                          $ npx tsx examples/tier2-showcase/{skill.demoFile}
-                        </div>
-                      </div>
-                      <div className="flex gap-3">
-                        <Button asChild className="flex-1">
-                          <Link href={`/skills/${skill.id}`}>
-                            View Full Skill Details
-                          </Link>
-                        </Button>
-                        <Button asChild variant="outline" className="flex-1">
-                          <a
-                            href={`https://github.com/yourusername/agentfoundry/tree/main/examples/tier2-showcase`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View Source Code
-                          </a>
-                        </Button>
-                      </div>
-                      <p className="text-xs text-muted-foreground text-center">
-                        All demos include realistic data, expected outputs, and performance metrics
-                      </p>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button asChild className="flex-1">
+                      <Link href={`/skills/${skill.id}`}>
+                        View Full Skill Details
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="flex-1">
+                      <a
+                        href="https://github.com/yourusername/agentfoundry/tree/main/examples/tier2-showcase"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Source Code
+                      </a>
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground text-center">
+                    All demos include realistic data, expected outputs, and performance metrics
+                  </p>
+                </div>
               </CardContent>
             </Card>
           ))}
@@ -448,7 +315,7 @@ export default function ShowcasePage() {
                   <CardTitle className="text-lg">{useCase.industry}</CardTitle>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {useCase.skills.map((skillName, sidx) => (
-                      <Badge key={sidx} variant="secondary" className="text-xs">
+                      <Badge key={sidx} className="text-xs">
                         {skillName}
                       </Badge>
                     ))}
@@ -534,7 +401,7 @@ export default function ShowcasePage() {
           <p className="text-primary-foreground/80 mb-6 max-w-2xl mx-auto">
             Integrate these skills into your agent workflows and solve critical production pain points validated by 50+ research sources.
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center flex-wrap">
             <Button asChild size="lg" variant="secondary">
               <Link href="/marketplace">Browse All 23 Skills</Link>
             </Button>
