@@ -475,6 +475,565 @@ export const skills: Skill[] = [
     platforms: ['web', 'desktop', 'api'],
     repository: 'https://github.com/agentfoundry/skills/context-compression-engine',
     documentation: 'https://docs.agentfoundry.dev/skills/context-compression-engine'
+  },
+  {
+    id: 'agent-reliability-wrapper',
+    name: 'Agent Reliability Wrapper',
+    slug: 'agent-reliability-wrapper',
+    tagline: 'Wrap unreliable agents with automatic retry and fallback',
+    description: 'Make unreliable agents production-ready with automatic retry logic, fallback strategies, circuit breakers, and exponential backoff. Reduce agent failures by 85%.',
+    category: 'infrastructure',
+    icon: 'shield',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 1523,
+    rating: 4.9,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['100 wrapped calls/month', 'Basic retry logic', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 39,
+          features: ['Unlimited calls', 'Advanced strategies', 'Circuit breakers', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 199,
+          features: ['Custom strategies', 'Multi-region', 'SLA guarantees', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'wrap_agent', description: 'Wrap agent with reliability patterns' },
+      { name: 'configure_retry', description: 'Configure retry strategies' },
+      { name: 'set_fallback', description: 'Set fallback behavior' },
+      { name: 'monitor_health', description: 'Monitor agent health' }
+    ],
+    tags: ['reliability', 'infrastructure', 'retry', 'circuit-breaker'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/agent-reliability-wrapper',
+    documentation: 'https://docs.agentfoundry.dev/skills/agent-reliability-wrapper'
+  },
+  {
+    id: 'prompt-version-control',
+    name: 'Prompt Version Control',
+    slug: 'prompt-version-control',
+    tagline: 'Git-like version control for prompts with A/B testing',
+    description: 'Track prompt changes, A/B test variants, rollback breaking changes, and compare performance metrics. Built for production prompt engineering.',
+    category: 'developer-tools',
+    icon: 'code',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 892,
+    rating: 4.7,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['10 prompts', 'Basic versioning', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 29,
+          features: ['Unlimited prompts', 'A/B testing', 'Analytics', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 149,
+          features: ['Team collaboration', 'Advanced analytics', 'API access', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'save_prompt_version', description: 'Save new prompt version' },
+      { name: 'compare_versions', description: 'Compare prompt versions' },
+      { name: 'rollback_version', description: 'Rollback to previous version' },
+      { name: 'ab_test_prompts', description: 'A/B test prompt variants' }
+    ],
+    tags: ['prompts', 'version-control', 'testing', 'developer-tools'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/prompt-version-control',
+    documentation: 'https://docs.agentfoundry.dev/skills/prompt-version-control'
+  },
+  {
+    id: 'smart-tool-selector',
+    name: 'Smart Tool Selector',
+    slug: 'smart-tool-selector',
+    tagline: 'Intelligently filter 100+ tools down to optimal 20-30',
+    description: 'Prevent agent tool overload. Filter from 100s of tools to optimal 20-30 based on task requirements, capability matching, and cost optimization. Improve selection accuracy from 40% to 85%.',
+    category: 'infrastructure',
+    icon: 'wrench',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 465,
+    rating: 4.6,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['50 selections/month', 'Basic filtering', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 39,
+          features: ['Unlimited selections', 'Advanced matching', 'Learning from history', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 199,
+          features: ['Custom strategies', 'Team optimization', 'API access', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'filter_tools', description: 'Filter tools by task requirements' },
+      { name: 'match_capabilities', description: 'Match tools to capabilities' },
+      { name: 'rank_by_cost', description: 'Rank by cost-effectiveness' },
+      { name: 'learn_from_history', description: 'Improve from execution history' }
+    ],
+    tags: ['tool-selection', 'performance', 'capability-matching', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/smart-tool-selector',
+    documentation: 'https://docs.agentfoundry.dev/skills/smart-tool-selector'
+  },
+  {
+    id: 'cost-predictor-optimizer',
+    name: 'Cost Predictor & Optimizer',
+    slug: 'cost-predictor-optimizer',
+    tagline: 'Estimate costs before execution and enforce budgets',
+    description: 'Prevent $500/day billing surprises. Estimate token costs before execution, suggest cheaper alternatives, enforce spending caps, and track costs in real-time.',
+    category: 'infrastructure',
+    icon: 'currency',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 723,
+    rating: 4.8,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['50 estimates/month', 'Basic cost tracking', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 49,
+          features: ['Unlimited estimates', 'Budget enforcement', 'Model alternatives', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 299,
+          features: ['Team budgets', 'Advanced analytics', 'Custom alerts', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'estimate_cost', description: 'Predict token costs before execution' },
+      { name: 'suggest_cheaper', description: 'Recommend cheaper alternatives' },
+      { name: 'set_budget_limit', description: 'Enforce spending caps' },
+      { name: 'track_costs', description: 'Real-time cost monitoring' }
+    ],
+    tags: ['cost-optimization', 'budget-control', 'token-tracking', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/cost-predictor-optimizer',
+    documentation: 'https://docs.agentfoundry.dev/skills/cost-predictor-optimizer'
+  },
+  {
+    id: 'multi-agent-orchestrator',
+    name: 'Multi-Agent Orchestrator',
+    slug: 'multi-agent-orchestrator',
+    tagline: 'Coordinate 5-50 sub-agents with conflict resolution',
+    description: 'Solve multi-agent chaos. Hierarchical coordination, conflict detection, deadlock prevention, and parallel execution optimization for 5-50 sub-agents.',
+    category: 'infrastructure',
+    icon: 'users',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 298,
+    rating: 4.7,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['5 agents max', 'Basic coordination', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 69,
+          features: ['50 agents', 'Advanced conflict resolution', 'Parallel optimization', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 399,
+          features: ['Unlimited agents', 'Custom strategies', 'Multi-region', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'orchestrate_agents', description: 'Coordinate multiple agents' },
+      { name: 'detect_conflicts', description: 'Detect resource conflicts' },
+      { name: 'resolve_deadlocks', description: 'Prevent and resolve deadlocks' },
+      { name: 'optimize_parallel', description: 'Optimize parallel execution' }
+    ],
+    tags: ['multi-agent', 'coordination', 'conflict-resolution', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/multi-agent-orchestrator',
+    documentation: 'https://docs.agentfoundry.dev/skills/multi-agent-orchestrator'
+  },
+  {
+    id: 'decision-explainer',
+    name: 'Decision Explainer',
+    slug: 'decision-explainer',
+    tagline: 'SOC 2/HIPAA compliant decision transparency',
+    description: 'Explain agent decisions with full audit trails. Break down reasoning, track decision history, and generate compliance-ready reports for SOC 2 and HIPAA.',
+    category: 'infrastructure',
+    icon: 'document',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 412,
+    rating: 4.8,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['50 explanations/month', 'Basic breakdown', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 79,
+          features: ['Unlimited explanations', 'Full audit trails', 'Compliance reports', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 499,
+          features: ['Custom compliance', 'Advanced auditing', 'On-premise', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'explain_decision', description: 'Break down decision reasoning' },
+      { name: 'track_decision_history', description: 'Track decision audit trail' },
+      { name: 'generate_compliance_report', description: 'Generate compliance reports' },
+      { name: 'compare_alternatives', description: 'Show alternative paths' }
+    ],
+    tags: ['explainability', 'compliance', 'audit-trails', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/decision-explainer',
+    documentation: 'https://docs.agentfoundry.dev/skills/decision-explainer'
+  },
+  {
+    id: 'memory-synthesis-engine',
+    name: 'Memory Synthesis Engine',
+    slug: 'memory-synthesis-engine',
+    tagline: 'Long-term memory for multi-day projects',
+    description: 'Resume multi-day projects exactly where you left off. Hierarchical memory, semantic retrieval, context synthesis, and session continuity across days/weeks/months.',
+    category: 'infrastructure',
+    icon: 'archive',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 587,
+    rating: 4.9,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['10 sessions', '7 day retention', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 49,
+          features: ['Unlimited sessions', '90 day retention', 'Semantic search', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 249,
+          features: ['Unlimited retention', 'Team sharing', 'Custom synthesis', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'store_memory', description: 'Store long-term memories' },
+      { name: 'retrieve_relevant', description: 'Semantic memory retrieval' },
+      { name: 'synthesize_context', description: 'Synthesize context from memories' },
+      { name: 'resume_session', description: 'Resume previous sessions' }
+    ],
+    tags: ['memory', 'context', 'session-continuity', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/memory-synthesis-engine',
+    documentation: 'https://docs.agentfoundry.dev/skills/memory-synthesis-engine'
+  },
+  {
+    id: 'multi-step-validator',
+    name: 'Multi-Step Validator',
+    slug: 'multi-step-validator',
+    tagline: 'Pre-execution validation prevents mid-workflow failures',
+    description: 'Validate multi-step workflows before execution. Check dependencies, verify permissions, assess risks, and prevent failures before they happen.',
+    category: 'infrastructure',
+    icon: 'check',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 234,
+    rating: 4.6,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['50 validations/month', 'Basic checks', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 39,
+          features: ['Unlimited validations', 'Advanced risk assessment', 'Custom rules', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 199,
+          features: ['Team policies', 'Compliance validation', 'API access', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'validate_workflow', description: 'Validate entire workflow' },
+      { name: 'check_dependencies', description: 'Check step dependencies' },
+      { name: 'verify_permissions', description: 'Verify required permissions' },
+      { name: 'assess_risk', description: 'Assess execution risks' }
+    ],
+    tags: ['validation', 'workflow', 'pre-execution', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/multi-step-validator',
+    documentation: 'https://docs.agentfoundry.dev/skills/multi-step-validator'
+  },
+  {
+    id: 'rollback-manager',
+    name: 'Rollback Manager',
+    slug: 'rollback-manager',
+    tagline: 'Transaction-like rollback for agent actions',
+    description: 'Undo agent actions when things go wrong. Checkpoint creation, automatic rollback on failure, selective restoration, and audit trails.',
+    category: 'infrastructure',
+    icon: 'undo',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 189,
+    rating: 4.5,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['20 checkpoints/month', 'Basic rollback', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 49,
+          features: ['Unlimited checkpoints', 'Automatic rollback', 'Selective restore', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 299,
+          features: ['Advanced audit trails', 'Multi-region backup', 'Custom policies', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'create_checkpoint', description: 'Create state checkpoint' },
+      { name: 'rollback_to_checkpoint', description: 'Rollback to previous state' },
+      { name: 'list_checkpoints', description: 'List available checkpoints' },
+      { name: 'verify_rollback', description: 'Verify rollback success' }
+    ],
+    tags: ['rollback', 'transactions', 'state-management', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/rollback-manager',
+    documentation: 'https://docs.agentfoundry.dev/skills/rollback-manager'
+  },
+  {
+    id: 'data-freshness-validator',
+    name: 'Data Freshness Validator',
+    slug: 'data-freshness-validator',
+    tagline: 'Prevent using stale data in agent workflows',
+    description: 'Validate data freshness before using in workflows. Check staleness, invalidate caches, fetch fresh data, and track data age.',
+    category: 'infrastructure',
+    icon: 'clock',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 156,
+    rating: 4.4,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['100 checks/month', 'Basic freshness', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 29,
+          features: ['Unlimited checks', 'Auto-refresh', 'Custom TTLs', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 149,
+          features: ['Multi-source validation', 'Advanced policies', 'API access', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'check_freshness', description: 'Check data freshness' },
+      { name: 'invalidate_stale', description: 'Invalidate stale data' },
+      { name: 'fetch_fresh', description: 'Fetch fresh data' },
+      { name: 'track_data_age', description: 'Track data age metrics' }
+    ],
+    tags: ['data-validation', 'freshness', 'caching', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/data-freshness-validator',
+    documentation: 'https://docs.agentfoundry.dev/skills/data-freshness-validator'
+  },
+  {
+    id: 'workflow-state-manager',
+    name: 'Workflow State Manager',
+    slug: 'workflow-state-manager',
+    tagline: 'Pause and resume long-running workflows',
+    description: 'Manage workflow state for long-running processes. Persist state, pause/resume execution, recover from failures, and track progress.',
+    category: 'infrastructure',
+    icon: 'play',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 201,
+    rating: 4.5,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['5 workflows', '24h state retention', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 39,
+          features: ['Unlimited workflows', '30 day retention', 'Advanced recovery', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 249,
+          features: ['Unlimited retention', 'Multi-region', 'Custom policies', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'persist_state', description: 'Persist workflow state' },
+      { name: 'resume_workflow', description: 'Resume from saved state' },
+      { name: 'pause_workflow', description: 'Pause execution' },
+      { name: 'track_progress', description: 'Track workflow progress' }
+    ],
+    tags: ['workflow', 'state-management', 'pause-resume', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/workflow-state-manager',
+    documentation: 'https://docs.agentfoundry.dev/skills/workflow-state-manager'
+  },
+  {
+    id: 'conflict-resolver',
+    name: 'Conflict Resolver',
+    slug: 'conflict-resolver',
+    tagline: 'Resolve resource conflicts between concurrent agents',
+    description: 'Detect and resolve resource conflicts when multiple agents access shared resources. Lock management, conflict detection, resolution strategies, and deadlock prevention.',
+    category: 'infrastructure',
+    icon: 'alert',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 167,
+    rating: 4.6,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['10 resolutions/month', 'Basic detection', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 49,
+          features: ['Unlimited resolutions', 'Advanced strategies', 'Lock management', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 299,
+          features: ['Distributed locks', 'Custom policies', 'Multi-region', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'detect_conflicts', description: 'Detect resource conflicts' },
+      { name: 'resolve_conflict', description: 'Resolve conflicts automatically' },
+      { name: 'acquire_lock', description: 'Acquire resource locks' },
+      { name: 'release_lock', description: 'Release resource locks' }
+    ],
+    tags: ['conflict-resolution', 'concurrency', 'locking', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/conflict-resolver',
+    documentation: 'https://docs.agentfoundry.dev/skills/conflict-resolver'
+  },
+  {
+    id: 'performance-monitor',
+    name: 'Performance Monitor',
+    slug: 'performance-monitor',
+    tagline: 'Real-time agent performance tracking and alerts',
+    description: 'Monitor agent performance in real-time. Track latency, throughput, errors, costs. Generate dashboards, set up alerts, and identify bottlenecks.',
+    category: 'infrastructure',
+    icon: 'chart',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 345,
+    rating: 4.7,
+    pricing: {
+      model: 'freemium',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['Basic metrics', '7 day retention', 'Community support']
+        },
+        {
+          name: 'Pro',
+          price: 59,
+          features: ['Advanced metrics', '90 day retention', 'Custom dashboards', 'Alerts', 'Priority support']
+        },
+        {
+          name: 'Enterprise',
+          price: 299,
+          features: ['Unlimited retention', 'Custom integrations', 'SLA monitoring', 'Dedicated support']
+        }
+      ]
+    },
+    tools: [
+      { name: 'track_metrics', description: 'Track performance metrics' },
+      { name: 'generate_dashboard', description: 'Generate performance dashboard' },
+      { name: 'set_alert', description: 'Set up performance alerts' },
+      { name: 'identify_bottlenecks', description: 'Identify performance bottlenecks' }
+    ],
+    tags: ['monitoring', 'performance', 'metrics', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/performance-monitor',
+    documentation: 'https://docs.agentfoundry.dev/skills/performance-monitor'
   }
 ];
 

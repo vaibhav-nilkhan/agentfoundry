@@ -1,29 +1,70 @@
 import { Users, DollarSign, Package, TrendingUp, ArrowUp, ArrowDown } from 'lucide-react';
 
-// This would fetch from API in real implementation
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4100';
+
 async function getDashboardStats() {
-  // TODO: Replace with actual API call
-  return {
-    overview: {
-      totalUsers: 1247,
-      newUsersLast30Days: 342,
-      newUsersLast7Days: 89,
-      userGrowthRate: '12.4%',
-      activeSubscriptions: 156,
-      totalSkills: 8,
-      pendingSkills: 0,
-      totalApiKeys: 289,
-    },
-    revenue: {
-      mrr: 8964,
-      arr: 107568,
-      averageRevenuePerUser: '7.19',
-    },
-    usage: {
-      totalExecutions: 45892,
-      executionsPerUser: 37,
-    },
-  };
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
+      headers: {
+        'Content-Type': 'application/json',
+        // TODO: Add authentication header when auth is implemented
+        // 'Authorization': `Bearer ${token}` or 'X-API-Key': apiKey
+      },
+      cache: 'no-store', // Always fetch fresh data for admin dashboard
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch dashboard stats:', response.statusText);
+      // Return fallback data if API fails
+      return {
+        overview: {
+          totalUsers: 0,
+          newUsersLast30Days: 0,
+          newUsersLast7Days: 0,
+          userGrowthRate: '0%',
+          activeSubscriptions: 0,
+          totalSkills: 0,
+          pendingSkills: 0,
+          totalApiKeys: 0,
+        },
+        revenue: {
+          mrr: 0,
+          arr: 0,
+          averageRevenuePerUser: '0',
+        },
+        usage: {
+          totalExecutions: 0,
+          executionsPerUser: 0,
+        },
+      };
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error);
+    // Return fallback data
+    return {
+      overview: {
+        totalUsers: 0,
+        newUsersLast30Days: 0,
+        newUsersLast7Days: 0,
+        userGrowthRate: '0%',
+        activeSubscriptions: 0,
+        totalSkills: 0,
+        pendingSkills: 0,
+        totalApiKeys: 0,
+      },
+      revenue: {
+        mrr: 0,
+        arr: 0,
+        averageRevenuePerUser: '0',
+      },
+      usage: {
+        totalExecutions: 0,
+        executionsPerUser: 0,
+      },
+    };
+  }
 }
 
 export default async function AdminDashboard() {

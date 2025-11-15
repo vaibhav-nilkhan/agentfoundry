@@ -1,0 +1,238 @@
+schema_version: "1.0"
+name: smart-tool-selector
+version: 1.0.0
+description: Intelligently filter and select optimal tools from large tool sets (100+) to prevent agent overwhelm and improve performance
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.ai
+  url: https://agentfoundry.ai
+
+categories:
+  - infrastructure
+  - tool-management
+  - optimization
+tags:
+  - tool-selection
+  - performance
+  - capability-matching
+  - cost-optimization
+
+pricing:
+  model: usage
+  tiers:
+    free:
+      limit: 100
+      period: month
+      price: 0
+    pro:
+      limit: unlimited
+      period: month
+      price: 39
+    enterprise:
+      limit: unlimited
+      period: month
+      price: 249
+
+platforms:
+  - mcp
+  - claude_skills
+  - openai_actions
+  - langchain
+
+tools:
+  - name: filter_tools
+    description: Intelligently reduce tool set from 100s to optimal 20-30 based on task requirements
+    entry: src/tools/filter-tools.ts
+    input_schema:
+      type: object
+      required:
+        - available_tools
+        - task_description
+      properties:
+        available_tools:
+          type: array
+          description: Full list of available tools with metadata
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              capabilities:
+                type: array
+                items:
+                  type: string
+              cost_tier:
+                type: string
+                enum: [free, low, medium, high]
+              success_rate:
+                type: number
+        task_description:
+          type: string
+          description: Current task or goal
+        max_tools:
+          type: integer
+          default: 25
+          minimum: 5
+          maximum: 50
+        filter_strategy:
+          type: string
+          enum: [capability, cost, performance, hybrid]
+          default: hybrid
+    output_schema:
+      type: object
+      properties:
+        filtered_tools:
+          type: array
+          description: Optimal subset of tools
+        reasoning:
+          type: object
+          description: Explanation for selections
+        excluded_tools:
+          type: array
+          description: Tools filtered out with reasons
+
+  - name: match_capabilities
+    description: Match tools to task requirements based on capability analysis
+    entry: src/tools/match-capabilities.ts
+    input_schema:
+      type: object
+      required:
+        - tools
+        - required_capabilities
+      properties:
+        tools:
+          type: array
+          description: Tools to match against
+        required_capabilities:
+          type: array
+          items:
+            type: string
+          description: Capabilities needed for task
+        match_threshold:
+          type: number
+          default: 0.7
+          minimum: 0.3
+          maximum: 1.0
+        prefer_specialized:
+          type: boolean
+          default: true
+          description: Prefer specialized tools over general ones
+    output_schema:
+      type: object
+      properties:
+        matched_tools:
+          type: array
+          description: Tools ranked by capability match
+        match_scores:
+          type: object
+          description: Detailed match scores per tool
+        missing_capabilities:
+          type: array
+          description: Required capabilities not covered
+
+  - name: rank_by_cost
+    description: Rank and optimize tool selection by cost-effectiveness
+    entry: src/tools/rank-by-cost.ts
+    input_schema:
+      type: object
+      required:
+        - tools
+      properties:
+        tools:
+          type: array
+          description: Tools to rank
+        budget_constraint:
+          type: number
+          description: Maximum budget per execution
+        prioritize:
+          type: string
+          enum: [cost, performance, balance]
+          default: balance
+        include_alternatives:
+          type: boolean
+          default: true
+    output_schema:
+      type: object
+      properties:
+        ranked_tools:
+          type: array
+          description: Tools ranked by cost-effectiveness
+        cost_analysis:
+          type: object
+          description: Detailed cost breakdown
+        cheaper_alternatives:
+          type: array
+          description: Suggested lower-cost alternatives
+
+  - name: learn_from_history
+    description: Improve tool selection over time based on execution history
+    entry: src/tools/learn-from-history.ts
+    input_schema:
+      type: object
+      required:
+        - execution_history
+      properties:
+        execution_history:
+          type: array
+          description: Past tool executions with outcomes
+          items:
+            type: object
+            properties:
+              tool_name:
+                type: string
+              task_type:
+                type: string
+              success:
+                type: boolean
+              execution_time:
+                type: number
+              cost:
+                type: number
+        task_type:
+          type: string
+          description: Current task type for recommendations
+        min_samples:
+          type: integer
+          default: 5
+          description: Minimum executions before learning
+    output_schema:
+      type: object
+      properties:
+        recommended_tools:
+          type: array
+          description: Tools learned to be most effective
+        success_patterns:
+          type: object
+          description: Patterns discovered in successful executions
+        avoid_tools:
+          type: array
+          description: Tools with poor track record
+        confidence:
+          type: number
+          description: Confidence in recommendations (0-1)
+
+dependencies:
+  runtime:
+    - zod: ^3.22.0
+
+permissions:
+  - storage: For learning history persistence
+
+documentation:
+  readme: README.md
+  examples:
+    - examples/filter-large-toolset.md
+    - examples/capability-matching.md
+    - examples/cost-optimization.md
+
+metrics:
+  tracked:
+    - tools_filtered
+    - match_accuracy
+    - cost_savings
+    - selection_time
+  reporting: true
+  retention_days: 90

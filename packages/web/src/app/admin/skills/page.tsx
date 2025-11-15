@@ -1,83 +1,57 @@
 import { Package, CheckCircle, XCircle, Clock, AlertTriangle } from 'lucide-react';
 
-async function getSkills() {
-  // TODO: Replace with actual API call
-  return {
-    skills: [
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4100';
+
+async function getSkills(params: {
+  page?: number;
+  limit?: number;
+  status?: string;
+  search?: string;
+} = {}) {
+  try {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.set('page', params.page.toString());
+    if (params.limit) queryParams.set('limit', params.limit.toString());
+    if (params.status) queryParams.set('status', params.status);
+    if (params.search) queryParams.set('search', params.search);
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/skills?${queryParams.toString()}`,
       {
-        id: '1',
-        name: 'Viral Content Predictor',
-        slug: 'viral-content-predictor',
-        description: 'Predict content virality before publishing',
-        status: 'APPROVED',
-        pricingType: 'FREEMIUM',
-        downloads: 1245,
-        rating: 4.8,
-        reviewCount: 89,
-        author: {
-          id: 'u1',
-          email: 'team@agentfoundry.dev',
-          displayName: 'AgentFoundry Team',
+        headers: {
+          'Content-Type': 'application/json',
+          // TODO: Add authentication header
         },
-        createdAt: new Date('2025-01-10'),
-        publishedAt: new Date('2025-01-10'),
-        _count: {
-          reviews: 89,
-          usage: 5432,
+        cache: 'no-store',
+      }
+    );
+
+    if (!response.ok) {
+      console.error('Failed to fetch skills:', response.statusText);
+      return {
+        skills: [],
+        pagination: {
+          total: 0,
+          page: 1,
+          limit: 20,
+          totalPages: 0,
         },
+      };
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching skills:', error);
+    return {
+      skills: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        limit: 20,
+        totalPages: 0,
       },
-      {
-        id: '2',
-        name: 'Code Security Audit',
-        slug: 'code-security-audit',
-        description: 'Automated security vulnerability detection',
-        status: 'PENDING',
-        pricingType: 'FREE',
-        downloads: 0,
-        rating: 0,
-        reviewCount: 0,
-        author: {
-          id: 'u2',
-          email: 'john@example.com',
-          displayName: 'John Doe',
-        },
-        createdAt: new Date('2025-01-13'),
-        publishedAt: null,
-        _count: {
-          reviews: 0,
-          usage: 0,
-        },
-      },
-      {
-        id: '3',
-        name: 'API Contract Guardian',
-        slug: 'api-contract-guardian',
-        description: 'Monitor and validate API contracts',
-        status: 'APPROVED',
-        pricingType: 'PAID',
-        downloads: 892,
-        rating: 4.6,
-        reviewCount: 45,
-        author: {
-          id: 'u1',
-          email: 'team@agentfoundry.dev',
-          displayName: 'AgentFoundry Team',
-        },
-        createdAt: new Date('2025-01-11'),
-        publishedAt: new Date('2025-01-11'),
-        _count: {
-          reviews: 45,
-          usage: 3214,
-        },
-      },
-    ],
-    pagination: {
-      total: 8,
-      page: 1,
-      limit: 20,
-      totalPages: 1,
-    },
-  };
+    };
+  }
 }
 
 export default async function SkillsPage() {

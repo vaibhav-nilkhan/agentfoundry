@@ -1,0 +1,12 @@
+{
+  "name": "@agentfoundry/multi-agent-orchestrator",
+  "version": "1.0.0",
+  "description": "Coordinate multiple sub-agents with conflict resolution and deadlock prevention",
+  "main": "dist/index.js",
+  "keywords": ["multi-agent", "orchestration", "coordination"],
+  "author": "AgentFoundry Team <team@agentfoundry.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}

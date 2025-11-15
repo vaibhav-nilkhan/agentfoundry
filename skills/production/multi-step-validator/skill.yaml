@@ -1,0 +1,136 @@
+schema_version: "1.0"
+name: multi-step-validator
+version: 1.0.0
+description: Pre-execution validation for multi-step workflows with dependency checking, permission verification, and risk assessment
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.ai
+  url: https://agentfoundry.ai
+
+categories:
+  - pre-execution-safety
+  - validation
+  - workflow
+tags:
+  - validation
+  - dependencies
+  - permissions
+  - risk-assessment
+
+pricing:
+  model: usage
+  tiers:
+    free:
+      limit: 40
+      period: month
+      price: 0
+    pro:
+      limit: unlimited
+      period: month
+      price: 39
+    enterprise:
+      limit: unlimited
+      period: month
+      price: 199
+
+platforms:
+  - mcp
+  - claude_skills
+  - openai_actions
+
+tools:
+  - name: validate_workflow
+    description: Check all preconditions before workflow execution
+    entry: src/tools/validate-workflow.ts
+    input_schema:
+      type: object
+      required:
+        - workflow_steps
+      properties:
+        workflow_steps:
+          type: array
+        validation_level:
+          type: string
+          enum: [basic, standard, comprehensive]
+          default: standard
+    output_schema:
+      type: object
+      properties:
+        is_valid:
+          type: boolean
+        issues:
+          type: array
+        warnings:
+          type: array
+
+  - name: check_dependencies
+    description: Verify all required tools and resources are available
+    entry: src/tools/check-dependencies.ts
+    input_schema:
+      type: object
+      required:
+        - required_tools
+      properties:
+        required_tools:
+          type: array
+    output_schema:
+      type: object
+      properties:
+        all_available:
+          type: boolean
+        missing:
+          type: array
+
+  - name: verify_permissions
+    description: Confirm access rights before execution
+    entry: src/tools/verify-permissions.ts
+    input_schema:
+      type: object
+      required:
+        - required_permissions
+      properties:
+        required_permissions:
+          type: array
+    output_schema:
+      type: object
+      properties:
+        granted:
+          type: array
+        denied:
+          type: array
+
+  - name: assess_risk
+    description: Predict failure probability and impact
+    entry: src/tools/assess-risk.ts
+    input_schema:
+      type: object
+      required:
+        - workflow
+      properties:
+        workflow:
+          type: object
+    output_schema:
+      type: object
+      properties:
+        risk_score:
+          type: number
+        failure_probability:
+          type: number
+        recommendations:
+          type: array
+
+dependencies:
+  runtime:
+    - zod: ^3.22.0
+
+documentation:
+  readme: README.md
+
+metrics:
+  tracked:
+    - validations_performed
+    - issues_detected
+    - workflows_prevented
+  reporting: true
+  retention_days: 90

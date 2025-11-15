@@ -1,62 +1,57 @@
 import { DollarSign, TrendingUp, AlertCircle } from 'lucide-react';
 
-async function getSubscriptions() {
-  // TODO: Replace with actual API call
-  return {
-    subscriptions: [
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4100';
+
+async function getSubscriptions(params: {
+  page?: number;
+  limit?: number;
+  tier?: string;
+  status?: string;
+} = {}) {
+  try {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.set('page', params.page.toString());
+    if (params.limit) queryParams.set('limit', params.limit.toString());
+    if (params.tier) queryParams.set('tier', params.tier);
+    if (params.status) queryParams.set('status', params.status);
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/subscriptions?${queryParams.toString()}`,
       {
-        id: '1',
-        tier: 'PRO',
-        status: 'ACTIVE',
-        usageCount: 1245,
-        monthlyLimit: null,
-        resetDate: new Date('2025-02-14'),
-        currentPeriodEnd: new Date('2025-02-14'),
-        user: {
-          id: 'u1',
-          email: 'jane@example.com',
-          displayName: 'Jane Smith',
+        headers: {
+          'Content-Type': 'application/json',
+          // TODO: Add authentication header
         },
-        createdAt: new Date('2024-12-14'),
-      },
-      {
-        id: '2',
-        tier: 'CREATOR',
-        status: 'ACTIVE',
-        usageCount: 789,
-        monthlyLimit: null,
-        resetDate: new Date('2025-02-10'),
-        currentPeriodEnd: new Date('2025-02-10'),
-        user: {
-          id: 'u2',
-          email: 'john@example.com',
-          displayName: 'John Doe',
+        cache: 'no-store',
+      }
+    );
+
+    if (!response.ok) {
+      console.error('Failed to fetch subscriptions:', response.statusText);
+      return {
+        subscriptions: [],
+        pagination: {
+          total: 0,
+          page: 1,
+          limit: 20,
+          totalPages: 0,
         },
-        createdAt: new Date('2025-01-10'),
+      };
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching subscriptions:', error);
+    return {
+      subscriptions: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        limit: 20,
+        totalPages: 0,
       },
-      {
-        id: '3',
-        tier: 'CREATOR',
-        status: 'PAST_DUE',
-        usageCount: 456,
-        monthlyLimit: null,
-        resetDate: new Date('2025-02-08'),
-        currentPeriodEnd: new Date('2025-02-08'),
-        user: {
-          id: 'u3',
-          email: 'bob@example.com',
-          displayName: 'Bob Johnson',
-        },
-        createdAt: new Date('2025-01-08'),
-      },
-    ],
-    pagination: {
-      total: 156,
-      page: 1,
-      limit: 20,
-      totalPages: 8,
-    },
-  };
+    };
+  }
 }
 
 export default async function SubscriptionsPage() {

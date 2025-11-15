@@ -16,12 +16,15 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.1"
+    "@paralleldrive/cuid2": "^3.0.4",
+    "@prisma/client": "^5.7.1",
+    "@types/pg": "^8.15.6",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
     "prisma": "^5.7.1",
-    "typescript": "^5.3.3",
-    "tsx": "^4.7.0"
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   }
 }

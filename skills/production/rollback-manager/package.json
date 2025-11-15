@@ -1,0 +1,12 @@
+{
+  "name": "@agentfoundry/rollback-manager",
+  "version": "1.0.0",
+  "description": "Transaction-like semantics for agent actions",
+  "main": "dist/index.js",
+  "keywords": ["rollback", "transactions", "undo"],
+  "author": "AgentFoundry Team <team@agentfoundry.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}

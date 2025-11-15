@@ -112,6 +112,9 @@ pnpm --filter @agentfoundry/api dev
 # Swagger API Docs (http://localhost:4100/api/docs)
 # Available once API is running
 
+# Admin Panel (http://localhost:3100/admin)
+# Platform management dashboard with user, skill, and subscription management
+
 # Validator (http://localhost:5100 by default, configurable via PORT env var)
 cd packages/validator && poetry run uvicorn app.main:app --reload
 
@@ -135,6 +138,7 @@ pnpm --filter @agentfoundry/db studio
 
 ### 🏗️ Architecture
 - **[Architecture Overview](./ARCHITECTURE.md)** - System architecture and design decisions
+- **[Admin Panel Guide](./docs/ADMIN_PANEL.md)** - Complete admin panel documentation with API reference
 - **[Port Configuration](./PORT_CONFIGURATION.md)** - Multi-project port management guide
 - **[Migration Guide](./MIGRATION.md)** - Express.js → NestJS migration notes
 
@@ -146,7 +150,16 @@ pnpm --filter @agentfoundry/db studio
 Next.js frontend with marketplace UI, Supabase authentication, and Skill discovery.
 
 ### [@agentfoundry/api](./packages/api)
-NestJS REST API with OpenAPI/Swagger docs, handling Skills, users, and authentication.
+NestJS REST API with OpenAPI/Swagger docs, handling Skills, users, authentication, and admin operations.
+
+**Admin Panel**: Comprehensive platform management at `/admin` with:
+- Dashboard with real-time metrics (users, revenue, subscriptions)
+- User management (roles, status, moderation)
+- Skill moderation (approve, reject, deprecate)
+- Subscription monitoring and management
+- Analytics with revenue and growth charts
+
+See [Admin Panel Documentation](./docs/ADMIN_PANEL.md) for complete API reference and usage guide.
 
 ### [@agentfoundry/validator](./packages/validator)
 Python microservice for static analysis, permission scanning, and security validation.
@@ -189,18 +202,25 @@ Shared TypeScript types, constants, and utilities used across packages.
 
 Key models:
 
-- **User**: Firebase-linked users with reputation scores
+- **User**: Supabase-linked users with roles (User/Admin/Moderator), status, and reputation scores
 - **Skill**: Core entity with versioning, validation status, and platform compatibility
 - **SkillVersion**: Version history tracking
 - **ValidationResult**: Automated validation results
 - **Review**: User reviews and ratings
 - **SkillUsage**: Telemetry and analytics
+- **Subscription**: User tiers (Free/Creator/Pro/Enterprise) with usage tracking
+- **ApiKey**: API key management for platform access
 
-## 🔐 Authentication
+## 🔐 Authentication & Authorization
 
-Firebase Authentication with Email + Google login (Spark plan - free tier).
+**Supabase Auth** with Email + Google login (open-source, self-hosted).
 
-Configuration in `packages/web/src/lib/firebase.ts` and `packages/api/src/utils/firebase-admin.ts`.
+**Role-Based Access Control (RBAC)**:
+- **User**: Standard marketplace access
+- **Moderator**: Can approve/reject skill submissions
+- **Admin**: Full platform management access
+
+Admin endpoints are protected by `ApiKeyGuard` + `AdminGuard`. See [Admin Panel Documentation](./docs/ADMIN_PANEL.md) for details.
 
 ## 🧪 Validation Pipeline
 

@@ -1,0 +1,12 @@
+{
+  "name": "@agentfoundry/performance-monitor",
+  "version": "1.0.0",
+  "description": "Track agent performance metrics",
+  "main": "dist/index.js",
+  "keywords": ["monitoring", "performance", "observability"],
+  "author": "AgentFoundry Team <team@agentfoundry.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}

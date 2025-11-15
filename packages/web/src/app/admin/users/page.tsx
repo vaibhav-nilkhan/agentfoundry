@@ -1,54 +1,59 @@
 import { Search, Filter, UserCheck, UserX, Shield } from 'lucide-react';
 
-// This would fetch from API
-async function getUsers() {
-  // TODO: Replace with actual API call
-  return {
-    users: [
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4100';
+
+async function getUsers(params: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  role?: string;
+  status?: string;
+} = {}) {
+  try {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.set('page', params.page.toString());
+    if (params.limit) queryParams.set('limit', params.limit.toString());
+    if (params.search) queryParams.set('search', params.search);
+    if (params.role) queryParams.set('role', params.role);
+    if (params.status) queryParams.set('status', params.status);
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/users?${queryParams.toString()}`,
       {
-        id: '1',
-        email: 'john@example.com',
-        displayName: 'John Doe',
-        role: 'USER',
-        status: 'ACTIVE',
-        verified: true,
-        reputation: 125,
-        createdAt: new Date('2025-01-10'),
-        subscription: { tier: 'CREATOR', status: 'ACTIVE' },
-        _count: { skills: 3, apiKeys: 2 },
+        headers: {
+          'Content-Type': 'application/json',
+          // TODO: Add authentication header
+        },
+        cache: 'no-store',
+      }
+    );
+
+    if (!response.ok) {
+      console.error('Failed to fetch users:', response.statusText);
+      return {
+        users: [],
+        pagination: {
+          total: 0,
+          page: 1,
+          limit: 20,
+          totalPages: 0,
+        },
+      };
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return {
+      users: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        limit: 20,
+        totalPages: 0,
       },
-      {
-        id: '2',
-        email: 'jane@example.com',
-        displayName: 'Jane Smith',
-        role: 'USER',
-        status: 'ACTIVE',
-        verified: true,
-        reputation: 89,
-        createdAt: new Date('2025-01-12'),
-        subscription: { tier: 'PRO', status: 'ACTIVE' },
-        _count: { skills: 5, apiKeys: 3 },
-      },
-      {
-        id: '3',
-        email: 'bob@example.com',
-        displayName: 'Bob Johnson',
-        role: 'USER',
-        status: 'ACTIVE',
-        verified: false,
-        reputation: 42,
-        createdAt: new Date('2025-01-13'),
-        subscription: { tier: 'FREE', status: 'ACTIVE' },
-        _count: { skills: 1, apiKeys: 1 },
-      },
-    ],
-    pagination: {
-      total: 3,
-      page: 1,
-      limit: 20,
-      totalPages: 1,
-    },
-  };
+    };
+  }
 }
 
 export default async function UsersPage() {
