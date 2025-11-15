@@ -1,0 +1,38 @@
+# Database Migration Dockerfile
+# This runs Prisma migrations and seeds the database on startup
+
+FROM node:20-alpine
+
+# Install pnpm
+RUN npm install -g pnpm@8.14.0
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY packages/db/package.json ./packages/db/
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile --filter @agentfoundry/db
+
+# Copy Prisma schema and migrations
+COPY packages/db/prisma ./packages/db/prisma
+
+# Generate Prisma Client
+WORKDIR /app/packages/db
+RUN pnpm prisma generate
+
+# Create entrypoint script
+RUN echo '#!/bin/sh' > /app/migrate.sh && \
+    echo 'set -e' >> /app/migrate.sh && \
+    echo 'echo "Running database migrations..."' >> /app/migrate.sh && \
+    echo 'cd /app/packages/db' >> /app/migrate.sh && \
+    echo 'npx prisma migrate deploy' >> /app/migrate.sh && \
+    echo 'echo "Migrations completed successfully!"' >> /app/migrate.sh && \
+    echo 'echo "Seeding database..."' >> /app/migrate.sh && \
+    echo 'npx tsx prisma/seed-direct.ts || echo "Seeding skipped (already seeded or failed)"' >> /app/migrate.sh && \
+    echo 'echo "Database setup complete!"' >> /app/migrate.sh && \
+    chmod +x /app/migrate.sh
+
+# Run migrations
+ENTRYPOINT ["/app/migrate.sh"]

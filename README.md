@@ -54,7 +54,43 @@ agentfoundry/
 
 ## 🏁 Getting Started
 
-### Prerequisites
+### 🐳 Quick Start with Docker (Recommended)
+
+The fastest way to get AgentFoundry running is with our **one-click Docker installation**:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/agentfoundry.git
+cd agentfoundry
+
+# Run the installation script
+./install.sh
+```
+
+That's it! The script will:
+- ✅ Check prerequisites (Docker & Docker Compose)
+- ✅ Configure environment
+- ✅ Build all services
+- ✅ Start the platform
+- ✅ Run database migrations and seeding
+
+**Access your platform:**
+- 🌐 **Web**: http://localhost:3100
+- 🔧 **API**: http://localhost:4100
+- 📚 **API Docs**: http://localhost:4100/api/docs
+- 🔬 **Validator**: http://localhost:5100
+
+**Requirements**: Docker 20.10+ and Docker Compose 2.0+
+
+**📖 Full Docker Guide**: See [DOCKER_SETUP.md](./DOCKER_SETUP.md) for troubleshooting, production deployment, and maintenance.
+
+---
+
+### 🛠️ Manual Installation (Development)
+
+If you prefer to run services individually for development:
+
+#### Prerequisites
 
 - Node.js 20+
 - pnpm 8+
@@ -62,7 +98,7 @@ agentfoundry/
 - PostgreSQL 15+
 - Redis
 
-### Installation
+#### Installation
 
 ```bash
 # Clone the repository
@@ -251,19 +287,47 @@ pnpm clean
 
 ## 🚢 Deployment
 
-### Frontend (Vercel)
+### Option 1: Docker (Recommended for Self-Hosting)
+
+Deploy to any VPS or cloud provider with Docker:
+
+```bash
+# Clone on your server
+git clone https://github.com/yourusername/agentfoundry.git
+cd agentfoundry
+
+# Configure production environment
+cp .env.example .env
+# Edit .env with production values (change passwords, secrets, Supabase credentials)
+
+# Run one-click installation
+./install.sh
+```
+
+**Production Checklist:**
+- [ ] Update all secrets in `.env` (JWT_SECRET, API_KEY, POSTGRES_PASSWORD)
+- [ ] Set `NODE_ENV=production`
+- [ ] Configure domain name and SSL (nginx reverse proxy)
+- [ ] Set up automated backups
+- [ ] Configure monitoring (Prometheus, Grafana)
+
+See [DOCKER_SETUP.md](./DOCKER_SETUP.md) for complete production deployment guide.
+
+### Option 2: Vercel + Railway (Serverless)
+
+#### Frontend (Vercel)
 ```bash
 cd packages/web
 vercel --prod
 ```
 
-### Backend (Railway)
+#### Backend (Railway)
 ```bash
 # API and Validator deployed as separate Railway services
 # Connect to GitHub and deploy from packages/api and packages/validator
 ```
 
-### Database (Railway PostgreSQL)
+#### Database (Railway PostgreSQL)
 ```bash
 # Provision PostgreSQL addon in Railway
 # Run migrations

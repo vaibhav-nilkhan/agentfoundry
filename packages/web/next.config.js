@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@agentfoundry/shared'],
+  output: 'standalone', // Enable standalone mode for Docker
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',

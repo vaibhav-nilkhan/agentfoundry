@@ -1,0 +1,41 @@
+# Python/FastAPI specific .dockerignore
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Poetry
+.poetry/
+poetry.lock.bak
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.test.py
+tests/
+
+# Development
+*.log
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Docs
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
