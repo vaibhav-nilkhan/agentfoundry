@@ -416,6 +416,110 @@ async function main() {
         reviewCount: 17,
         downloads: 341,
       },
+      // Tier 3 skills
+      {
+        name: 'Multi-Step Validator',
+        slug: 'multi-step-validator',
+        description: 'Pre-execution validation for multi-step workflows',
+        longDescription: 'Check all preconditions before workflow execution. Verify dependencies, permissions, and assess risk. Prevents mid-workflow failures from missing requirements.',
+        category: 'Pre-Execution Safety',
+        tags: ['validation', 'dependencies', 'permissions', 'risk-assessment'],
+        version: '1.0.0',
+        status: 'APPROVED',
+        platforms: ['CLAUDE_SKILLS', 'MCP', 'GPT_ACTIONS'],
+        pricingType: 'FREEMIUM',
+        permissions: [],
+        safetyScore: 0.97,
+        rating: 4.2,
+        reviewCount: 14,
+        downloads: 287,
+      },
+      // Tier 4 skills
+      {
+        name: 'Rollback Manager',
+        slug: 'rollback-manager',
+        description: 'Transaction-like semantics for agent actions with automatic rollback',
+        longDescription: 'Create checkpoints and rollback failed operations. Provides database-like transaction semantics for agent workflows with commit/rollback functionality.',
+        category: 'Error Recovery',
+        tags: ['rollback', 'transactions', 'undo', 'recovery'],
+        version: '1.0.0',
+        status: 'APPROVED',
+        platforms: ['CLAUDE_SKILLS', 'MCP', 'LANGCHAIN'],
+        pricingType: 'FREEMIUM',
+        permissions: ['storage'],
+        safetyScore: 0.95,
+        rating: 4.1,
+        reviewCount: 11,
+        downloads: 243,
+      },
+      {
+        name: 'Data Freshness Validator',
+        slug: 'data-freshness-validator',
+        description: 'Check if data is stale before using it',
+        longDescription: 'Validate data recency and prevent using outdated information. Configurable freshness thresholds and automatic cache invalidation.',
+        category: 'Data Quality',
+        tags: ['data-freshness', 'staleness', 'validation'],
+        version: '1.0.0',
+        status: 'APPROVED',
+        platforms: ['CLAUDE_SKILLS', 'MCP', 'GPT_ACTIONS'],
+        pricingType: 'FREEMIUM',
+        permissions: [],
+        safetyScore: 0.96,
+        rating: 4.0,
+        reviewCount: 9,
+        downloads: 198,
+      },
+      {
+        name: 'Workflow State Manager',
+        slug: 'workflow-state-manager',
+        description: 'Track and persist workflow state for resumable processes',
+        longDescription: 'Save and restore workflow state for long-running processes. Enable pause/resume functionality and track progress across sessions.',
+        category: 'State Management',
+        tags: ['state', 'workflow', 'persistence', 'resumable'],
+        version: '1.0.0',
+        status: 'APPROVED',
+        platforms: ['CLAUDE_SKILLS', 'MCP', 'LANGCHAIN'],
+        pricingType: 'FREEMIUM',
+        permissions: ['storage'],
+        safetyScore: 0.94,
+        rating: 4.1,
+        reviewCount: 12,
+        downloads: 234,
+      },
+      {
+        name: 'Conflict Resolver',
+        slug: 'conflict-resolver',
+        description: 'Resolve resource conflicts between concurrent agents',
+        longDescription: 'Detect and automatically resolve resource conflicts when multiple agents compete for the same resources. Multiple resolution strategies available.',
+        category: 'Multi-Agent',
+        tags: ['conflicts', 'resolution', 'resources', 'concurrency'],
+        version: '1.0.0',
+        status: 'APPROVED',
+        platforms: ['CLAUDE_SKILLS', 'MCP', 'LANGCHAIN'],
+        pricingType: 'FREEMIUM',
+        permissions: [],
+        safetyScore: 0.93,
+        rating: 3.9,
+        reviewCount: 8,
+        downloads: 176,
+      },
+      {
+        name: 'Performance Monitor',
+        slug: 'performance-monitor',
+        description: 'Track agent performance metrics including latency and success rate',
+        longDescription: 'Comprehensive performance monitoring with metrics tracking, dashboards, and alerts. Monitor latency, success rate, cost, and token usage.',
+        category: 'Observability',
+        tags: ['monitoring', 'metrics', 'performance', 'observability'],
+        version: '1.0.0',
+        status: 'APPROVED',
+        platforms: ['CLAUDE_SKILLS', 'MCP', 'GPT_ACTIONS'],
+        pricingType: 'FREEMIUM',
+        permissions: ['storage'],
+        safetyScore: 0.98,
+        rating: 4.0,
+        reviewCount: 10,
+        downloads: 215,
+      },
     ];
 
     // Insert all skills
@@ -504,7 +608,10 @@ async function main() {
     console.log('🎉 Seeding completed! Created:');
     console.log('  - 3 users (team, demo, admin)');
     console.log('  - 2 subscriptions');
-    console.log('  - 17 production skills (12 Phase 1 + 5 Phase 2)');
+    console.log('  - 23 production skills (Complete TOP_15 + 8 additional)');
+    console.log('    • Phase 1: 12 skills');
+    console.log('    • Phase 2 (Tier 2): 5 skills');
+    console.log('    • Phase 3 (Tier 3-4): 6 skills');
     console.log('  - 3 reviews');
   } catch (error) {
     console.error('❌ Seeding failed:', error);

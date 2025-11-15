@@ -1,0 +1,12 @@
+{
+  "name": "@agentfoundry/multi-step-validator",
+  "version": "1.0.0",
+  "description": "Pre-execution validation for multi-step workflows",
+  "main": "dist/index.js",
+  "keywords": ["validation", "pre-execution", "workflow-safety"],
+  "author": "AgentFoundry Team <team@agentfoundry.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}

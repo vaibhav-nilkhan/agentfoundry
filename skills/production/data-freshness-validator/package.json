@@ -1,0 +1,12 @@
+{
+  "name": "@agentfoundry/data-freshness-validator",
+  "version": "1.0.0",
+  "description": "Check if data is stale before using it",
+  "main": "dist/index.js",
+  "keywords": ["data-freshness", "validation", "staleness"],
+  "author": "AgentFoundry Team <team@agentfoundry.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}
