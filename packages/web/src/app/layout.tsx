@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { CommandPaletteProvider } from '@/components/CommandPaletteProvider';
 
 export const metadata: Metadata = {
   title: 'AgentFoundry - Infrastructure Skills for AI Agents',
@@ -23,7 +24,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <CommandPaletteProvider>
+            {children}
+          </CommandPaletteProvider>
         </ThemeProvider>
       </body>
     </html>
