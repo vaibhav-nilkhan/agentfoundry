@@ -200,10 +200,19 @@ async function myAgentWorkflow() {
 
             {/* Top Infrastructure Skills - Tier 2 High-Value */}
             <div className="mb-12">
-              <h3 className="text-xl font-semibold mb-6">🔥 Tier 2 High-Value Skills</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Research-validated solutions to the most critical pain points ($13M ARR potential)
-              </p>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-xl font-semibold">🔥 Tier 2 High-Value Skills</h3>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Research-validated solutions to the most critical pain points ($13M ARR potential)
+                  </p>
+                </div>
+                <Button variant="outline" asChild>
+                  <Link href="/showcase">
+                    View Interactive Showcase →
+                  </Link>
+                </Button>
+              </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Cost Predictor & Optimizer */}
                 <Link href="/skills/cost-predictor-optimizer">
