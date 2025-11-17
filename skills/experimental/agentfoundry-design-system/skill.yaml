@@ -62,3 +62,16 @@ metadata:
     - professional-ui
     - anti-slop
     - claude-skill
+
+# Marketplace Tier
+tier: experimental
+tier_metadata:
+  status: weak
+  confidence: low
+  validation_date: "2025-11-17"
+  badge: "⚠️ Experimental - Use at Own Risk"
+  marketplace_featured: false
+  experimental_reason: "Emerging area with no active developer complaints"
+  evidence: "AI + design systems convergence (Figma blog, MCP, Vercel v0) but no GitHub Issues requesting this"
+  recommendation: "Watch this space, but not ready for production use"
+  warning: "No validated demand - use only for exploration"

@@ -107,3 +107,19 @@ metrics:
     - transactions_committed
   reporting: true
   retention_days: 90
+
+# Marketplace Tier
+tier: experimental
+tier_metadata:
+  status: weak
+  confidence: low
+  validation_date: "2025-11-17"
+  badge: "⚠️ Experimental - Use at Own Risk"
+  marketplace_featured: false
+  experimental_reason: "Evidence is about infrastructure transactions, not agent-specific rollback"
+  evidence_issues:
+    - "kubernetes #23211 (deployment rollback, not agent)"
+    - "drizzle-orm #1723 (database transactions, not agent)"
+    - "symfony #57709 (database transactions, not agent)"
+  recommendation: "Not validated for agent-specific use cases"
+  warning: "Most evidence is infrastructure, not agents"

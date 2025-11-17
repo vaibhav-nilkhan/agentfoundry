@@ -316,3 +316,19 @@ validation:
     - basic_execution
     - error_handling
     - platform_support
+
+# Marketplace Tier
+tier: experimental
+tier_metadata:
+  status: weak
+  confidence: low
+  validation_date: "2025-11-17"
+  badge: "⚠️ Experimental - Use at Own Risk"
+  marketplace_featured: false
+  experimental_reason: "Research suggests limited efficacy - questionable value proposition"
+  research: "Nature Scientific Reports (2024): Most viral events do NOT significantly increase engagement"
+  existing_tools:
+    - Reelmind.ai
+    - Viral content calculators
+  recommendation: "Research suggests focusing on virality may be inefficient"
+  warning: "Efficacy is questionable per scientific research"

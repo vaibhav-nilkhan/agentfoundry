@@ -134,3 +134,20 @@ metrics:
     - workflows_prevented
   reporting: true
   retention_days: 90
+
+# Marketplace Tier
+tier: experimental
+tier_metadata:
+  status: weak
+  confidence: low
+  validation_date: "2025-11-17"
+  badge: "⚠️ Experimental - Use at Own Risk"
+  marketplace_featured: false
+  experimental_reason: "Major frameworks already solve this with built-in validation"
+  frameworks_solving:
+    - LangGraph
+    - AWS Bedrock
+    - OpenAI AgentKit
+    - LlamaIndex Workflows
+  recommendation: "Use framework-native solutions instead"
+  warning: "Hard to differentiate when frameworks ship this"
