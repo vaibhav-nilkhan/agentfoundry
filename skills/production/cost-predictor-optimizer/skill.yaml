@@ -237,6 +237,39 @@ documentation:
     - examples/budget-enforcement.md
     - examples/cheaper-alternatives.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 5
+  github_issues:
+    - repo: simonw/llm
+      issue: 1039
+      title: "Token Cost Tracking"
+      status: open
+      date: "May 2025"
+    - repo: OpenInterpreter/open-interpreter
+      issue: 596
+      title: "High LLM Costs - $50 USD in a few hours"
+      status: open
+      date: "2025"
+    - repo: OpenInterpreter/open-interpreter
+      issue: 409
+      title: "Budget Manager for LLM"
+      status: open
+      date: "2025"
+    - repo: openai/openai-agents-python
+      issue: 1831
+      title: "Add cost tracking for LiteLLM models"
+      status: open
+      date: "Sep 2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Critical for production - prevents billing surprises"
+  pain_point: "Developers exceeding budgets without realizing ($50+ in hours)"
+
 metrics:
   tracked:
     - cost_predictions

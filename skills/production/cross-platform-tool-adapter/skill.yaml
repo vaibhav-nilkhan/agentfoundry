@@ -73,6 +73,53 @@ validation:
   behavior_test: true
   cross_platform_test: true
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 8
+  github_issues:
+    - repo: langchain-ai/langchain
+      issue: 33855
+      title: "tool_choice incompatible with Bedrock"
+      status: open
+      date: "2025"
+    - repo: langchain-ai/langchain
+      issue: 28848
+      title: "bind_tools not callable after with_structured_output"
+      status: open
+      date: "2025"
+    - repo: langchain-ai/langchain
+      issue: 29410
+      title: "ChatOllama structured output not honoured"
+      status: open
+      date: "2025"
+    - repo: langchain-ai/langchain
+      issue: 29282
+      title: "DeepSeek V3 no structured output support"
+      status: open
+      date: "2025"
+    - repo: langchain-ai/langchain
+      issue: 33965
+      title: "ToolMessage content arrays not supported"
+      status: open
+      date: "2025"
+    - repo: langchain-ai/langchain
+      issue: 32492
+      title: "GPT-5 verbosity + structured output conflict"
+      status: open
+      date: "2025"
+    - repo: run-llama/llama_index
+      issue: 19212
+      title: "Anthropic tool calling parameters missing"
+      status: open
+      date: "2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Highest priority - solves fundamental cross-platform compatibility"
+
 # Support
 support:
   documentation: README.md
