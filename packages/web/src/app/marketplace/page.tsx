@@ -11,7 +11,8 @@ import { skills, categories } from '@/data/skills';
 export default function MarketplacePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState<'popular' | 'recent' | 'rating'>('popular');
+  const [selectedTier, setSelectedTier] = useState<'all' | 'production' | 'beta' | 'experimental'>('all');
+  const [sortBy, setSortBy] = useState<'popular' | 'recent' | 'rating' | 'tier'>('tier');
 
   // Filter and sort skills
   const filteredSkills = useMemo(() => {
@@ -20,6 +21,11 @@ export default function MarketplacePage() {
     // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(skill => skill.category === selectedCategory);
+    }
+
+    // Filter by tier
+    if (selectedTier !== 'all') {
+      filtered = filtered.filter(skill => skill.tier === selectedTier);
     }
 
     // Filter by search query
@@ -38,10 +44,14 @@ export default function MarketplacePage() {
       sorted.sort((a, b) => b.downloads - a.downloads);
     } else if (sortBy === 'rating') {
       sorted.sort((a, b) => b.rating - a.rating);
+    } else if (sortBy === 'tier') {
+      // Sort by tier: production first, then beta, then experimental
+      const tierOrder = { production: 0, beta: 1, experimental: 2 };
+      sorted.sort((a, b) => tierOrder[a.tier] - tierOrder[b.tier]);
     }
 
     return sorted;
-  }, [searchQuery, selectedCategory, sortBy]);
+  }, [searchQuery, selectedCategory, selectedTier, sortBy]);
 
   const getIconSVG = (iconName: string) => {
     const icons: Record<string, string> = {
@@ -156,11 +166,40 @@ export default function MarketplacePage() {
                     </div>
                   </div>
 
+                  {/* Tier Filter */}
+                  <div>
+                    <h3 className="font-semibold mb-3">Quality Tier</h3>
+                    <div className="space-y-2">
+                      {[
+                        { id: 'all', name: 'All Tiers', badge: '🎯' },
+                        { id: 'production', name: 'Production', badge: '✅' },
+                        { id: 'beta', name: 'Beta', badge: '🧪' },
+                        { id: 'experimental', name: 'Experimental', badge: '⚠️' }
+                      ].map(tier => (
+                        <button
+                          key={tier.id}
+                          onClick={() => setSelectedTier(tier.id as any)}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                            selectedTier === tier.id
+                              ? 'bg-primary text-primary-foreground'
+                              : 'hover:bg-secondary'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span>{tier.badge}</span>
+                            <span>{tier.name}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
                   {/* Sort */}
                   <div>
                     <h3 className="font-semibold mb-3">Sort By</h3>
                     <div className="space-y-2">
                       {[
+                        { value: 'tier', label: 'Quality Tier' },
                         { value: 'popular', label: 'Most Popular' },
                         { value: 'rating', label: 'Highest Rated' },
                         { value: 'recent', label: 'Recently Added' }
@@ -199,7 +238,7 @@ export default function MarketplacePage() {
                       <p className="text-lg font-medium mb-2">No skills found</p>
                       <p className="text-sm">Try adjusting your search or filters</p>
                     </div>
-                    <Button variant="outline" onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}>
+                    <Button variant="outline" onClick={() => { setSearchQuery(''); setSelectedCategory('all'); setSelectedTier('all'); }}>
                       Clear Filters
                     </Button>
                   </Card>
@@ -216,7 +255,18 @@ export default function MarketplacePage() {
                                 </svg>
                               </div>
                               <div className="flex-1 min-w-0">
-                                <CardTitle className="text-lg mb-1">{skill.name}</CardTitle>
+                                <div className="flex items-center gap-2 mb-1">
+                                  <CardTitle className="text-lg">{skill.name}</CardTitle>
+                                  <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+                                    skill.tier === 'production'
+                                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                      : skill.tier === 'beta'
+                                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                                      : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                                  }`}>
+                                    {skill.tierBadge}
+                                  </span>
+                                </div>
                                 <CardDescription className="text-sm">
                                   {skill.tagline}
                                 </CardDescription>

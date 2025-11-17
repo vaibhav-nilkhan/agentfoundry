@@ -42,6 +42,7 @@ export class SkillsController {
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'category', required: false, type: String })
   @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'tier', required: false, enum: ['production', 'beta', 'experimental'], description: 'Filter by quality tier' })
   async findAll(@Query() query: SkillQueryDto) {
     return this.skillsService.findAll(query);
   }

@@ -65,7 +65,18 @@ export default async function SkillDetailPage({ params }: SkillDetailPageProps) 
                 </svg>
               </div>
               <div className="flex-1">
-                <h1 className="mb-4">{skill.name}</h1>
+                <div className="flex items-center gap-3 mb-4">
+                  <h1>{skill.name}</h1>
+                  <span className={`px-3 py-1 rounded text-sm font-medium whitespace-nowrap ${
+                    skill.tier === 'production'
+                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                      : skill.tier === 'beta'
+                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                      : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                  }`}>
+                    {skill.tierBadge}
+                  </span>
+                </div>
                 <p className="text-xl text-muted-foreground mb-6">
                   {skill.description}
                 </p>
