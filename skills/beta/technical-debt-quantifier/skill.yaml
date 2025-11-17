@@ -293,3 +293,19 @@ validation:
     - basic_execution
     - error_handling
     - timeout_handling
+
+# Marketplace Tier
+tier: beta
+tier_metadata:
+  status: partial
+  confidence: medium
+  validation_date: "2025-11-17"
+  badge: "🧪 Beta - Community Validation Needed"
+  marketplace_featured: false
+  market_note: "Mature market - GitHub Code Quality launched Oct 28, 2025"
+  competitors:
+    - SonarQube (industry standard, 27+ languages)
+    - CodeScene (CodeHealth metric)
+    - Zenhub ($8.33/user/month)
+    - GitHub Code Quality (Oct 2025 public preview)
+  recommendation: "Established players dominate - evaluate against SonarQube first"

@@ -109,3 +109,18 @@ metrics:
     - workflows_resumed
   reporting: true
   retention_days: 90
+
+# Marketplace Tier
+tier: beta
+tier_metadata:
+  status: partial
+  confidence: medium
+  validation_date: "2025-11-17"
+  badge: "🧪 Beta - Community Validation Needed"
+  marketplace_featured: false
+  market_note: "Major frameworks ship state management natively - hard to differentiate"
+  frameworks_providing:
+    - LangGraph (MemorySaver, SQLite, Snowflake checkpointers)
+    - Amazon Bedrock Session Management APIs (Preview 2025)
+    - Microsoft Agent Framework (checkpointing tutorials)
+  recommendation: "Frameworks provide this out of box - only install if you need custom state management"
