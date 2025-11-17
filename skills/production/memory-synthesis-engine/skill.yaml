@@ -160,6 +160,44 @@ permissions:
 documentation:
   readme: README.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 5
+  github_issues:
+    - repo: openai/openai-agents-python
+      issue: 887
+      title: "Support for short-term and long-term memory in Agents SDK"
+      status: open
+      date: "June 2025"
+    - repo: strands-agents/sdk-python
+      issue: 486
+      title: "Amazon Bedrock AgentCore Memory Integration"
+      status: open
+      date: "July 2025"
+    - repo: crewAIInc/crewAI
+      issue: 1222
+      title: "Long-Term Memory Not Storing Data in Crew AI Agent"
+      status: open
+      date: "2025"
+    - repo: a2aproject/A2A
+      issue: 893
+      title: "Best Practices for Agent Memory Across Tasks"
+      status: open
+      date: "July 2025"
+    - repo: kortix-ai/suna
+      issue: 288
+      title: "Agent Memory & Context Window Management"
+      status: open
+      date: "2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Essential for long-running agents - frameworks don't ship this out of box"
+  pain_point: "Agents lose context across sessions, no native memory persistence"
+
 metrics:
   tracked:
     - memories_stored

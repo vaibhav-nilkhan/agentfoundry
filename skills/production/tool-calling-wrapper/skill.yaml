@@ -387,6 +387,34 @@ documentation:
     - examples/retry-with-backoff.md
     - examples/cross-framework-conversion.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 4
+  github_issues:
+    - repo: langflow-ai/langflow
+      issue: 8488
+      title: "Multiple tool calls not handled - when multiple tool calls made, no tool is called"
+      status: open
+      date: "June 2025"
+    - repo: langchain-ai/langchain-google
+      issue: 711
+      title: "Tool calling broken for Gemini - Name cannot be empty errors"
+      status: open
+      date: "Jan 2025"
+    - repo: langchain-ai/langchainjs
+      issue: 9021
+      title: "createAgent overriding options - tool_choice settings ignored"
+      status: open
+      date: "Sep 2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Essential for robust tool calling - automatic error handling and retry"
+  pain_point: "Framework tool calling bugs persist despite documentation"
+
 metrics:
   tracked:
     - validation_success_rate

@@ -405,6 +405,34 @@ documentation:
     - examples/rollback-scenario.md
     - examples/health-monitoring.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 6
+  github_issues:
+    - repo: google/adk-python
+      issue: 2561
+      title: "ADK retry mechanism doesn't handle httpx.RemoteProtocolError - entire request chain hangs"
+      status: open
+      date: "Aug 2025"
+    - repo: elastic/elastic-agent
+      issue: 7611
+      title: "Agent unable to retry upgrade with correct binary after failing once"
+      status: open
+      date: "Mar 2025"
+    - repo: PrefectHQ/prefect
+      issue: 9323
+      title: "Internal server error & Lack of retries on Agents when server failing"
+      status: open
+      date: "2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Critical for production - automatic retry and fallback for workflow failures"
+  pain_point: "Agents don't retry properly, request chains hang on network errors"
+
 metrics:
   tracked:
     - recovery_success_rate

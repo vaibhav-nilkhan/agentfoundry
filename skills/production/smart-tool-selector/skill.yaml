@@ -228,6 +228,29 @@ documentation:
     - examples/capability-matching.md
     - examples/cost-optimization.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 2
+  github_issues:
+    - repo: github/github-mcp-server
+      issue: 275
+      title: "Feedback for dynamic tool selection - LLMs confused by too many tools upfront"
+      status: open
+      date: "Apr 2025"
+    - repo: databrickslabs/kasal
+      issue: 8
+      title: "Automatic tool and MCP selection for agent generation"
+      status: open
+      date: "June 2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Emerging problem - dynamically select optimal tools to avoid LLM confusion"
+  pain_point: "LLMs overwhelmed when presented with too many tools at once"
+
 metrics:
   tracked:
     - tools_filtered

@@ -165,6 +165,28 @@ permissions:
 documentation:
   readme: README.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  evidence_type: "frameworks_and_research"
+  frameworks_addressing:
+    - name: "AWS Agent Squad"
+      description: "Flexible framework for managing multiple AI agents"
+    - name: "WFGY (onestardao)"
+      description: "Tracks inter-agent changes, reconciles conflicts, real-time collision warnings"
+    - name: "Claude Code Agent Farm"
+      description: "Distributed coordination protocol with advanced lock-based system"
+  research:
+    - paper: "Multi-agent coordination (NAACL 2025)"
+      repo: "eric-ai-lab/llm_coordination"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Essential for coordinating 5+ agents - prevent deadlocks and conflicts"
+  pain_point: "Multiple frameworks exist proving demand, but no clear winner yet"
+
 metrics:
   tracked:
     - agents_coordinated
