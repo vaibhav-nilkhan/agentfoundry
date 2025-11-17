@@ -1,3 +1,5 @@
+export type SkillTier = 'production' | 'beta' | 'experimental';
+
 export interface Skill {
   id: string;
   name: string;
@@ -10,6 +12,8 @@ export interface Skill {
   author: string;
   downloads: number;
   rating: number;
+  tier: SkillTier;
+  tierBadge: string;
   pricing: {
     model: 'free' | 'freemium' | 'paid';
     tiers: {
@@ -41,6 +45,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 1247,
     rating: 4.9,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -68,6 +74,41 @@ export const skills: Skill[] = [
     documentation: 'https://docs.agentfoundry.dev/skills/error-recovery-orchestrator'
   },
   {
+    id: 'cross-platform-tool-adapter',
+    name: 'Cross-Platform Tool Adapter',
+    slug: 'cross-platform-tool-adapter',
+    tagline: 'Auto-translate tool definitions across providers',
+    description: 'Write tool definitions once, run anywhere. Auto-translate across OpenAI, Anthropic, Bedrock, Cohere, and Ollama with parameter mapping and legacy migration support.',
+    category: 'infrastructure',
+    icon: 'wrench',
+    version: '1.0.0',
+    author: 'AgentFoundry',
+    downloads: 0,
+    rating: 5.0,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
+    pricing: {
+      model: 'free',
+      tiers: [
+        {
+          name: 'Free',
+          price: 0,
+          features: ['Platform auto-detection', 'Tool schema translation', 'Parameter mapping', 'Legacy migration', 'Validation & fallback']
+        }
+      ]
+    },
+    tools: [
+      { name: 'detect_platform', description: 'Auto-detect target LLM provider' },
+      { name: 'translate_schema', description: 'Translate tool schema across providers' },
+      { name: 'map_parameters', description: 'Map tool_choice, tools array, response_format' },
+      { name: 'validate_schema', description: 'Pre-flight schema validation' }
+    ],
+    tags: ['tool-calling', 'cross-platform', 'compatibility', 'infrastructure'],
+    platforms: ['web', 'desktop', 'api'],
+    repository: 'https://github.com/agentfoundry/skills/cross-platform-tool-adapter',
+    documentation: 'https://docs.agentfoundry.dev/skills/cross-platform-tool-adapter'
+  },
+  {
     id: 'api-contract-guardian',
     name: 'API Contract Guardian',
     slug: 'api-contract-guardian',
@@ -79,6 +120,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 892,
     rating: 4.8,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -122,6 +165,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 2341,
     rating: 4.9,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -165,6 +210,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 1523,
     rating: 4.7,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -202,6 +249,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 687,
     rating: 4.8,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -245,6 +294,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 1134,
     rating: 4.6,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -288,6 +339,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 2089,
     rating: 4.7,
+    tier: 'experimental' as SkillTier,
+    tierBadge: '⚠️ Experimental',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -331,6 +384,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 0,
     rating: 5.0,
+    tier: 'experimental' as SkillTier,
+    tierBadge: '⚠️ Experimental',
     pricing: {
       model: 'free',
       tiers: [
@@ -359,6 +414,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 0,
     rating: 5.0,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -402,6 +459,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 0,
     rating: 5.0,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -445,6 +504,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 0,
     rating: 5.0,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -488,6 +549,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 1523,
     rating: 4.9,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -531,6 +594,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 892,
     rating: 4.7,
+    tier: 'experimental' as SkillTier,
+    tierBadge: '⚠️ Experimental',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -574,6 +639,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 465,
     rating: 4.6,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -617,6 +684,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 723,
     rating: 4.8,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -660,6 +729,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 298,
     rating: 4.7,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -703,6 +774,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 412,
     rating: 4.8,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -746,6 +819,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 587,
     rating: 4.9,
+    tier: 'production' as SkillTier,
+    tierBadge: '✅ Validated',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -789,6 +864,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 234,
     rating: 4.6,
+    tier: 'experimental' as SkillTier,
+    tierBadge: '⚠️ Experimental',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -832,6 +909,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 189,
     rating: 4.5,
+    tier: 'experimental' as SkillTier,
+    tierBadge: '⚠️ Experimental',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -875,6 +954,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 156,
     rating: 4.4,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -918,6 +999,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 201,
     rating: 4.5,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -961,6 +1044,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 167,
     rating: 4.6,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [
@@ -1004,6 +1089,8 @@ export const skills: Skill[] = [
     author: 'AgentFoundry',
     downloads: 345,
     rating: 4.7,
+    tier: 'beta' as SkillTier,
+    tierBadge: '🧪 Beta',
     pricing: {
       model: 'freemium',
       tiers: [

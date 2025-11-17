@@ -1,0 +1,311 @@
+schema_version: "1.0"
+
+name: technical-debt-quantifier
+version: 1.0.0
+description: Quantify technical debt in dollar values with ROI-based refactoring prioritization and cost analysis
+
+author:
+  name: AgentFoundry Team
+  email: team@agentfoundry.dev
+  github: agentfoundry
+
+license: MIT
+
+repository:
+  type: git
+  url: https://github.com/agentfoundry/skills/technical-debt-quantifier
+
+homepage: https://agentfoundry.dev/skills/technical-debt-quantifier
+
+platforms:
+  - mcp
+  - claude-skills
+  - openai-agents
+
+permissions:
+  - network
+  - filesystem:read
+
+categories:
+  - developer-tools
+  - code-analysis
+  - productivity
+
+tags:
+  - technical-debt
+  - refactoring
+  - code-quality
+  - roi-analysis
+  - cost-estimation
+
+tools:
+  - name: analyze_codebase
+    description: Scan entire codebase and quantify technical debt with dollar cost estimates
+    entry: src/tools/analyze-codebase.ts
+    input_schema:
+      type: object
+      properties:
+        repo_url:
+          type: string
+          description: Git repository URL
+        branch:
+          type: string
+          description: Branch to analyze
+          default: main
+        config:
+          type: object
+          properties:
+            avg_hourly_rate:
+              type: number
+              description: Average developer hourly rate in USD
+              default: 100
+            team_size:
+              type: integer
+              description: Number of developers on team
+              default: 5
+            include_test_files:
+              type: boolean
+              description: Include test files in analysis
+              default: false
+      required:
+        - repo_url
+    output_schema:
+      type: object
+      properties:
+        total_debt_cost_annual:
+          type: number
+          description: Total annual cost in USD
+        total_files_analyzed:
+          type: integer
+        debt_categories:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+                enum: [complexity, duplication, security, performance, architecture]
+              annual_cost:
+                type: number
+              percentage:
+                type: number
+        top_problem_files:
+          type: array
+          description: Top 10 most expensive files
+          items:
+            type: object
+            properties:
+              file_path:
+                type: string
+              annual_cost:
+                type: number
+              complexity_score:
+                type: number
+              issues:
+                type: array
+              recommendation:
+                type: string
+
+  - name: prioritize_refactoring
+    description: Prioritize technical debt items by ROI to maximize value from limited refactoring budget
+    entry: src/tools/prioritize-refactoring.ts
+    input_schema:
+      type: object
+      properties:
+        repo_url:
+          type: string
+          description: Git repository URL
+        refactoring_budget_hours:
+          type: number
+          description: Available refactoring hours this quarter
+        focus_area:
+          type: string
+          enum: [all, security, performance, maintainability]
+          default: all
+      required:
+        - repo_url
+        - refactoring_budget_hours
+    output_schema:
+      type: object
+      properties:
+        recommended_tasks:
+          type: array
+          description: Prioritized refactoring tasks that fit budget
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              estimated_hours:
+                type: number
+              annual_savings:
+                type: number
+              roi:
+                type: number
+                description: Return on investment multiplier
+              payback_period_months:
+                type: number
+              priority:
+                type: string
+                enum: [critical, high, medium, low]
+              files_affected:
+                type: array
+        total_potential_savings:
+          type: number
+          description: Total annual savings from recommended tasks
+        budget_utilization:
+          type: number
+          description: Percentage of budget used (0-100)
+
+  - name: estimate_refactoring_cost
+    description: Estimate time and cost to fix specific technical debt in given files
+    entry: src/tools/estimate-refactoring-cost.ts
+    input_schema:
+      type: object
+      properties:
+        repo_url:
+          type: string
+          description: Git repository URL
+        file_paths:
+          type: array
+          items:
+            type: string
+          description: Files to analyze for refactoring
+        refactoring_type:
+          type: string
+          enum: [simplify, extract, rename, redesign, rewrite]
+          description: Type of refactoring planned
+      required:
+        - repo_url
+        - file_paths
+        - refactoring_type
+    output_schema:
+      type: object
+      properties:
+        estimated_hours:
+          type: number
+        estimated_cost:
+          type: number
+        risk_level:
+          type: string
+          enum: [low, medium, high]
+        breaking_changes:
+          type: boolean
+        test_coverage_required:
+          type: number
+          description: Percentage of code that needs tests
+        dependencies_affected:
+          type: array
+
+  - name: track_debt_trends
+    description: Track how technical debt changes over time to measure improvement or degradation
+    entry: src/tools/track-debt-trends.ts
+    input_schema:
+      type: object
+      properties:
+        repo_url:
+          type: string
+          description: Git repository URL
+        time_range:
+          type: string
+          enum: [last_week, last_month, last_quarter, last_year]
+          default: last_quarter
+        metric:
+          type: string
+          enum: [total_cost, complexity, duplication, test_coverage]
+          default: total_cost
+      required:
+        - repo_url
+    output_schema:
+      type: object
+      properties:
+        current_value:
+          type: number
+        change_percentage:
+          type: number
+          description: Percentage change (positive = worse, negative = better)
+        trend:
+          type: string
+          enum: [improving, stable, degrading]
+        data_points:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+              value:
+                type: number
+        recommendations:
+          type: array
+
+dependencies:
+  npm:
+    - "simple-git@^3.21.0"
+    - "@typescript-eslint/parser@^6.17.0"
+    - "eslint@^8.56.0"
+    - "complexity-report@^2.0.0"
+    - "jscpd@^3.5.10"
+    - "axios@^1.6.0"
+    - "zod@^3.22.4"
+  env:
+    - name: GITHUB_TOKEN
+      required: false
+      description: GitHub token for private repositories (optional)
+
+config:
+  timeout_ms: 60000
+  max_files_analyzed: 1000
+  supported_languages:
+    - typescript
+    - javascript
+    - python
+    - java
+    - go
+    - rust
+
+pricing:
+  type: freemium
+  tiers:
+    - name: free
+      price: 0
+      limits:
+        analyses_per_month: 10
+        repositories: 1
+    - name: pro
+      price: 49
+      limits:
+        analyses_per_month: unlimited
+        repositories: 10
+    - name: enterprise
+      price: 299
+      limits:
+        analyses_per_month: unlimited
+        repositories: unlimited
+
+validation:
+  static_checks:
+    - manifest_schema
+    - required_files
+    - typescript_compile
+    - linting
+  sandbox_tests:
+    - basic_execution
+    - error_handling
+    - timeout_handling
+
+# Marketplace Tier
+tier: beta
+tier_metadata:
+  status: partial
+  confidence: medium
+  validation_date: "2025-11-17"
+  badge: "🧪 Beta - Community Validation Needed"
+  marketplace_featured: false
+  market_note: "Mature market - GitHub Code Quality launched Oct 28, 2025"
+  competitors:
+    - SonarQube (industry standard, 27+ languages)
+    - CodeScene (CodeHealth metric)
+    - Zenhub ($8.33/user/month)
+    - GitHub Code Quality (Oct 2025 public preview)
+  recommendation: "Established players dominate - evaluate against SonarQube first"

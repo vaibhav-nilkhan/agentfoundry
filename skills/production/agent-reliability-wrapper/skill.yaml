@@ -150,6 +150,34 @@ dependencies:
   zod: ^3.22.0
   uuid: ^9.0.0
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 3
+  github_issues:
+    - repo: pydantic/pydantic-ai
+      issue: 928
+      title: "Retry handling for 429 errors not working - @retry decorator doesn't trigger"
+      status: open
+      date: "Feb 2025"
+    - repo: openai/openai-agents-python
+      issue: 981
+      title: "Agent keeps retrying until max_retries even when tool calling succeeds"
+      status: open
+      date: "July 2025"
+    - repo: comet-ml/opik
+      issue: 3500
+      title: "Add retry mechanism with exponential backoff for transient failures"
+      status: open
+      date: "Oct 2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Critical for production reliability - enforce retry mechanisms with proper backoff"
+  pain_point: "Retry decorators fail, agents retry on success, transient failures not handled"
+
 pricing:
   free:
     description: Basic retry logic, up to 100 executions/month

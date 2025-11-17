@@ -150,4 +150,137 @@
   .shine-hover:hover::before {
     left: 100%;
   }
+
+  /* Enhanced Visual Hierarchy - World-Class Shadows */
+  .shadow-glow {
+    box-shadow:
+      0 0 20px rgba(0, 0, 0, 0.05),
+      0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .shadow-glow {
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.03),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .shadow-lifted {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .shadow-lifted {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Gradient Backgrounds - Enhanced */
+  .gradient-mesh {
+    background:
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+  }
+
+  .dark .gradient-mesh {
+    background:
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+  }
+
+  /* Accessibility - Focus Indicators */
+  .focus-ring-enhanced:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-4 ring-offset-background;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+
+  /* Skip to content link for screen readers */
+  .skip-to-content {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50;
+    @apply bg-primary text-primary-foreground px-4 py-2 rounded-lg;
+    @apply focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Improved animation curves */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  /* Enhanced card styles */
+  .card-interactive {
+    @apply transition-all duration-200 hover:shadow-lifted hover:-translate-y-1;
+    @apply cursor-pointer active:scale-[0.99];
+  }
+
+  /* Better text hierarchy */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--foreground) / 0.7) 100%
+    );
+  }
+
+  /* Accessibility - Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .border {
+      border-width: 2px;
+    }
+
+    button,
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  /* cmdk styling */
+  [cmdk-root] {
+    max-width: 640px;
+  }
+
+  [cmdk-overlay] {
+    @apply fixed inset-0 z-50 bg-background/80 backdrop-blur-sm;
+  }
+
+  [cmdk-dialog] {
+    @apply z-50;
+  }
 }

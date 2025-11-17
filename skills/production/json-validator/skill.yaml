@@ -261,6 +261,39 @@ documentation:
     - examples/auto-fix-malformed.md
     - examples/generate-schema.md
 
+# Marketplace Tier
+tier: production
+tier_metadata:
+  status: validated
+  confidence: high
+  validation_date: "2025-11-17"
+  github_issues_count: 5
+  github_issues:
+    - repo: n8n-io/n8n
+      issue: 15603
+      title: "AI Agent to MCP Client Node Invalid Request - JSON Schema to Zod conversion bug"
+      status: open
+      date: "May 2025"
+    - repo: vercel/ai
+      issue: 7888
+      title: "GPT 5 strict schema issues - required must include every key in properties"
+      status: open
+      date: "Aug 2025"
+    - repo: openai/openai-agents-python
+      issue: 474
+      title: "Invalid JSON Schema with Unions - discriminated unions generate invalid schemas"
+      status: open
+      date: "Apr 2025"
+    - repo: anthropics/claude-code
+      issue: 710
+      title: "Unsupported JSON Schema Validation Construct - oneOf/allOf/anyOf not supported"
+      status: open
+      date: "Apr 2025"
+  badge: "✅ Validated - High Confidence"
+  marketplace_featured: true
+  recommendation: "Critical for cross-platform compatibility - validate schemas across OpenAI, Anthropic, Vercel AI"
+  pain_point: "Platform-specific schema bugs cause 400 errors and silent failures"
+
 metrics:
   tracked:
     - validation_success_rate

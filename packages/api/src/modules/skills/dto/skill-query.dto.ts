@@ -3,6 +3,12 @@ import { IsOptional, IsString, IsNumber, IsEnum, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { SkillStatus } from '@agentfoundry/shared';
 
+export enum SkillTier {
+  PRODUCTION = 'production',
+  BETA = 'beta',
+  EXPERIMENTAL = 'experimental',
+}
+
 export class SkillQueryDto {
   @ApiProperty({ required: false, example: 1, description: 'Page number' })
   @IsOptional()
@@ -36,4 +42,14 @@ export class SkillQueryDto {
   @IsOptional()
   @IsEnum(SkillStatus)
   status?: SkillStatus;
+
+  @ApiProperty({
+    required: false,
+    enum: SkillTier,
+    description: 'Filter by quality tier (production, beta, experimental)',
+    example: 'production',
+  })
+  @IsOptional()
+  @IsEnum(SkillTier)
+  tier?: SkillTier;
 }
