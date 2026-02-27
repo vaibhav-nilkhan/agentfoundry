@@ -17,15 +17,11 @@ export class StripeService {
       console.warn(
         'STRIPE_SECRET_KEY not configured - Stripe functionality will be disabled',
       );
-      // Initialize with a dummy key for development
-      this.stripe = new Stripe(stripeSecretKey || 'sk_test_dummy', {
-        apiVersion: '2024-12-18.acacia',
-      });
-    } else {
-      this.stripe = new Stripe(stripeSecretKey, {
-        apiVersion: '2024-12-18.acacia',
-      });
     }
+
+    this.stripe = new Stripe(stripeSecretKey || 'sk_test_placeholder', {
+      apiVersion: '2024-12-18.acacia',
+    });
   }
 
   /**
