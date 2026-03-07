@@ -53,6 +53,11 @@ export class LogParserService {
                 case 'gemini':
                     usage = this.parseGeminiLogs(startedAt, endedAt);
                     break;
+                case 'amp':
+                    // Amp Code log format is not yet publicly documented.
+                    // TODO: Implement when Amp publishes their log spec.
+                    usage = null;
+                    break;
                 default:
                     usage = null;
             }
