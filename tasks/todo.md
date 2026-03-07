@@ -18,12 +18,14 @@
 - [x] 26+ unit tests for all parsers + pricing
 - [ ] **Remaining**: Split `logParser.ts` (472 lines) into base + per-agent files (exceeds 300-line limit)
 
-## Week 3 — Quality Checks (NOT STARTED)
-- [ ] Run test suite after agent sessions
-- [ ] Linter check after agent sessions
-- [ ] Build check after agent sessions
-- [ ] Store results in `QualityMetrics` table
-- [ ] Auto-classify task type from changed files
+## Week 3 — Quality Checks (IN PROGRESS)
+- [x] Add `taskType` to Prisma schema and run generator
+- [x] Delete legacy Python validator code
+- [x] Setup `validator` package as TypeScript workspace
+- [x] Implement `TaskClassifier.ts` (filesChanged -> taskType)
+- [x] Implement `QualityChecker.ts` (run linter/tests/build)
+- [x] Write Vitest unit tests for both new services
+- [x] Integrate into `agentfoundry watch` daemon
 
 ## Week 4 — CLI Reports (NOT STARTED)
 - [ ] `agentfoundry stats` command
