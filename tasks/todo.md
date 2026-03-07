@@ -27,11 +27,11 @@
 - [x] Write Vitest unit tests for both new services
 - [x] Integrate into `agentfoundry watch` daemon
 
-## Week 4 — CLI Reports (NOT STARTED)
-- [ ] `agentfoundry stats` command
-- [ ] `agentfoundry costs` command
-- [ ] `agentfoundry history` command
-- [ ] Formatted terminal output with tables
+## Week 4 — CLI Reports ✅
+- [x] `agentfoundry stats` command
+- [x] `agentfoundry costs` command
+- [x] `agentfoundry history` command
+- [x] Formatted terminal output with tables
 
 ## Week 5 — Web Dashboard (NOT STARTED)
 - [ ] Overview page (costs, tasks, agent breakdown)

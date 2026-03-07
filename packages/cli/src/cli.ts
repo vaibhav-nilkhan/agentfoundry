@@ -8,6 +8,9 @@ import chalk from 'chalk';
 import { watchCommand } from './commands/watch';
 import { statsCommand } from './commands/stats';
 
+import { costsCommand } from './commands/costs';
+import { historyCommand } from './commands/history';
+
 const program = new Command();
 
 program
@@ -32,5 +35,7 @@ console.log(
 // Agent Tracker Commands
 program.addCommand(watchCommand);
 program.addCommand(statsCommand);
+program.addCommand(costsCommand);
+program.addCommand(historyCommand);
 
 program.parse();
