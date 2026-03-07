@@ -18,7 +18,7 @@
 - [x] 26+ unit tests for all parsers + pricing
 - [ ] **Remaining**: Split `logParser.ts` (472 lines) into base + per-agent files (exceeds 300-line limit)
 
-## Week 3 — Quality Checks (IN PROGRESS)
+## Week 3 — Quality Checks ✅
 - [x] Add `taskType` to Prisma schema and run generator
 - [x] Delete legacy Python validator code
 - [x] Setup `validator` package as TypeScript workspace
