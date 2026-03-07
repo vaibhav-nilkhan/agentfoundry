@@ -1,6 +1,6 @@
 # AgentFoundry Documentation
 
-> **The GitHub + App Store for AI Agents**
+> **The Fitbit for AI Coding Agents**
 
 Welcome to the AgentFoundry documentation! This directory contains all technical documentation, guides, and planning materials.
 
