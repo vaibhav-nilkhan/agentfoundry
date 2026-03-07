@@ -179,16 +179,177 @@ describe('LogParserService', () => {
 
             expect(result).toBeNull();
         });
+    });
 
-        it('should return null for codex (not yet implemented)', async () => {
-            const result = await parser.parseAndSaveCost(
-                'session-1',
-                'codex',
-                new Date(),
-                new Date()
-            );
+    describe('parseCodexJsonlFile', () => {
+        it('should extract token usage from Codex response objects', () => {
+            const mockJsonl = [
+                JSON.stringify({
+                    timestamp: '2026-03-07T10:01:00.000Z',
+                    model: 'codex-mini-latest',
+                    usage: {
+                        input_tokens: 2000,
+                        output_tokens: 1500
+                    }
+                }),
+                JSON.stringify({
+                    timestamp: '2026-03-07T10:02:00.000Z',
+                    usage: {
+                        input_tokens: 1000,
+                        output_tokens: 800
+                    }
+                })
+            ].join('\n');
 
-            expect(result).toBeNull();
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseCodexJsonlFile('/fake/codex.jsonl', start, end);
+
+            expect(result.inputTokens).toBe(3000);
+            expect(result.outputTokens).toBe(2300);
+            expect(result.model).toBe('codex-mini-latest');
+        });
+
+        it('should support prompt_tokens/completion_tokens format', () => {
+            const mockJsonl = JSON.stringify({
+                timestamp: '2026-03-07T10:01:00.000Z',
+                model: 'o3',
+                usage: {
+                    prompt_tokens: 5000,
+                    completion_tokens: 3000
+                }
+            });
+
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseCodexJsonlFile('/fake/codex.jsonl', start, end);
+
+            expect(result.inputTokens).toBe(5000);
+            expect(result.outputTokens).toBe(3000);
+            expect(result.model).toBe('o3');
+        });
+
+        it('should filter Codex entries outside time window', () => {
+            const mockJsonl = [
+                JSON.stringify({
+                    timestamp: '2026-03-07T08:00:00.000Z',
+                    usage: { input_tokens: 999, output_tokens: 999 }
+                }),
+                JSON.stringify({
+                    timestamp: '2026-03-07T10:01:00.000Z',
+                    usage: { input_tokens: 100, output_tokens: 50 }
+                })
+            ].join('\n');
+
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseCodexJsonlFile('/fake/codex.jsonl', start, end);
+
+            expect(result.inputTokens).toBe(100);
+            expect(result.outputTokens).toBe(50);
+        });
+    });
+
+    describe('parseGeminiTelemetryFile', () => {
+        it('should extract token usage from telemetry entries', () => {
+            const mockJsonl = [
+                JSON.stringify({
+                    timestamp: '2026-03-07T10:01:00.000Z',
+                    model: 'gemini-2.5-pro',
+                    input_tokens: 3000,
+                    output_tokens: 2000
+                }),
+                JSON.stringify({
+                    timestamp: '2026-03-07T10:02:00.000Z',
+                    input_tokens: 1000,
+                    output_tokens: 500
+                })
+            ].join('\n');
+
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseGeminiTelemetryFile('/fake/gemini.jsonl', start, end);
+
+            expect(result.inputTokens).toBe(4000);
+            expect(result.outputTokens).toBe(2500);
+            expect(result.model).toBe('gemini-2.5-pro');
+        });
+
+        it('should extract tokens from OpenTelemetry attributes format', () => {
+            const mockJsonl = JSON.stringify({
+                timestamp: '2026-03-07T10:01:00.000Z',
+                attributes: {
+                    input_token_count: 2500,
+                    output_token_count: 1200,
+                    model_name: 'gemini-2.5-flash'
+                }
+            });
+
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseGeminiTelemetryFile('/fake/collector.log', start, end);
+
+            expect(result.inputTokens).toBe(2500);
+            expect(result.outputTokens).toBe(1200);
+            expect(result.model).toBe('gemini-2.5-flash');
+        });
+
+        it('should support inputTokenCount/outputTokenCount format', () => {
+            const mockJsonl = JSON.stringify({
+                timestamp: '2026-03-07T10:01:00.000Z',
+                inputTokenCount: 4000,
+                outputTokenCount: 1800
+            });
+
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseGeminiTelemetryFile('/fake/gemini.jsonl', start, end);
+
+            expect(result.inputTokens).toBe(4000);
+            expect(result.outputTokens).toBe(1800);
+        });
+
+        it('should filter Gemini entries outside time window', () => {
+            const mockJsonl = [
+                JSON.stringify({
+                    timestamp: '2026-03-07T08:00:00.000Z',
+                    input_tokens: 999,
+                    output_tokens: 999
+                }),
+                JSON.stringify({
+                    timestamp: '2026-03-07T10:01:00.000Z',
+                    input_tokens: 200,
+                    output_tokens: 100
+                })
+            ].join('\n');
+
+            vi.mocked(fs.readFileSync).mockReturnValue(mockJsonl);
+
+            const start = new Date('2026-03-07T10:00:00.000Z');
+            const end = new Date('2026-03-07T10:05:00.000Z');
+
+            const result = parser.parseGeminiTelemetryFile('/fake/gemini.jsonl', start, end);
+
+            expect(result.inputTokens).toBe(200);
+            expect(result.outputTokens).toBe(100);
         });
     });
 });

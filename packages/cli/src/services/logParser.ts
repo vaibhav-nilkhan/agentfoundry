@@ -22,7 +22,7 @@ export interface ParsedSessionCost {
 
 /**
  * Parses agent log files to extract token usage and calculate costs.
- * Currently supports Claude Code JSONL logs from ~/.claude/projects/.
+ * Supports Claude Code, Codex CLI, and Gemini CLI.
  */
 export class LogParserService {
     private prisma: PrismaClient;
@@ -48,12 +48,10 @@ export class LogParserService {
                     usage = this.parseClaudeLogs(startedAt, endedAt);
                     break;
                 case 'codex':
-                    // Codex log parsing — future implementation
-                    usage = null;
+                    usage = this.parseCodexLogs(startedAt, endedAt);
                     break;
                 case 'gemini':
-                    // Gemini log parsing — future implementation
-                    usage = null;
+                    usage = this.parseGeminiLogs(startedAt, endedAt);
                     break;
                 default:
                     usage = null;
@@ -223,6 +221,233 @@ export class LogParserService {
         }
 
         return results;
+    }
+
+    /**
+     * Reads Codex CLI JSONL session logs from ~/.codex/sessions/YYYY/MM/DD/.
+     * Codex stores per-session rollout logs in date-sharded directories.
+     */
+    public parseCodexLogs(startedAt: Date, endedAt: Date): TokenUsage | null {
+        const codexDir = this.getCodexLogDir();
+        if (!codexDir || !fs.existsSync(codexDir)) {
+            console.warn('[LogParser] Codex log directory not found:', codexDir);
+            return null;
+        }
+
+        const usage: TokenUsage = {
+            inputTokens: 0,
+            outputTokens: 0,
+            cacheCreationTokens: 0,
+            cacheReadTokens: 0,
+            model: undefined
+        };
+
+        // Codex uses date-sharded dirs: sessions/YYYY/MM/DD/rollout-*.jsonl
+        const logFiles = this.findRecentLogFiles(codexDir, startedAt);
+        if (logFiles.length === 0) {
+            console.warn('[LogParser] No recent Codex log files found.');
+            return null;
+        }
+
+        for (const logFile of logFiles) {
+            const fileUsage = this.parseCodexJsonlFile(logFile, startedAt, endedAt);
+            usage.inputTokens += fileUsage.inputTokens;
+            usage.outputTokens += fileUsage.outputTokens;
+            if (fileUsage.model) {
+                usage.model = fileUsage.model;
+            }
+        }
+
+        if (usage.inputTokens === 0 && usage.outputTokens === 0) {
+            return null;
+        }
+
+        return usage;
+    }
+
+    /**
+     * Parses a Codex JSONL log file. Codex entries may have usage fields
+     * like input_tokens and output_tokens on response objects.
+     */
+    public parseCodexJsonlFile(filePath: string, startedAt: Date, endedAt: Date): TokenUsage {
+        const usage: TokenUsage = {
+            inputTokens: 0,
+            outputTokens: 0,
+            cacheCreationTokens: 0,
+            cacheReadTokens: 0,
+            model: undefined
+        };
+
+        try {
+            const content = fs.readFileSync(filePath, 'utf-8');
+            const lines = content.split('\n').filter(line => line.trim());
+
+            for (const line of lines) {
+                try {
+                    const entry = JSON.parse(line);
+
+                    const entryTime = entry.timestamp ? new Date(entry.timestamp) : null;
+                    if (entryTime && (entryTime < startedAt || entryTime > endedAt)) {
+                        continue;
+                    }
+
+                    // Codex logs usage in response/completion objects
+                    if (entry.usage) {
+                        usage.inputTokens += entry.usage.input_tokens || entry.usage.prompt_tokens || 0;
+                        usage.outputTokens += entry.usage.output_tokens || entry.usage.completion_tokens || 0;
+                    }
+
+                    if (entry.model && !usage.model) {
+                        usage.model = entry.model;
+                    }
+
+                } catch {
+                    continue;
+                }
+            }
+        } catch (error) {
+            console.error(`[LogParser] Failed to read Codex file ${filePath}:`, error);
+        }
+
+        return usage;
+    }
+
+    /**
+     * Returns the Codex log directory path.
+     * Default: ~/.codex/sessions/
+     */
+    public getCodexLogDir(): string {
+        const codexHome = process.env.CODEX_HOME || path.join(os.homedir(), '.codex');
+        return path.join(codexHome, 'sessions');
+    }
+
+    /**
+     * Reads Gemini CLI telemetry logs.
+     * Gemini writes telemetry to a local file when configured via settings.json,
+     * or to ~/.gemini/tmp/<hash>/otel/collector.log via OpenTelemetry.
+     */
+    public parseGeminiLogs(startedAt: Date, endedAt: Date): TokenUsage | null {
+        const usage: TokenUsage = {
+            inputTokens: 0,
+            outputTokens: 0,
+            cacheCreationTokens: 0,
+            cacheReadTokens: 0,
+            model: undefined
+        };
+
+        // Try telemetry outfile from settings.json first
+        const telemetryFile = this.getGeminiTelemetryFile();
+        if (telemetryFile && fs.existsSync(telemetryFile)) {
+            const fileUsage = this.parseGeminiTelemetryFile(telemetryFile, startedAt, endedAt);
+            usage.inputTokens += fileUsage.inputTokens;
+            usage.outputTokens += fileUsage.outputTokens;
+            if (fileUsage.model) {
+                usage.model = fileUsage.model;
+            }
+        }
+
+        // Also check OpenTelemetry collector logs
+        const otelDir = path.join(os.homedir(), '.gemini', 'tmp');
+        if (fs.existsSync(otelDir)) {
+            const collectorLogs = this.findRecentLogFiles(otelDir, startedAt)
+                .filter(f => f.endsWith('collector.log') || f.endsWith('.jsonl'));
+
+            for (const logFile of collectorLogs) {
+                const fileUsage = this.parseGeminiTelemetryFile(logFile, startedAt, endedAt);
+                usage.inputTokens += fileUsage.inputTokens;
+                usage.outputTokens += fileUsage.outputTokens;
+                if (fileUsage.model) {
+                    usage.model = fileUsage.model;
+                }
+            }
+        }
+
+        if (usage.inputTokens === 0 && usage.outputTokens === 0) {
+            return null;
+        }
+
+        return usage;
+    }
+
+    /**
+     * Parses a Gemini telemetry/collector log file.
+     * Entries contain event names like 'gemini_cli.api_response' with token counts.
+     */
+    public parseGeminiTelemetryFile(filePath: string, startedAt: Date, endedAt: Date): TokenUsage {
+        const usage: TokenUsage = {
+            inputTokens: 0,
+            outputTokens: 0,
+            cacheCreationTokens: 0,
+            cacheReadTokens: 0,
+            model: undefined
+        };
+
+        try {
+            const content = fs.readFileSync(filePath, 'utf-8');
+            const lines = content.split('\n').filter(line => line.trim());
+
+            for (const line of lines) {
+                try {
+                    const entry = JSON.parse(line);
+
+                    const entryTime = entry.timestamp ? new Date(entry.timestamp) : null;
+                    if (entryTime && (entryTime < startedAt || entryTime > endedAt)) {
+                        continue;
+                    }
+
+                    // Gemini telemetry entries with token data
+                    if (entry.input_tokens || entry.inputTokenCount) {
+                        usage.inputTokens += entry.input_tokens || entry.inputTokenCount || 0;
+                        usage.outputTokens += entry.output_tokens || entry.outputTokenCount || 0;
+                    }
+
+                    // Check nested attributes (OpenTelemetry format)
+                    if (entry.attributes) {
+                        usage.inputTokens += entry.attributes.input_token_count || entry.attributes.input_tokens || 0;
+                        usage.outputTokens += entry.attributes.output_token_count || entry.attributes.output_tokens || 0;
+                    }
+
+                    // Extract model name
+                    const model = entry.model || entry.attributes?.model_name || entry.attributes?.model;
+                    if (model && !usage.model) {
+                        usage.model = model;
+                    }
+
+                } catch {
+                    continue;
+                }
+            }
+        } catch (error) {
+            console.error(`[LogParser] Failed to read Gemini file ${filePath}:`, error);
+        }
+
+        return usage;
+    }
+
+    /**
+     * Reads the Gemini CLI telemetry outfile path from settings.json.
+     * Falls back to GEMINI_TELEMETRY_OUTFILE env var.
+     */
+    public getGeminiTelemetryFile(): string | null {
+        // Check env var first
+        if (process.env.GEMINI_TELEMETRY_OUTFILE) {
+            return process.env.GEMINI_TELEMETRY_OUTFILE;
+        }
+
+        // Try reading from ~/.gemini/settings.json
+        const settingsPath = path.join(os.homedir(), '.gemini', 'settings.json');
+        try {
+            if (fs.existsSync(settingsPath)) {
+                const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
+                if (settings.telemetry?.outfile) {
+                    return settings.telemetry.outfile;
+                }
+            }
+        } catch {
+            // Settings file doesn't exist or is malformed
+        }
+
+        return null;
     }
 
     /**
