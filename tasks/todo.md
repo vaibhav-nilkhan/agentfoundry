@@ -33,8 +33,8 @@
 - [x] `agentfoundry history` command
 - [x] Formatted terminal output with tables
 
-## Week 5 — Web Dashboard (NOT STARTED)
-- [ ] Overview page (costs, tasks, agent breakdown)
-- [ ] Costs page (trends, comparisons)
-- [ ] Performance page (test pass rates, build success)
-- [ ] History page (session table with filters)
+## Week 5 — Web Dashboard ✅
+- [x] Overview page (costs, tasks, agent breakdown)
+- [x] Costs page (trends, comparisons)
+- [x] Performance page (test pass rates, build success)
+- [x] History page (session table with filters)

@@ -270,6 +270,9 @@ importers:
 
   packages/web:
     dependencies:
+      '@agentfoundry/db':
+        specifier: workspace:^
+        version: link:../db
       '@agentfoundry/shared':
         specifier: workspace:*
         version: link:../shared
