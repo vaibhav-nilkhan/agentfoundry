@@ -5,11 +5,8 @@
  */
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { initCommand } from './commands/init';
-import { validateCommand } from './commands/validate';
-import { publishCommand } from './commands/publish';
-import { loginCommand } from './commands/login';
-import { mcpCommand } from './commands/mcp';
+import { watchCommand } from './commands/watch';
+import { statsCommand } from './commands/stats';
 
 const program = new Command();
 
@@ -32,31 +29,8 @@ console.log(
 `)
 );
 
-// Commands
-program
-  .command('init')
-  .description('Initialize a new Skill project')
-  .option('-t, --template <type>', 'Template type (basic, mcp, claude)', 'basic')
-  .action(initCommand);
-
-program
-  .command('validate')
-  .description('Validate a Skill manifest and code')
-  .option('-f, --file <path>', 'Path to .claudeskill.md file')
-  .action(validateCommand);
-
-program
-  .command('publish')
-  .description('Publish a Skill to AgentFoundry marketplace')
-  .option('-f, --file <path>', 'Path to .claudeskill.md file')
-  .action(publishCommand);
-
-program
-  .command('login')
-  .description('Authenticate with AgentFoundry')
-  .action(loginCommand);
-
-// Add MCP command
-program.addCommand(mcpCommand);
+// Agent Tracker Commands
+program.addCommand(watchCommand);
+program.addCommand(statsCommand);
 
 program.parse();

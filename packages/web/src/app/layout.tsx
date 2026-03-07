@@ -1,34 +1,22 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { ThemeProvider } from '@/components/ThemeProvider';
-import { CommandPaletteProvider } from '@/components/CommandPaletteProvider';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AgentFoundry - Infrastructure Skills for AI Agents',
-  description:
-    'The AWS of AI agents. Infrastructure skills that make all other skills work better. Error recovery, health monitoring, and agent reliability.',
-  keywords: ['AI', 'Agents', 'Infrastructure', 'Error Recovery', 'Reliability', 'MCP', 'Claude'],
-};
+  title: 'AgentFoundry V2 Tracker',
+  description: 'Local Fitbit for AI Coding Agents',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <CommandPaletteProvider>
-            {children}
-          </CommandPaletteProvider>
-        </ThemeProvider>
-      </body>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
     </html>
-  );
+  )
 }
