@@ -3,9 +3,11 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { ProcessMonitor, ProcessEvent } from '../services/processMonitor';
 import { GitIntegration, GitSnapshotData } from '../services/gitIntegration';
+import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
 
 const prisma = new PrismaClient();
+const logParser = new LogParserService(prisma);
 const activeSessions = new Map<number, { startTime: Date, preRunGit: GitSnapshotData }>();
 
 export const watchCommand = new Command()
@@ -38,7 +40,7 @@ export const watchCommand = new Command()
 
                 try {
                     // Save to SQLite via Prisma
-                    await prisma.agentSession.create({
+                    const session = await prisma.agentSession.create({
                         data: {
                             agentName: event.agent,
                             taskHint: event.cmdHint,
@@ -54,7 +56,25 @@ export const watchCommand = new Command()
                             }
                         }
                     });
-                    spinner.succeed(`Saved session: ${chalk.green(event.agent)} (${durationSeconds}s). Files changed: ${gitDelta.filesChanged.length}.`);
+
+                    // Parse agent logs and save cost record
+                    const cost = await logParser.parseAndSaveCost(
+                        session.id,
+                        event.agent,
+                        sessionData.startTime,
+                        event.timestamp
+                    );
+
+                    if (cost) {
+                        spinner.succeed(
+                            `Saved session: ${chalk.green(event.agent)} (${durationSeconds}s). ` +
+                            `Files: ${gitDelta.filesChanged.length} | ` +
+                            `Tokens: ${cost.tokensIn}in/${cost.tokensOut}out | ` +
+                            `Cost: $${cost.costUsd.toFixed(4)}`
+                        );
+                    } else {
+                        spinner.succeed(`Saved session: ${chalk.green(event.agent)} (${durationSeconds}s). Files changed: ${gitDelta.filesChanged.length}. (No cost data found)`);
+                    }
                 } catch (error) {
                     spinner.fail(`Failed to save session for ${event.agent}: ${error}`);
                 }
@@ -70,3 +90,4 @@ export const watchCommand = new Command()
         // Keep alive
         setInterval(() => { }, 1000 * 60 * 60);
     });
+

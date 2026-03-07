@@ -6,7 +6,7 @@ export interface AgentProcess {
     cmd: string;
 }
 
-export type AgentType = 'claude-code' | 'codex' | 'gemini' | 'unknown';
+export type AgentType = 'claude-code' | 'codex' | 'gemini' | 'amp' | 'unknown';
 
 export interface ProcessEvent {
     type: 'start' | 'stop';
@@ -26,7 +26,8 @@ export class ProcessMonitor {
         { name: 'claude', type: 'claude-code' as AgentType },
         { name: 'claude-code', type: 'claude-code' as AgentType },
         { name: 'codex', type: 'codex' as AgentType },
-        { name: 'gemini', type: 'gemini' as AgentType }
+        { name: 'gemini', type: 'gemini' as AgentType },
+        { name: 'amp', type: 'amp' as AgentType }
     ];
 
     constructor(eventCallback?: (event: ProcessEvent) => void) {
