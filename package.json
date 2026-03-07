@@ -2,7 +2,7 @@
   "name": "agentfoundry",
   "version": "0.1.0",
   "private": true,
-  "description": "The GitHub + App Store for AI Agents",
+  "description": "AgentFoundry tracks, analyzes, and optimizes how you use AI coding agents.",
   "workspaces": [
     "packages/*"
   ],

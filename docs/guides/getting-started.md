@@ -1,6 +1,6 @@
 # Getting Started with AgentFoundry
 
-> **The GitHub + App Store for AI Agents**
+> **The Fitbit for AI Coding Agents**
 
 Welcome to AgentFoundry! This guide will help you set up your development environment and start contributing to the platform.
 

@@ -14,6 +14,8 @@ model AgentSession {
   id              String           @id @default(cuid())
   agentName       String           // e.g., 'claude-code', 'codex', 'gemini'
   taskHint        String?          // e.g., command line args
+  taskType        String?          // Auto-classified from files changed
+
   startedAt       DateTime         @default(now())
   endedAt         DateTime?
   durationSeconds Int?

@@ -1,0 +1,23 @@
+{
+    "name": "@agentfoundry/validator",
+    "version": "0.1.0",
+    "description": "Quality checks and task classification for AgentFoundry",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "test": "vitest run",
+        "lint": "eslint src --ext .ts",
+        "clean": "rm -rf dist"
+    },
+    "dependencies": {
+        "@agentfoundry/shared": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/node": "^20.19.24",
+        "typescript": "^5.3.3",
+        "vitest": "^4.0.18",
+        "eslint": "^8.56.0"
+    }
+}

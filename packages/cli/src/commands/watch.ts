@@ -5,6 +5,7 @@ import { ProcessMonitor, ProcessEvent } from '../services/processMonitor';
 import { GitIntegration, GitSnapshotData } from '../services/gitIntegration';
 import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
+import { TaskClassifier, QualityChecker } from '@agentfoundry/validator';
 
 const prisma = new PrismaClient();
 const logParser = new LogParserService(prisma);
@@ -37,8 +38,13 @@ export const watchCommand = new Command()
                 // Take post-run snapshot safely
                 const postRunGit = await git.takeSnapshot();
                 const gitDelta = git.calculateDelta(sessionData.preRunGit, postRunGit);
+                const taskType = TaskClassifier.classify(gitDelta.filesChanged);
 
                 try {
+                    spinner.text = `Running quality checks (tests, lint, build) for ${chalk.yellow(event.agent)}...`;
+                    const qualityChecker = new QualityChecker(process.cwd());
+                    const qualityResults = await qualityChecker.runChecks();
+
                     // Save to SQLite via Prisma
                     const session = await prisma.agentSession.create({
                         data: {
@@ -47,6 +53,15 @@ export const watchCommand = new Command()
                             startedAt: sessionData.startTime,
                             endedAt: event.timestamp,
                             durationSeconds,
+                            taskType,
+                            quality: {
+                                create: {
+                                    testsPassed: qualityResults.testsPassed,
+                                    testsFailed: qualityResults.testsFailed,
+                                    lintIssues: qualityResults.lintIssues,
+                                    buildSuccess: qualityResults.buildSuccess
+                                }
+                            },
                             gitSnapshot: {
                                 create: {
                                     filesChanged: JSON.stringify(gitDelta.filesChanged),
