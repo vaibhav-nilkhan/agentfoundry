@@ -1,90 +1,72 @@
 # AgentFoundry V2
-> **The Fitbit for AI Coding Agents**
+> **The "Fitbit" for AI Coding Agents**
 
-Track every AI coding agent you use. See costs, quality, and performance — all in one dashboard.
+Track every AI coding agent you use. See costs, quality, and performance — all in one premium dashboard. Built for solo developers who want to stop guessing and start measuring.
 
 ---
 
 ## 🎯 Vision
 
-Developers in 2026 use 2-4 AI coding agents daily (Claude Code, Codex, Cursor, Gemini CLI) but have:
-- **No visibility** into total costs across agents
-- **No data** on which agent performs best for which tasks
-- **No history** of what agents did, when, and how well
-- **No way to optimize** — they pick agents by gut feeling, not data
+Developers in 2026 use multiple AI coding agents (Claude Code, Codex, Cursor, Gemini CLI) daily but have zero visibility into their actual performance. **AgentFoundry** is an open-source tool that runs passively in the background to monitor, analyze, and optimize your agent usage.
 
-**AgentFoundry** is an open-source developer tool that runs passively in the background to track, analyze, and optimize how you use AI coding agents.
+## 🚀 Core Features
 
-## 🚀 Core Features (Phase 1 MVP)
+### 1. Zero-Friction Monitoring
+Runs as a lightweight background daemon (`agentfoundry watch`) that automatically detects when you launch Claude, Codex, or Gemini. It captures Git snapshots before and after every run without you changing a single line of your workflow.
 
-### 1. Background Agent Monitoring
-```bash
-agentfoundry watch
-```
-Runs as a lightweight background daemon that detects when Claude Code, Codex, or Gemini CLI is launched. Records start time, end time, and takes Git snapshots before/after the agent runs. **Zero friction — don't change your workflow.**
+### 2. Deep Cost Analysis
+Automatically parses local agent logs to calculate exact USD spend. See your aggregated costs per-task, per-day, and per-agent in high-resolution detail.
 
-### 2. Cost Tracking
-Automatically reads token usage from local agent logs and calculates costs using community-maintained pricing configurations. See your aggregated spend per-task, per-day, and per-agent.
+### 3. "Karpathy" Efficiency Metrics
+Go beyond pass/fail. AgentFoundry tracks:
+- **Token-to-Code Yield**: Measures "thrashing" (how many tokens were burned vs. net lines changed).
+- **Zero-Shot Success Rate**: Identifies which agents solve problems perfectly on the first try.
+- **Blast Radius**: Tracks how surgical (or sprawling) an agent's changes are.
 
-### 3. Quality Tracking (Coming Soon)
-After each session, automatically runs:
-- `git diff` to see lines added/removed/modified
-- Test suite (if configured)
-- Linter (if configured)
-Stores quality data per session to see which agent introduces the most bugs.
+### 4. Agent Recommendation Engine
+Using your historical SQLite data, AgentFoundry recommends the best agent for your current task:
+`$ agentfoundry recommend --task frontend`
+> *"Verdict: Use Claude Code. It has a 95% pass rate for frontend tasks in this repo."*
 
-### 4. CLI Reports
-```bash
-agentfoundry stats                    # Quick summary
-agentfoundry stats --agent claude     # Claude-specific
-agentfoundry costs                    # Cost breakdown
-agentfoundry history                  # Task history
-```
+### 5. Premium Bento UI Dashboard
+A high-performance Next.js 15 dashboard featuring a "God Tier" Bento Grid aesthetic, glowing status indicators, and real-time telemetry updates.
 
-## 📦 Project Architecture
+## 📦 Architecture
 
-```
-agentfoundry/
-├── packages/
-│   ├── web/              # Next.js Dashboard (Under Construction)
-│   ├── cli/              # CLI tool for the background daemon
-│   ├── api/              # NestJS Backend API
-│   ├── db/               # Prisma Database Schema (SQLite for local, PG for team)
-│   ├── shared/           # Shared types
-│   ├── mcp-adapter/      # Model Context Protocol integrations for agent detection
-├── package.json
-└── README.md
-```
+- **CLI/Daemon**: Node.js & TypeScript
+- **Web Dashboard**: Next.js 15 (App Router) & Framer Motion
+- **Database**: SQLite (Zero-setup local-first)
+- **ORM**: Prisma
 
-## 🛠️ Tech Stack
+## 🏁 Getting Started
 
-- **CLI/Daemon**: Node.js, TypeScript
-- **Frontend**: Next.js 15, Tailwind CSS
-- **Backend API**: NestJS
-- **Database**: SQLite (Local MVP), Prisma ORM
-
-## 🏁 Getting Started (Development)
-
-Requires Node 20+, pnpm 8+.
-
+### 1. Installation
 ```bash
 git clone https://github.com/vaibhav-nilkhan/agentfoundry.git
 cd agentfoundry
-
 pnpm install
 ```
 
-### Running the Phase 1 MVP
+### 2. Setup Database
+```bash
+npx pnpm --filter @agentfoundry/db build
+npx pnpm --filter @agentfoundry/db prisma db push
+```
 
-1. **Initialize the local tracking database:**
-   ```bash
-   cd packages/db
-   pnpm prisma db push
-   ```
+### 3. Start Tracking
+```bash
+# Start the background daemon
+npx pnpm --filter @agentfoundry/cli start watch
 
-2. **Start the Tracker Daemon:**
-   *(Coming soon in the next sprint!)*
+# Open the visual dashboard
+npx pnpm --filter @agentfoundry/web dev
+```
+
+## 🔌 Community Plugins
+AgentFoundry is extensible! You can build your own adapters for new agents (e.g. Cursor, Windsurf) by adding a simple JavaScript file to `~/.agentfoundry/plugins`.
+
+See the [Contributor Guide for Adapters](./docs/CONTRIBUTING_ADAPTERS.md).
 
 ---
 
-**Status**: Pivoting to V2 | **License**: MIT | **Last Updated**: 2026-03-07
+**License**: MIT | **Status**: Phase 2 Complete (Production Ready for Solo Devs)

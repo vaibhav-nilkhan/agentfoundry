@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import Table from 'cli-table3';
 import { PrismaClient } from '@agentfoundry/db';
 import { ReportsService } from '../services/reports.service';
+import { PluginLoader } from '../services/logParsers/PluginLoader';
 
 const prisma = new PrismaClient();
 const reportsService = new ReportsService(prisma);
@@ -32,6 +33,11 @@ export const statsCommand = new Command()
                 ['Zero-Shot Success Rate', chalk.magenta(`${stats.zeroShotRate.toFixed(1)}%`)],
                 ['Avg Token Yield (lower is better)', chalk.magenta(stats.avgTokenYield.toFixed(2))]
             );
+
+            const plugins = PluginLoader.listPlugins();
+            if (plugins.length > 0) {
+                table.push(['External Plugins Detected', chalk.cyan(plugins.join(', '))]);
+            }
 
             console.log(table.toString());
             console.log('');
