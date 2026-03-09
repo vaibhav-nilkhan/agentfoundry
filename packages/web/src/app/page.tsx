@@ -4,6 +4,8 @@ import { Bot, Coins, Activity, CheckCircle2, Terminal } from 'lucide-react';
 import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 import { MetricDisplay } from '@/components/ui/MetricDisplay';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const stats = await statsService.getOverview(undefined, 'all');
 

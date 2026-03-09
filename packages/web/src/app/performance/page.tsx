@@ -4,6 +4,8 @@ import { ShieldCheck, Zap, Target } from 'lucide-react';
 import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 import { MetricDisplay } from '@/components/ui/MetricDisplay';
 
+export const dynamic = 'force-dynamic';
+
 export default async function PerformancePage() {
     const { sessions } = await statsService.getHistory(undefined, 100, 1);
 

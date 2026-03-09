@@ -4,6 +4,8 @@ import { Lightbulb, Trophy, TrendingDown, Info, ShieldCheck } from 'lucide-react
 import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 import { MetricDisplay } from '@/components/ui/MetricDisplay';
 
+export const dynamic = 'force-dynamic';
+
 export default async function InsightsPage() {
     const recommendations = await statsService.getRecommendations();
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { statsService } from '@/lib/services/stats.service';
 import { Clock } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HistoryPage() {
     // For Phase 3, we default to no specific teamId yet (fetching all)
     // The service now expects: getHistory(teamId?: string, limit?: number, page?: number)

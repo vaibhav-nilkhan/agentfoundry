@@ -4,6 +4,8 @@ import { DailyCostChart } from '@/components/DailyCostChart';
 import { CircleDollarSign } from 'lucide-react';
 import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CostsPage() {
     const { agentTotals, dailyCosts } = await statsService.getCosts(undefined, 'all');
 
