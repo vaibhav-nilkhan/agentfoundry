@@ -1,6 +1,13 @@
 import { PrismaClient } from '@agentfoundry/db';
 import { subDays, subWeeks, subMonths } from 'date-fns';
 
+export interface ReportFilterOptions {
+    agentName?: string;
+    period?: string;
+    teamId?: string;
+    userId?: string;
+}
+
 export class ReportsService {
     constructor(private prisma: PrismaClient) { }
 
@@ -15,12 +22,20 @@ export class ReportsService {
         }
     }
 
-    async getOverallStats(agentName?: string, period?: string) {
-        const startDate = this.getStartDateForPeriod(period);
-
+    private buildWhereClause(options: ReportFilterOptions) {
+        const startDate = this.getStartDateForPeriod(options.period);
         const whereClause: any = {};
-        if (agentName) whereClause.agentName = agentName;
+        
+        if (options.agentName) whereClause.agentName = options.agentName;
         if (startDate) whereClause.startedAt = { gte: startDate };
+        if (options.teamId) whereClause.teamId = options.teamId;
+        if (options.userId) whereClause.userId = options.userId;
+        
+        return whereClause;
+    }
+
+    async getOverallStats(options: ReportFilterOptions = {}) {
+        const whereClause = this.buildWhereClause(options);
 
         const sessions = await this.prisma.agentSession.findMany({
             where: whereClause,
@@ -67,10 +82,8 @@ export class ReportsService {
         };
     }
 
-    async getCostBreakdown(period?: string) {
-        const startDate = this.getStartDateForPeriod(period);
-        const whereClause: any = {};
-        if (startDate) whereClause.startedAt = { gte: startDate };
+    async getCostBreakdown(options: ReportFilterOptions = {}) {
+        const whereClause = this.buildWhereClause(options);
 
         const sessions = await this.prisma.agentSession.findMany({
             where: whereClause,
@@ -92,9 +105,8 @@ export class ReportsService {
         return { breakdown, totalCost };
     }
 
-    async getHistory(limit: number = 10, agentName?: string) {
-        const whereClause: any = {};
-        if (agentName) whereClause.agentName = agentName;
+    async getHistory(limit: number = 10, options: ReportFilterOptions = {}) {
+        const whereClause = this.buildWhereClause(options);
 
         return this.prisma.agentSession.findMany({
             where: whereClause,

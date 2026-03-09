@@ -6,11 +6,23 @@ export class RecommendationService {
 
     /**
      * Recommends the best agent for a given task type based on historical performance.
+     * Support multi-tenant filtering by teamId and userId.
      */
-    async getRecommendations(taskType?: string): Promise<AgentRecommendation[]> {
+    async getRecommendations(options: { 
+        taskType?: string; 
+        teamId?: string; 
+        userId?: string; 
+    } = {}): Promise<AgentRecommendation[]> {
         const whereClause: any = {};
-        if (taskType) {
-            whereClause.taskType = taskType;
+        
+        if (options.taskType) {
+            whereClause.taskType = options.taskType;
+        }
+        if (options.teamId) {
+            whereClause.teamId = options.teamId;
+        }
+        if (options.userId) {
+            whereClause.userId = options.userId;
         }
 
         const sessions = await this.prisma.agentSession.findMany({
@@ -18,6 +30,6 @@ export class RecommendationService {
             include: { quality: true, cost: true }
         });
 
-        return calculateRecommendations(sessions, taskType);
+        return calculateRecommendations(sessions, options.taskType);
     }
 }

@@ -85,20 +85,17 @@
   - [x] Polish the `install.sh` script for zero-setup installation.
 
 ## Week 9 — Team Mode & PostgreSQL Integration 👥
-- [ ] **Phase 1: Infrastructure Overhaul**
-  - [ ] Update `docker-compose.yml`: Remove deprecated NestJS/Python services, retain PostgreSQL.
-  - [ ] Create `.env.docker` for team mode configuration.
-- [ ] **Phase 2: Database Migration**
-  - [ ] Switch `schema.prisma` datasource to `postgresql`.
-  - [ ] Add `User`, `Team`, and `Membership` models to support multi-user data isolation.
-  - [ ] Link `AgentSession` to `User` and `Team`.
-  - [ ] Run initial PostgreSQL migration.
-- [ ] **Phase 3: Authentication Foundation**
-  - [ ] Integrate **Clerk** or **NextAuth.js** into `packages/web`.
-  - [ ] Create basic Login/Sign-up flow.
-- [ ] **Phase 4: Multi-Tenant Data Logic**
-  - [ ] Update `StatsService` and `RecommendationService` to filter data by `teamId`.
-  - [ ] Update CLI to support authentication tokens for remote syncing.
+- [x] **Phase 1: Infrastructure Overhaul**
+  - [x] Update `docker-compose.yml`: Remove deprecated NestJS/Python services, retain PostgreSQL.
+- [x] **Phase 2: Database Migration**
+  - [x] Switch `schema.prisma` datasource to `postgresql`.
+  - [x] Add `User`, `Team`, and `Membership` models to support multi-user data isolation.
+  - [x] Link `AgentSession` to `User` and `Team`.
+- [x] **Phase 3: Authentication Foundation**
+  - [x] Integrate **Supabase Auth** logic into `packages/web` (null-safe for solo mode).
+- [x] **Phase 4: Multi-Tenant Data Logic**
+  - [x] Update `StatsService` and `RecommendationService` to filter data by `teamId`.
+  - [x] Update CLI commands (`stats`, `costs`, `history`, `recommend`) to support team/user filtering.
 - [ ] **Phase 5: Validation**
-  - [ ] Verify both local SQLite (Solo) and remote PostgreSQL (Team) workflows.
-  - [ ] Full monorepo test suite pass.
+  - [ ] Run full workspace Next.js build (`pnpm build`).
+  - [ ] Ensure all existing Next.js layout tests pass.

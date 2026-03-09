@@ -11,9 +11,15 @@ export const costsCommand = new Command()
     .name('costs')
     .description('Show breakdown of API costs by agent')
     .option('-p, --period <period>', 'Filter by period (day, week, month)')
+    .option('--team <id>', 'Filter by Team ID')
+    .option('--user <id>', 'Filter by User ID')
     .action(async (options) => {
         try {
-            const { breakdown, totalCost } = await reportsService.getCostBreakdown(options.period);
+            const { breakdown, totalCost } = await reportsService.getCostBreakdown({
+                period: options.period,
+                teamId: options.team,
+                userId: options.user
+            });
 
             console.log(chalk.cyan(`\n💸 API Cost Breakdown ${options.period ? '(' + options.period + ')' : ''}\n`));
 
@@ -26,6 +32,9 @@ export const costsCommand = new Command()
             }
 
             table.push([chalk.bold('Total'), chalk.bold.red(`$${totalCost.toFixed(4)}`)]);
+
+            if (options.team) table.push(['Filtered by Team', chalk.cyan(options.team)]);
+            if (options.user) table.push(['Filtered by User', chalk.cyan(options.user)]);
 
             console.log(table.toString());
             console.log('');

@@ -13,9 +13,16 @@ export const statsCommand = new Command()
     .description('Show overall agent usage statistics')
     .option('-a, --agent <name>', 'Filter by agent name')
     .option('-p, --period <period>', 'Filter by period (day, week, month)')
+    .option('--team <id>', 'Filter by Team ID')
+    .option('--user <id>', 'Filter by User ID')
     .action(async (options) => {
         try {
-            const stats = await reportsService.getOverallStats(options.agent, options.period);
+            const stats = await reportsService.getOverallStats({
+                agentName: options.agent,
+                period: options.period,
+                teamId: options.team,
+                userId: options.user
+            });
 
             console.log(chalk.cyan(`\n📊 AgentFoundry V2 Statistics ${options.period ? '(' + options.period + ')' : ''}\n`));
 
@@ -33,6 +40,9 @@ export const statsCommand = new Command()
                 ['Zero-Shot Success Rate', chalk.magenta(`${stats.zeroShotRate.toFixed(1)}%`)],
                 ['Avg Token Yield (lower is better)', chalk.magenta(stats.avgTokenYield.toFixed(2))]
             );
+
+            if (options.team) table.push(['Filtered by Team', chalk.cyan(options.team)]);
+            if (options.user) table.push(['Filtered by User', chalk.cyan(options.user)]);
 
             const plugins = PluginLoader.listPlugins();
             if (plugins.length > 0) {

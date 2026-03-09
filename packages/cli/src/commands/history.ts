@@ -12,10 +12,16 @@ export const historyCommand = new Command()
     .description('Show recent agent sessions log')
     .option('-l, --limit <number>', 'Number of sessions to show', '10')
     .option('-a, --agent <name>', 'Filter by agent name')
+    .option('--team <id>', 'Filter by Team ID')
+    .option('--user <id>', 'Filter by User ID')
     .action(async (options) => {
         try {
             const limit = parseInt(options.limit, 10);
-            const history = await reportsService.getHistory(limit, options.agent);
+            const history = await reportsService.getHistory(limit, {
+                agentName: options.agent,
+                teamId: options.team,
+                userId: options.user
+            });
 
             console.log(chalk.cyan(`\n📜 Recent Agent Sessions\n`));
 

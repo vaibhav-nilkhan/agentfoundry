@@ -9,11 +9,17 @@ const recommendationService = new RecommendationService(prisma);
 export const recommendCommand = new Command('recommend')
     .description('Get agent recommendations based on historical performance')
     .option('-t, --task <type>', 'Specify task type (e.g., frontend, backend, refactor, test)')
+    .option('--team <id>', 'Filter by Team ID')
+    .option('--user <id>', 'Filter by User ID')
     .action(async (options) => {
         try {
             console.log(chalk.blue(`[Recommendation] Analyzing historical performance data...`));
             
-            const recommendations = await recommendationService.getRecommendations(options.task);
+            const recommendations = await recommendationService.getRecommendations({
+                taskType: options.task,
+                teamId: options.team,
+                userId: options.user
+            });
 
             if (recommendations.length === 0) {
                 console.log(chalk.yellow('No historical data found to make a recommendation.'));
@@ -22,6 +28,8 @@ export const recommendCommand = new Command('recommend')
             }
 
             console.log(chalk.bold(`\nTop Recommended Agents ${options.task ? `for ${options.task}` : 'Overall'}:`));
+            if (options.team) console.log(chalk.cyan(`   Filtering by Team: ${options.team}`));
+            if (options.user) console.log(chalk.cyan(`   Filtering by User: ${options.user}`));
             console.log(chalk.gray('─'.repeat(60)));
 
             recommendations.forEach((rec, index) => {
