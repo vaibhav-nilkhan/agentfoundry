@@ -1,12 +1,14 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
-import { User, Session } from '@supabase/supabase-js';
+
+interface User {
+  id: string;
+  email: string;
+}
 
 interface AuthContextType {
   user: User | null;
-  session: Session | null;
   loading: boolean;
   signOut: () => Promise<void>;
 }
@@ -14,42 +16,20 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  // For V2 Solo Mode, we default to no logged-in user until we implement Native Auth
+  const [user] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!supabase) {
-      setLoading(false);
-      return;
-    }
-
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Listen for changes on auth state (logged in, signed out, etc.)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    setLoading(false);
   }, []);
 
   const signOut = async () => {
-    if (supabase) {
-      await supabase.auth.signOut();
-    }
+    console.log('Sign out called in Solo Mode');
   };
 
   const value = {
     user,
-    session,
     loading,
     signOut,
   };

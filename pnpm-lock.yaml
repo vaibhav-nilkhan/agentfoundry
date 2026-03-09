@@ -294,9 +294,6 @@ importers:
       '@radix-ui/react-toast':
         specifier: ^1.2.15
         version: 1.2.15(@types/react-dom@18.3.7)(@types/react@18.3.26)(react-dom@18.3.1)(react@18.3.1)
-      '@supabase/supabase-js':
-        specifier: ^2.39.3
-        version: 2.80.0
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
@@ -3423,61 +3420,6 @@ packages:
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
     dev: false
 
-  /@supabase/auth-js@2.80.0:
-    resolution: {integrity: sha512-q2LyCVJGN4p7d92cOI7scWOoNwxJhZuFRwiimSUGJGI5zX7ubf1WUPznwOmYEn8WVo3Io+MyMinA7era6j5KPw==}
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      tslib: 2.8.1
-    dev: false
-
-  /@supabase/functions-js@2.80.0:
-    resolution: {integrity: sha512-0S/k8LRtoblrbzy4ir9m4WuvU/XTkb1EwL/33/oJexCUHCXtsqaPJ3eKfr1GWtNqTa1zryv6sXs3Fpv7lKCsMQ==}
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      tslib: 2.8.1
-    dev: false
-
-  /@supabase/postgrest-js@2.80.0:
-    resolution: {integrity: sha512-yKzehXlRbDoXIQefdRQnvaI9BEogoWIp/7+y/m5enZDKW2IP9aAgq5tU72sThcwftDJvknnIpEHAABG3qviEng==}
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      tslib: 2.8.1
-    dev: false
-
-  /@supabase/realtime-js@2.80.0:
-    resolution: {integrity: sha512-cXK6Gs4UDylN8oz40omi01QK0cSCBVj0efXC1WodpENTuDnrkUs28W8/eslEnAtlawaVtikC1Q92mpz9+o85Mg==}
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      '@types/phoenix': 1.6.6
-      '@types/ws': 8.18.1
-      tslib: 2.8.1
-      ws: 8.18.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
-  /@supabase/storage-js@2.80.0:
-    resolution: {integrity: sha512-Iepod83h2WoMCaLC9pGb3QOT67Kn3RlUdbXpo3uvbDKfPU8EgytS4RVaPmDjhqDjj8AGaiz9mk/ppd2Q2WS+gw==}
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      tslib: 2.8.1
-    dev: false
-
-  /@supabase/supabase-js@2.80.0:
-    resolution: {integrity: sha512-n8pkXQxuo5zCWXX5cbSNZj1vuWS8IVNGWTmP1m31Iq1k0e8lPZ07PF08TRV79HHq3mEPP/Ko//BQuflHvY2o8w==}
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      '@supabase/auth-js': 2.80.0
-      '@supabase/functions-js': 2.80.0
-      '@supabase/postgrest-js': 2.80.0
-      '@supabase/realtime-js': 2.80.0
-      '@supabase/storage-js': 2.80.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
   /@swc/helpers@0.5.15:
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
     dependencies:
@@ -3488,7 +3430,7 @@ packages:
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
     engines: {node: '>=18'}
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.29.0
       '@babel/runtime': 7.28.6
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
@@ -3783,10 +3725,6 @@ packages:
       pg-types: 2.2.0
     dev: false
 
-  /@types/phoenix@1.6.6:
-    resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
-    dev: false
-
   /@types/prop-types@15.7.15:
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
 
@@ -3860,12 +3798,6 @@ packages:
 
   /@types/use-sync-external-store@0.0.6:
     resolution: {integrity: sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==}
-    dev: false
-
-  /@types/ws@8.18.1:
-    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
-    dependencies:
-      '@types/node': 20.19.24
     dev: false
 
   /@types/yargs-parser@21.0.3:
@@ -11007,19 +10939,6 @@ packages:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: true
-
-  /ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
 
   /xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
