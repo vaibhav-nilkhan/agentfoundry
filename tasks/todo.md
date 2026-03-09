@@ -57,3 +57,19 @@
 - [x] **Phase 3: Validation**
   - [x] Run full workspace Next.js build (`pnpm build`).
   - [x] Ensure all existing Next.js layout tests pass.
+
+## Week 7 — Agent Recommendation Engine & Insights 🧠
+- [ ] **Phase 1: Core Recommendation Logic**
+  - [ ] Implement `RecommendationService.ts` in `packages/cli/src/services`.
+  - [ ] Logic: Query SQLite for `QualityMetrics` grouped by `agentName` and `taskType`.
+  - [ ] Calculate "Best Fit" using weighted score: `passRate` (50%) + `tokenYield` (30%) + `costEfficiency` (20%).
+- [ ] **Phase 2: CLI Integration**
+  - [ ] Add `agentfoundry recommend` command.
+  - [ ] Support `--task` flag to specify task type or description for prediction.
+- [ ] **Phase 3: Web Dashboard Insights**
+  - [ ] Create `/insights` page in the Next.js dashboard.
+  - [ ] Display "Agent Leaderboard" per task category (e.g., Best for Frontend, Best for Refactoring).
+  - [ ] Show "Projected Savings" if switching to the recommended agent.
+- [ ] **Phase 4: Validation**
+  - [ ] Add unit tests for `RecommendationService`.
+  - [ ] Ensure full monorepo test pass.

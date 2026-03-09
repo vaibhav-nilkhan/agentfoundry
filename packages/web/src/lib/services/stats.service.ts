@@ -1,5 +1,6 @@
 import { PrismaClient } from '@agentfoundry/db';
 import { subDays, subWeeks, subMonths } from 'date-fns';
+import { calculateRecommendations } from '@agentfoundry/shared';
 
 // Singleton Prisma instance for Next.js to prevent connection pooling issues
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
@@ -108,6 +109,14 @@ export class StatsService {
             limit,
             sessions
         };
+    }
+
+    async getRecommendations(taskType?: string) {
+        const sessions = await this.db.agentSession.findMany({
+            include: { cost: true, quality: true }
+        });
+
+        return calculateRecommendations(sessions, taskType);
     }
 }
 

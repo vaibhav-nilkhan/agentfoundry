@@ -250,13 +250,14 @@ Inspired by autonomous AI research loops (like Karpathy's `autoresearch`), Agent
 
 **Phase 1 output:** A working CLI tool that solo developers can install, run `agentfoundry watch`, use their agents normally, and see costs + quality data in terminal or browser.
 
-### Phase 2: Polish + Community (Weeks 6-8)
+### Phase 2: Polish + Intelligence (Weeks 6-8)
 
 | Week | Deliverable |
 |---|---|
-| **6** | Agent recommendation engine (based on historical data). Insights page on dashboard. |
-| **7** | Plugin system for community agent adapters. Documentation. Contributor guide. |
-| **8** | Open-source launch: GitHub README, blog post, HN/Reddit submission, OSS program applications. |
+| **6** | **Advanced Efficiency Engine**: Implementation of `tokenYield` and `isZeroShot` metrics. Premium Bento UI overhaul. |
+| **7** | **Agent Recommendation Engine**: Data-driven agent selection (based on historical `taskType` performance). Insights page. |
+| **8** | **Plugin System**: Infrastructure for community agent adapters. Documentation. Contributor guide. |
+| **9** | **Open-source launch**: GitHub README, blog post, HN/Reddit submission. |
 
 ### Phase 3: Team Features & Autonomous Swarm Orchestration (Weeks 9-12+)
 
