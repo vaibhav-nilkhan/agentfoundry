@@ -13,48 +13,53 @@ export const metadata: Metadata = {
   description: 'Local Fitbit for AI Coding Agents',
 };
 
+import { SidebarProfile } from '@/components/SidebarProfile';
+
 function Sidebar() {
   return (
-    <div className="flex h-screen w-64 flex-col bg-slate-950 border-r border-slate-800 text-white">
-      <div className="flex h-16 items-center px-6 border-b border-slate-800">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+    <div className="flex h-screen w-64 flex-col bg-card border-r border-border text-white">
+      <div className="flex h-16 items-center px-6 border-b border-border">
+        <h1 className="text-xl font-bold bg-gradient-to-r from-accent to-blue-400 bg-clip-text text-transparent flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
           AgentFoundry
         </h1>
       </div>
 
-      <nav className="flex-1 space-y-1 px-4 py-4">
-        <Link href="/" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-          <LayoutDashboard className="h-5 w-5" />
+      <nav className="flex-1 space-y-1 px-4 py-6 overflow-y-auto">
+        <Link href="/" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group">
+          <LayoutDashboard className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           Overview
         </Link>
 
-        <Link href="/costs" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-          <BarChart3 className="h-5 w-5" />
+        <Link href="/costs" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group">
+          <BarChart3 className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           Costs
         </Link>
 
-        <Link href="/performance" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-          <Activity className="h-5 w-5" />
+        <Link href="/performance" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group">
+          <Activity className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           Performance
         </Link>
 
-        <Link href="/insights" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-          <Lightbulb className="h-5 w-5" />
+        <Link href="/insights" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group">
+          <Lightbulb className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           Insights
         </Link>
 
-        <Link href="/history" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-          <Clock className="h-5 w-5" />
+        <Link href="/history" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group">
+          <Clock className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           History
         </Link>
       </nav>
 
-      <div className="p-4 border-t border-slate-800">
-        <Link href="/settings" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
-          <Settings className="h-5 w-5" />
+      <div className="px-4 py-2 border-t border-border">
+        <Link href="/settings" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-400 hover:bg-secondary hover:text-white transition-all group">
+          <Settings className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           Settings
         </Link>
       </div>
+
+      <SidebarProfile />
     </div>
   );
 }

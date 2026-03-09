@@ -84,7 +84,7 @@
   - [x] Finalize root `README.md` with screenshots of the new Bento UI.
   - [x] Polish the `install.sh` script for zero-setup installation.
 
-## Week 9 — Team Mode & PostgreSQL Integration 👥
+## Week 9 — Team Mode & PostgreSQL Integration ✅
 - [x] **Phase 1: Infrastructure Overhaul**
   - [x] Update `docker-compose.yml`: Remove deprecated NestJS/Python services, retain PostgreSQL.
 - [x] **Phase 2: Database Migration**
@@ -96,6 +96,17 @@
 - [x] **Phase 4: Multi-Tenant Data Logic**
   - [x] Update `StatsService` and `RecommendationService` to filter data by `teamId`.
   - [x] Update CLI commands (`stats`, `costs`, `history`, `recommend`) to support team/user filtering.
-- [ ] **Phase 5: Validation**
-  - [ ] Run full workspace Next.js build (`pnpm build`).
-  - [ ] Ensure all existing Next.js layout tests pass.
+- [x] **Phase 5: Team UI & Final Validation**
+  - [x] Implement `UserProfile` and `TeamSwitcher` components in the Sidebar.
+  - [x] Update dashboard pages to use the active `teamId` from the context.
+  - [x] Run full workspace Next.js build (`pnpm build`).
+  - [x] Ensure all monorepo tests pass.
+
+## Week 10 — Multi-Agent Swarm Orchestration 🐝
+- [ ] **Phase 1: Concurrent Session Logic**
+  - [ ] Update `watch` command to handle multiple concurrent agent processes simultaneously.
+  - [ ] Add session "merging" logic if multiple agents work on the same task.
+- [ ] **Phase 2: Swarm Dashboard**
+  - [ ] Create a "Swarm View" showing live activity of all agents in the team.
+- [ ] **Phase 3: Benchmarking**
+  - [ ] Implement `agentfoundry benchmark` to run different agents against the same task and compare results.
