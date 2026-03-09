@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import { BarChart3, Clock, LayoutDashboard, Settings, Activity } from 'lucide-react';
+import { BarChart3, Clock, LayoutDashboard, Settings, Activity, Lightbulb } from 'lucide-react';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,6 +38,11 @@ function Sidebar() {
           Performance
         </Link>
 
+        <Link href="/insights" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+          <Lightbulb className="h-5 w-5" />
+          Insights
+        </Link>
+
         <Link href="/history" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
           <Clock className="h-5 w-5" />
           History
@@ -61,12 +67,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body suppressHydrationWarning className={`${inter.className} bg-slate-900 text-slate-50 flex h-screen overflow-hidden`}>
-        <Sidebar />
-        <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-7xl p-8">
-            {children}
-          </div>
-        </main>
+        <AuthProvider>
+          <Sidebar />
+          <main className="flex-1 overflow-y-auto">
+            <div className="mx-auto max-w-7xl p-8">
+              {children}
+            </div>
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

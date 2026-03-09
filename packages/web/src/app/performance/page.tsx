@@ -5,7 +5,7 @@ import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 import { MetricDisplay } from '@/components/ui/MetricDisplay';
 
 export default async function PerformancePage() {
-    const { sessions } = await statsService.getHistory(100, 1);
+    const { sessions } = await statsService.getHistory(undefined, 100, 1);
 
     // Calculate deeper performance metrics based on the last 100 runs
     const agentPerformance: Record<string, { 

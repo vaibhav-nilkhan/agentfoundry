@@ -21,9 +21,12 @@ export class StatsService {
         }
     }
 
-    async getOverview(period?: string) {
+    async getOverview(teamId?: string, period?: string) {
         const startDate = this.getStartDateForPeriod(period);
-        const whereClause: any = startDate ? { startedAt: { gte: startDate } } : {};
+        const whereClause: any = {
+            ...(teamId ? { teamId } : {}),
+            ...(startDate ? { startedAt: { gte: startDate } } : {})
+        };
 
         const sessions = await this.db.agentSession.findMany({
             where: whereClause,
@@ -62,9 +65,12 @@ export class StatsService {
         };
     }
 
-    async getCosts(period?: string) {
+    async getCosts(teamId?: string, period?: string) {
         const startDate = this.getStartDateForPeriod(period);
-        const whereClause: any = startDate ? { startedAt: { gte: startDate } } : {};
+        const whereClause: any = {
+            ...(teamId ? { teamId } : {}),
+            ...(startDate ? { startedAt: { gte: startDate } } : {})
+        };
 
         const sessions = await this.db.agentSession.findMany({
             where: whereClause,
@@ -90,12 +96,14 @@ export class StatsService {
         };
     }
 
-    async getHistory(limit: number = 50, page: number = 1) {
+    async getHistory(teamId?: string, limit: number = 50, page: number = 1) {
         const skip = (page - 1) * limit;
+        const whereClause: any = teamId ? { teamId } : {};
 
         const [total, sessions] = await Promise.all([
-            this.db.agentSession.count(),
+            this.db.agentSession.count({ where: whereClause }),
             this.db.agentSession.findMany({
+                where: whereClause,
                 orderBy: { startedAt: 'desc' },
                 take: limit,
                 skip,
@@ -111,8 +119,10 @@ export class StatsService {
         };
     }
 
-    async getRecommendations(taskType?: string) {
+    async getRecommendations(teamId?: string, taskType?: string) {
+        const whereClause: any = teamId ? { teamId } : {};
         const sessions = await this.db.agentSession.findMany({
+            where: whereClause,
             include: { cost: true, quality: true }
         });
 

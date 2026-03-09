@@ -1,65 +1,71 @@
+import React from 'react';
 import { statsService } from '@/lib/services/stats.service';
-import { BugPlay } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 export default async function HistoryPage() {
-    const { sessions, total } = await statsService.getHistory(50, 1);
+    // For Phase 3, we default to no specific teamId yet (fetching all)
+    // The service now expects: getHistory(teamId?: string, limit?: number, page?: number)
+    const { sessions, total } = await statsService.getHistory(undefined, 50, 1);
 
     return (
-        <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight text-white mt-4">Session History</h1>
-                <p className="text-slate-400 mt-2">Log of your {total} most recent AI coding agent invocations.</p>
+        <div className="space-y-8 pb-10">
+            <div className="flex flex-col gap-2">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground mt-4 flex items-center gap-3">
+                    <Clock className="w-8 h-8 text-accent" />
+                    Session History
+                </h1>
+                <p className="text-muted-foreground font-mono text-sm">ARCHIVE_MODULE: {total} TOTAL_RECORDS_INDEXED</p>
             </div>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-xl hidden sm:block">
-                <table className="min-w-full divide-y divide-slate-800">
-                    <thead>
+            <div className="bento-card overflow-hidden">
+                <table className="min-w-full divide-y divide-border">
+                    <thead className="bg-secondary/30 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                         <tr>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Date</th>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Agent</th>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Task Type</th>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Cost</th>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Code Diff</th>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Tests</th>
+                            <th className="px-6 py-4 text-left font-medium">Timestamp</th>
+                            <th className="px-6 py-4 text-left font-medium">Agent</th>
+                            <th className="px-6 py-4 text-left font-medium">Task Type</th>
+                            <th className="px-6 py-4 text-left font-medium">Cost</th>
+                            <th className="px-6 py-4 text-left font-medium">Lines Changed</th>
+                            <th className="px-6 py-4 text-left font-medium">Quality</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800 bg-slate-900">
+                    <tbody className="divide-y divide-border bg-card">
                         {sessions.map((session: any) => (
-                            <tr key={session.id} className="hover:bg-slate-800/50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                            <tr key={session.id} className="data-row-interactive">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground font-mono">
                                     {new Date(session.startedAt).toLocaleString(undefined, {
                                         month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
                                     })}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30 capitalize">
+                                    <span className="text-xs font-bold text-accent capitalize border border-accent/20 bg-accent/5 px-2 py-0.5 rounded">
                                         {session.agentName.replace('-code', '')}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-400 capitalize">
-                                    {session.taskType || 'Unknown'}
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground capitalize">
+                                    {session.taskType || 'general'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-emerald-400">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-emerald-400 font-mono font-bold">
                                     {session.cost ? `$${session.cost.costUsd.toFixed(4)}` : '-'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     {session.gitSnapshot ? (
-                                        <div className="flex items-center gap-2 text-xs">
+                                        <div className="flex items-center gap-2 font-mono text-xs">
                                             <span className="text-emerald-500">+{session.gitSnapshot.linesAdded}</span>
-                                            <span className="text-red-500">-{session.gitSnapshot.linesRemoved}</span>
+                                            <span className="text-rose-500">-{session.gitSnapshot.linesRemoved}</span>
                                         </div>
                                     ) : (
-                                        <span className="text-slate-500">-</span>
+                                        <span className="text-muted-foreground opacity-50">-</span>
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     {session.quality ? (
-                                        <div className="flex items-center gap-1.5 text-xs text-slate-300">
-                                            <BugPlay className="h-3 w-3 text-slate-400" />
+                                        <div className="flex items-center gap-2 text-xs text-foreground font-mono">
+                                            <span className={`status-dot ${session.quality.testsFailed === 0 ? 'success' : 'error'}`}></span>
                                             {session.quality.testsPassed} / {session.quality.testsPassed + session.quality.testsFailed}
                                         </div>
                                     ) : (
-                                        <span className="text-slate-500">-</span>
+                                        <span className="text-muted-foreground opacity-50">-</span>
                                     )}
                                 </td>
                             </tr>
@@ -67,8 +73,8 @@ export default async function HistoryPage() {
 
                         {sessions.length === 0 && (
                             <tr>
-                                <td colSpan={6} className="px-6 py-12 text-center text-sm text-slate-500">
-                                    No agent sessions have been tracked yet. Run an agent natively in your terminal!
+                                <td colSpan={6} className="px-6 py-20 text-center text-sm text-muted-foreground font-mono italic">
+                                    No session telemetry available. Start a background tracking session to begin logging data.
                                 </td>
                             </tr>
                         )}

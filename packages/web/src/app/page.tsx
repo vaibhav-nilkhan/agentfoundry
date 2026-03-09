@@ -5,7 +5,7 @@ import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 import { MetricDisplay } from '@/components/ui/MetricDisplay';
 
 export default async function Home() {
-  const stats = await statsService.getOverview('all');
+  const stats = await statsService.getOverview(undefined, 'all');
 
   return (
     <div className="space-y-8 pb-10">

@@ -70,16 +70,35 @@
   - [x] Add unit tests for `RecommendationService`.
   - [x] Ensure full monorepo test pass.
 
-## Week 8 — Community Plugin System & Documentation 🔌
+## Week 8 — Community Plugin System & Documentation ✅
 - [x] **Phase 1: External Plugin Loader**
   - [x] Define the Plugin Directory structure (defaulting to `~/.agentfoundry/plugins/`).
   - [x] Implement a `PluginLoader` that can dynamically import `.js` or `.ts` files (using `tsx` or `eval` if necessary for local scripts).
   - [x] Update `logParsers/index.ts` to check the plugin directory if an agent is not found in the built-in list.
   - [x] Create a `PluginManifest` or ensure the export from the plugin matches the `BaseParser` interface.
   - [x] Verify by creating a mock "dummy-agent" plugin and running `agentfoundry recommend`.
-- [ ] **Phase 2: Contributor Documentation**
-  - [ ] Create `CONTRIBUTING_ADAPTERS.md`.
-  - [ ] Add a "Submit an Adapter" section to the root `README.md`.
-- [ ] **Phase 3: Launch Prep**
-  - [ ] Finalize root `README.md` with screenshots of the new Bento UI.
-  - [ ] Polish the `install.sh` script for zero-setup installation.
+- [x] **Phase 2: Contributor Documentation**
+  - [x] Create `CONTRIBUTING_ADAPTERS.md`.
+  - [x] Add a "Submit an Adapter" section to the root `README.md`.
+- [x] **Phase 3: Launch Prep**
+  - [x] Finalize root `README.md` with screenshots of the new Bento UI.
+  - [x] Polish the `install.sh` script for zero-setup installation.
+
+## Week 9 — Team Mode & PostgreSQL Integration 👥
+- [ ] **Phase 1: Infrastructure Overhaul**
+  - [ ] Update `docker-compose.yml`: Remove deprecated NestJS/Python services, retain PostgreSQL.
+  - [ ] Create `.env.docker` for team mode configuration.
+- [ ] **Phase 2: Database Migration**
+  - [ ] Switch `schema.prisma` datasource to `postgresql`.
+  - [ ] Add `User`, `Team`, and `Membership` models to support multi-user data isolation.
+  - [ ] Link `AgentSession` to `User` and `Team`.
+  - [ ] Run initial PostgreSQL migration.
+- [ ] **Phase 3: Authentication Foundation**
+  - [ ] Integrate **Clerk** or **NextAuth.js** into `packages/web`.
+  - [ ] Create basic Login/Sign-up flow.
+- [ ] **Phase 4: Multi-Tenant Data Logic**
+  - [ ] Update `StatsService` and `RecommendationService` to filter data by `teamId`.
+  - [ ] Update CLI to support authentication tokens for remote syncing.
+- [ ] **Phase 5: Validation**
+  - [ ] Verify both local SQLite (Solo) and remote PostgreSQL (Team) workflows.
+  - [ ] Full monorepo test suite pass.

@@ -5,7 +5,7 @@ import { CircleDollarSign } from 'lucide-react';
 import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid';
 
 export default async function CostsPage() {
-    const { agentTotals, dailyCosts } = await statsService.getCosts('all');
+    const { agentTotals, dailyCosts } = await statsService.getCosts(undefined, 'all');
 
     return (
         <div className="space-y-8 pb-10">

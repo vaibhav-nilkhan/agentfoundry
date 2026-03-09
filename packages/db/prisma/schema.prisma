@@ -1,13 +1,60 @@
 // AgentFoundry V2 Tracker Schema
-// This replaces the old V1 Skills Marketplace schema.
+// Multi-tenant support for Team Mode
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  name          String?
+  image         String?
+  
+  memberships   Membership[]
+  sessions      AgentSession[]
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Team {
+  id            String       @id @default(cuid())
+  name          String
+  slug          String       @unique
+  
+  memberships   Membership[]
+  sessions      AgentSession[]
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Membership {
+  id        String   @id @default(cuid())
+  role      TeamRole @default(MEMBER)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, teamId])
 }
 
 model AgentSession {
@@ -19,6 +66,13 @@ model AgentSession {
   startedAt       DateTime         @default(now())
   endedAt         DateTime?
   durationSeconds Int?
+  
+  // Relations for Multi-tenancy
+  userId          String?
+  user            User?            @relation(fields: [userId], references: [id])
+  
+  teamId          String?
+  team            Team?            @relation(fields: [teamId], references: [id])
   
   cost            CostRecord?
   quality         QualityMetrics?
