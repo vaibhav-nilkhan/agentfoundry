@@ -1,5 +1,5 @@
 import { statsService } from '@/lib/services/stats.service';
-import { Code2, BugPlay } from 'lucide-react';
+import { BugPlay } from 'lucide-react';
 
 export default async function HistoryPage() {
     const { sessions, total } = await statsService.getHistory(50, 1);
@@ -24,7 +24,7 @@ export default async function HistoryPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800 bg-slate-900">
-                        {sessions.map((session) => (
+                        {sessions.map((session: any) => (
                             <tr key={session.id} className="hover:bg-slate-800/50 transition-colors">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                                     {new Date(session.startedAt).toLocaleString(undefined, {

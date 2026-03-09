@@ -118,6 +118,12 @@ agentfoundry dashboard                # Opens localhost:3000
 - **History page:** Table of all tracked sessions with filters
 - **Insights page:** "Claude has 94% test-pass on backend vs Codex 80%"
 
+### 4.7 Advanced Efficiency Metrics (The "Karpathy" Insight)
+Inspired by autonomous AI research loops (like Karpathy's `autoresearch`), AgentFoundry tracks not just *what* an agent did, but *how efficiently it navigated the solution space*:
+- **Token-to-Code Yield:** (Tokens Output / Net Lines Changed). Identifies agents that "thrash" (write massive amounts of text/code but result in tiny net diffs).
+- **Zero-Shot Success Rate:** Did the agent pass the quality gate on the *first* session, or did it require multiple developer interventions (session chaining) to fix regressions?
+- **Blast Radius:** Ratio of files modified to the actual scope of the task. Penalizes agents that make sprawling, unnecessary changes instead of surgical fixes.
+
 ---
 
 ## 5. Features (Phase 2 — Post-MVP)
@@ -171,14 +177,14 @@ agentfoundry dashboard                # Opens localhost:3000
                    │
      ┌─────────────┼──────────────┐
      │             │              │
-┌────▼───┐   ┌────▼────┐   ┌────▼────────┐
-│ CLI    │   │ Web API  │   │ Dashboard   │
-│Reports │   │ (NestJS) │   │ (Next.js)   │
-└────────┘   └─────────┘   └─────────────┘
+┌────▼───┐   ┌────▼────────┐
+│ CLI    │   │ Next.js Web │
+│Reports │   │ (UI + API)  │
+└────────┘   └─────────────┘
 ```
 
 > [!IMPORTANT]
-> **Phase 1 uses SQLite locally** — no PostgreSQL setup needed. Solo developer can run everything with zero infrastructure. Team/hosted version uses PostgreSQL (Phase 2).
+> **Phase 1 uses SQLite locally** — no PostgreSQL setup needed. Solo developer can run everything with zero infrastructure. Team/hosted version uses PostgreSQL (Phase 3). We use Next.js App Router for both the frontend and backend API logic to keep the local setup simple (no standalone NestJS server required).
 
 ### Data Flow
 
@@ -216,8 +222,8 @@ agentfoundry dashboard                # Opens localhost:3000
 | Current Package | Reuse | New Role |
 |---|---|---|
 | `packages/cli` | 🟡 Framework only | New commands: `watch`, `stats`, `costs`, `history`, `dashboard` |
-| `packages/web` | 🟢 Heavy reuse | Dashboard UI — keep layout, auth, component library. Replace pages. |
-| `packages/api` | 🟢 Heavy reuse | Backend API — keep NestJS structure, auth, middleware. New endpoints. |
+| `packages/web` | 🟢 Heavy reuse | Dashboard UI + API Routes — keep layout, auth, component library. Replace pages. |
+| `packages/api` | 🔴 Deprecated | Removing separate Express/NestJS backend to simplify local deployment. |
 | `packages/db` | 🟡 Structure only | New Prisma models. Keep migration infrastructure. Switch to SQLite for Phase 1. |
 | `packages/validator` | 🟡 Concept reuse | Quality gate — run tests/lint/build after agent sessions. Rewrite in TypeScript. |
 | `packages/mcp-adapter` | 🟢 Direct reuse | Agent detection and log parsing uses MCP concepts |
@@ -252,12 +258,17 @@ agentfoundry dashboard                # Opens localhost:3000
 | **7** | Plugin system for community agent adapters. Documentation. Contributor guide. |
 | **8** | Open-source launch: GitHub README, blog post, HN/Reddit submission, OSS program applications. |
 
-### Phase 3: Team Features (Weeks 9-12)
+### Phase 3: Team Features & Autonomous Swarm Orchestration (Weeks 9-12+)
+
+> **Theoretical North Star (The "Karpathy" Swarm Vision):**
+> Andrej Karpathy's `autoresearch` project hypothesized that the next leap in AI tooling is when "humans stop writing the code, and start programming the program.md." 
+> While true AGI "singularity" is sci-fi, the engineering goal for Phase 3 is to build the infrastructure that allows multiple agents to safely orchestrate themselves based on hard data.
 
 | Week | Deliverable |
 |---|---|
-| **9-10** | Team mode: aggregate data across devs. PostgreSQL for hosted version. |
-| **11-12** | Hosted dashboard (optional SaaS). Budget alerts. CI/CD integration. |
+| **9-10** | **Team Mode & PostgreSQL**: Aggregate data across devs for centralized hosted tracking. |
+| **11-12** | **Multi-Agent Swarm Tracking**: Support for monitoring parallel "agent swarms" (multiple agents testing different hypotheses simultaneously). |
+| **13+** | **Closed-Loop Prompt Optimization**: AI agents use AgentFoundry's local SQLite metrics (`TokenYield` and `ZeroShot`) to automatically rewrite and optimize the workspace's `AGENT_INSTRUCTIONS.md`, creating a self-improving workflow. |
 
 ---
 

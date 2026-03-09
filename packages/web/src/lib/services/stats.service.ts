@@ -30,11 +30,11 @@ export class StatsService {
         });
 
         const totalSessions = sessions.length;
-        const totalCostUsd = sessions.reduce((sum, s) => sum + (s.cost?.costUsd || 0), 0);
+        const totalCostUsd = sessions.reduce((sum: number, s: any) => sum + (s.cost?.costUsd || 0), 0);
 
-        const sessionsWithQuality = sessions.filter(s => s.quality);
-        const totalTestsPassed = sessionsWithQuality.reduce((sum, s) => sum + (s.quality?.testsPassed || 0), 0);
-        const totalTestsFailed = sessionsWithQuality.reduce((sum, s) => sum + (s.quality?.testsFailed || 0), 0);
+        const sessionsWithQuality = sessions.filter((s: any) => s.quality);
+        const totalTestsPassed = sessionsWithQuality.reduce((sum: number, s: any) => sum + (s.quality?.testsPassed || 0), 0);
+        const totalTestsFailed = sessionsWithQuality.reduce((sum: number, s: any) => sum + (s.quality?.testsFailed || 0), 0);
 
         let passRate = 0;
         if (totalTestsPassed + totalTestsFailed > 0) {

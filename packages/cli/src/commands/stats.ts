@@ -28,7 +28,9 @@ export const statsCommand = new Command()
                 ['Total Input Tokens', stats.totalTokensIn.toLocaleString()],
                 ['Total Output Tokens', stats.totalTokensOut.toLocaleString()],
                 ['Total Cost (USD)', chalk.red(`$${stats.totalCostUsd.toFixed(4)}`)],
-                ['Test Pass Rate', chalk.blue(`${stats.passRate.toFixed(1)}%`)]
+                ['Test Pass Rate', chalk.blue(`${stats.passRate.toFixed(1)}%`)],
+                ['Zero-Shot Success Rate', chalk.magenta(`${stats.zeroShotRate.toFixed(1)}%`)],
+                ['Avg Token Yield (lower is better)', chalk.magenta(stats.avgTokenYield.toFixed(2))]
             );
 
             console.log(table.toString());

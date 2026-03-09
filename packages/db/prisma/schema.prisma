@@ -51,6 +51,10 @@ model QualityMetrics {
   lintIssues      Int          @default(0)
   buildSuccess    Boolean      @default(true)
   
+  // Advanced Efficiency Metrics (Karpathy Insight)
+  tokenYield      Float?       // (Tokens Out / Net Lines Changed) - Lower is better (less thrashing)
+  isZeroShot      Boolean?     // True if passed tests without prior failed sessions in close proximity
+  
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }

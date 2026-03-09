@@ -5,7 +5,7 @@ import { ProcessMonitor, ProcessEvent } from '../services/processMonitor';
 import { GitIntegration, GitSnapshotData } from '../services/gitIntegration';
 import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
-import { TaskClassifier, QualityChecker } from '@agentfoundry/validator';
+import { TaskClassifier, QualityChecker, EfficiencyCalculator } from '@agentfoundry/validator';
 
 const prisma = new PrismaClient();
 const logParser = new LogParserService(prisma);
@@ -45,6 +45,22 @@ export const watchCommand = new Command()
                     const qualityChecker = new QualityChecker(process.cwd());
                     const qualityResults = await qualityChecker.runChecks();
 
+                    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+                    const recentFailures = await prisma.agentSession.count({
+                        where: {
+                            agentName: event.agent,
+                            taskType: taskType,
+                            startedAt: { gte: oneHourAgo },
+                            quality: {
+                                OR: [
+                                    { testsFailed: { gt: 0 } },
+                                    { buildSuccess: false }
+                                ]
+                            }
+                        }
+                    });
+                    const isZeroShot = EfficiencyCalculator.calculateIsZeroShot(qualityResults, recentFailures);
+
                     // Save to SQLite via Prisma
                     const session = await prisma.agentSession.create({
                         data: {
@@ -59,7 +75,8 @@ export const watchCommand = new Command()
                                     testsPassed: qualityResults.testsPassed,
                                     testsFailed: qualityResults.testsFailed,
                                     lintIssues: qualityResults.lintIssues,
-                                    buildSuccess: qualityResults.buildSuccess
+                                    buildSuccess: qualityResults.buildSuccess,
+                                    isZeroShot: isZeroShot
                                 }
                             },
                             gitSnapshot: {
@@ -81,11 +98,18 @@ export const watchCommand = new Command()
                     );
 
                     if (cost) {
+                        const tokenYield = EfficiencyCalculator.calculateTokenYield(cost.tokensOut, gitDelta.linesAdded, gitDelta.linesRemoved);
+                        await prisma.qualityMetrics.update({
+                            where: { sessionId: session.id },
+                            data: { tokenYield }
+                        });
+
                         spinner.succeed(
                             `Saved session: ${chalk.green(event.agent)} (${durationSeconds}s). ` +
                             `Files: ${gitDelta.filesChanged.length} | ` +
                             `Tokens: ${cost.tokensIn}in/${cost.tokensOut}out | ` +
-                            `Cost: $${cost.costUsd.toFixed(4)}`
+                            `Cost: $${cost.costUsd.toFixed(4)} | ` +
+                            `Yield: ${tokenYield}`
                         );
                     } else {
                         spinner.succeed(`Saved session: ${chalk.green(event.agent)} (${durationSeconds}s). Files changed: ${gitDelta.filesChanged.length}. (No cost data found)`);

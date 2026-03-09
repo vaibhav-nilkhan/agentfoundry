@@ -44,13 +44,26 @@ export class ReportsService {
         const validDurations = sessions.filter(s => s.durationSeconds != null).map(s => s.durationSeconds as number);
         const avgDuration = validDurations.length > 0 ? validDurations.reduce((a, b) => a + b, 0) / validDurations.length : 0;
 
+        const sessionsWithYield = sessionsWithQuality.filter(s => s.quality?.tokenYield != null);
+        const avgTokenYield = sessionsWithYield.length > 0 
+            ? sessionsWithYield.reduce((sum, s) => sum + (s.quality!.tokenYield!), 0) / sessionsWithYield.length 
+            : 0;
+
+        const sessionsWithZeroShotData = sessionsWithQuality.filter(s => s.quality?.isZeroShot != null);
+        const zeroShotCount = sessionsWithZeroShotData.filter(s => s.quality!.isZeroShot).length;
+        const zeroShotRate = sessionsWithZeroShotData.length > 0
+            ? (zeroShotCount / sessionsWithZeroShotData.length) * 100
+            : 0;
+
         return {
             totalSessions,
             totalTokensIn,
             totalTokensOut,
             totalCostUsd,
             avgDuration,
-            passRate
+            passRate,
+            avgTokenYield,
+            zeroShotRate
         };
     }
 

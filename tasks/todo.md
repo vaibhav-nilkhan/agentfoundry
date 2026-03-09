@@ -33,8 +33,27 @@
 - [x] `agentfoundry history` command
 - [x] Formatted terminal output with tables
 
-## Week 5 — Web Dashboard ✅
+## Week 5 — Web Dashboard Base ✅
 - [x] Overview page (costs, tasks, agent breakdown)
 - [x] Costs page (trends, comparisons)
 - [x] Performance page (test pass rates, build success)
 - [x] History page (session table with filters)
+
+## Week 6 — Advanced Efficiency Metrics (Karpathy Update) ✅
+- [x] Implement `tokenYield` calculation (Tokens Out / Net Lines Changed) in `watch.ts` / logic class
+- [x] Implement `isZeroShot` tracking (Passed without recent failed sessions) in `watch.ts` / logic class
+- [x] Add unit tests for efficiency metrics calculations
+- [x] Update `agentfoundry stats` command to display new metrics
+- [x] Update Dashboard Performance page with Efficiency Leaderboard
+
+## Week 6.5 — UI/UX Overhaul (Robust Developer Aesthetic) 🚀
+- [x] **Phase 1: Shared Components Foundation**
+  - [x] Implement `BentoCard` and `BentoGrid` base components with Framer Motion hover effects.
+  - [x] Implement `MetricDisplay` component (monospace fonts, LED status indicators).
+- [x] **Phase 2: Page Refactoring**
+  - [x] Refactor `/page.tsx` (Overview) to use Bento grid structure.
+  - [x] Refactor `/performance/page.tsx` (Metrics) to use high-contrast data rows.
+  - [x] Refactor `/costs/page.tsx` (Charts) to customize Recharts with 1px grids and mono fonts.
+- [x] **Phase 3: Validation**
+  - [x] Run full workspace Next.js build (`pnpm build`).
+  - [x] Ensure all existing Next.js layout tests pass.
