@@ -1,27 +1,6 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
-  db:
-    image: postgres:15-alpine
-    container_name: agentfoundry-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-agentfoundry}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-agentfoundry_dev_password}
-      POSTGRES_DB: ${POSTGRES_DB:-agentfoundry}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-agentfoundry}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - agentfoundry-network
-
   # Redis Cache (For future team features like real-time stats)
   redis:
     image: redis:7-alpine
@@ -41,8 +20,6 @@ services:
       - agentfoundry-network
 
 volumes:
-  postgres_data:
-    driver: local
   redis_data:
     driver: local
 

@@ -1,13 +1,13 @@
 // AgentFoundry V2 Tracker Schema
-// Multi-tenant support for Team Mode
+// Multi-tenant support for Team Mode (SQLite compatible)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -35,15 +35,9 @@ model Team {
   updatedAt     DateTime     @updatedAt
 }
 
-enum TeamRole {
-  OWNER
-  ADMIN
-  MEMBER
-}
-
 model Membership {
   id        String   @id @default(cuid())
-  role      TeamRole @default(MEMBER)
+  role      String   @default("MEMBER") // SQLite doesn't support Enums, using String
   
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

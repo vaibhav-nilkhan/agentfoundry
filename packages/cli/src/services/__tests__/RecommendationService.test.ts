@@ -18,9 +18,9 @@ describe('RecommendationService', () => {
 
     it('should return empty array if no sessions exist', async () => {
         mockPrisma.agentSession.findMany.mockResolvedValue([]);
-        
+
         const recommendations = await service.getRecommendations();
-        
+
         expect(recommendations).toEqual([]);
     });
 
@@ -42,7 +42,7 @@ describe('RecommendationService', () => {
 
         mockPrisma.agentSession.findMany.mockResolvedValue(mockSessions);
 
-        const recommendations = await service.getRecommendations('frontend');
+        const recommendations = await service.getRecommendations({ taskType: 'frontend' });
 
         expect(recommendations.length).toBe(2);
         expect(recommendations[0].agentName).toBe('claude-code'); // Better pass rate and yield
@@ -60,7 +60,7 @@ describe('RecommendationService', () => {
 
         mockPrisma.agentSession.findMany.mockResolvedValue(mockSessions);
 
-        const recommendations = await service.getRecommendations('backend');
+        const recommendations = await service.getRecommendations({ taskType: 'backend' });
 
         expect(recommendations[0].confidence).toBe('high');
     });

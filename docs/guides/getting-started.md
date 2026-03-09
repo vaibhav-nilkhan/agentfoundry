@@ -1,255 +1,101 @@
-# Getting Started with AgentFoundry
+# Getting Started with AgentFoundry V2
 
 > **The Fitbit for AI Coding Agents**
 
-Welcome to AgentFoundry! This guide will help you set up your development environment and start contributing to the platform.
+Welcome to AgentFoundry! This guide will help you set up your development environment and start tracking your AI agents immediately. AgentFoundry V2 is designed to be **Zero-Setup and Local-First**.
 
 ---
 
-## 📚 Documentation Overview
-
-AgentFoundry documentation is organized into three main sections:
-
-### 🏗️ Architecture
-- [Skill Format Specification](../architecture/skill-format-spec.md) - Define the canonical AgentFoundry Skill format
-
-### 📖 Guides
-- [MCP Integration Guide](./mcp-integration.md) - MCP integration architecture and implementation
-- [Getting Started](./getting-started.md) - This guide
-
-### 📋 Planning
-- [Execution Roadmap](../planning/execution-roadmap.md) - Track progress against roadmap
-- [2-Week Sprint Plan](../planning/2-week-sprint.md) - Detailed action plan for MVP
-
----
-
-## 🚀 Quick Start
+## 🚀 Quick Start (Solo Mode)
 
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
-
-- **Node.js** 18+ and **pnpm** 8+
-- **Python** 3.11+
-- **PostgreSQL** 15+
+- **Node.js** 18+ 
+- **pnpm** 8+
 - **Git**
+
+*Note: No database server (like PostgreSQL) is required. AgentFoundry uses a local SQLite database by default.*
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/[your-username]/agentfoundry.git
+git clone https://github.com/vaibhav-nilkhan/agentfoundry.git
 cd agentfoundry
 ```
 
 ### 2. Install Dependencies
 
 ```bash
-# Install all packages
+# Install all packages in the Turborepo
 pnpm install
-
-# Install Python dependencies for validator
-cd packages/validator
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-cd ../..
 ```
 
-### 3. Set Up Environment Variables
+### 3. Set Up Local Database
 
-Create `.env` files for each package:
-
-#### Frontend (`packages/web/.env`)
-```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# Port Configuration
-PORT=3100
-NEXT_PUBLIC_APP_URL=http://localhost:3100
-NEXT_PUBLIC_API_URL=http://localhost:4100
-NEXT_PUBLIC_VALIDATOR_URL=http://localhost:5100
-```
-
-#### Backend (`packages/api/.env`)
-```env
-# Supabase Configuration
-SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/agentfoundry
-
-# Port Configuration
-PORT=4100
-CORS_ORIGIN=http://localhost:3100
-```
-
-#### Validator (`packages/validator/.env`)
-```env
-PORT=5100
-DATABASE_URL=postgresql://user:password@localhost:5432/agentfoundry
-```
-
-See [PORT_CONFIGURATION.md](../../PORT_CONFIGURATION.md) for detailed port management.
-
-### 4. Set Up Database
+AgentFoundry uses Prisma with SQLite for zero-setup tracking.
 
 ```bash
-cd packages/db
-pnpm prisma migrate dev
-pnpm prisma generate
-cd ../..
+npx pnpm --filter @agentfoundry/db build
+npx pnpm --filter @agentfoundry/db prisma db push
 ```
+This creates a `dev.db` SQLite file inside `packages/db/prisma/`.
 
-### 5. Start Development Servers
+### 4. Start Tracking
 
+You need two things running to use AgentFoundry: the background tracker and the dashboard.
+
+Open two separate terminals:
+
+**Terminal 1: Start the Background Daemon**
 ```bash
-# Start all services (frontend, backend, validator)
-pnpm dev
+npx pnpm --filter @agentfoundry/cli start watch
 ```
+*(This passively watches for Claude Code, Codex, or Gemini CLI sessions and records them + git diffs)*
 
-Or start individually:
-
+**Terminal 2: Start the Web Dashboard**
 ```bash
-# Terminal 1 - Frontend (port 3100)
-cd packages/web
-pnpm dev
-
-# Terminal 2 - Backend (port 4100)
-cd packages/api
-pnpm dev
-
-# Terminal 3 - Validator (port 5100)
-cd packages/validator
-python -m uvicorn app.main:app --reload --port 5100
+npx pnpm --filter @agentfoundry/web dev
 ```
-
-### 6. Access the Application
-
-- **Frontend**: http://localhost:3100
-- **Backend API**: http://localhost:4100/api/v1
-- **API Docs**: http://localhost:4100/api/docs
-- **Validator**: http://localhost:5100
+*(This opens the Next.js Bento dashboard at http://localhost:3000)*
 
 ---
 
-## 📦 Monorepo Structure
+## 📦 Architecture
 
 ```
 agentfoundry/
 ├── packages/
-│   ├── web/              # Next.js frontend
-│   ├── api/              # NestJS backend
-│   ├── validator/        # Python FastAPI validator
-│   ├── sdk/              # TypeScript SDK
-│   ├── cli/              # CLI tool
-│   ├── db/               # Prisma database
-│   └── shared/           # Shared types/utils
-├── skills/
-│   └── examples/         # Example Skills
-├── docs/
-│   ├── architecture/     # Architecture docs
-│   ├── guides/           # User guides
-│   └── planning/         # Planning docs
-└── [config files]
+│   ├── web/              # Next.js 15 App Router (Dashboard)
+│   ├── cli/              # Node.js Background Daemon & CLI Tools
+│   ├── db/               # Prisma schema & SQLite database
+│   ├── mcp-adapter/      # Log parsing and agent detection
+│   ├── sdk/              # Agent adapter SDK
+│   └── shared/           # Shared types and utility functions
+└── docs/                 # Documentation
 ```
 
----
+## 🔌 Building an Agent Plugin
 
-## 🛠️ Development Workflow
+Want to track an agent that isn't supported yet (like Cursor or Windsurf)?
+You can drop a JavaScript adapter into `~/.agentfoundry/plugins/`.
 
-### Creating a New Skill
-
-1. **Create Skill directory**:
-   ```bash
-   mkdir -p skills/examples/my-skill/{src,tests,docs,examples}
-   ```
-
-2. **Create `skill.yaml` manifest**:
-   ```json
-   {
-     "name": "my-skill",
-     "version": "1.0.0",
-     "description": "My awesome Skill",
-     "platforms": ["MCP", "CLAUDE_SKILLS"],
-     "permissions": ["network.http"],
-     "tools": [...]
-   }
-   ```
-
-3. **Create `SKILL.md` documentation**
-
-4. **Implement in `src/main.py` or `src/main.ts`**
-
-5. **Write tests in `tests/`**
-
-See [Skill Format Specification](../architecture/skill-format-spec.md) for details.
-
-### Running Tests
-
-```bash
-# Run all tests
-pnpm test
-
-# Test specific package
-cd packages/web
-pnpm test
-```
-
-### Building for Production
-
-```bash
-# Build all packages
-pnpm build
-
-# Build specific package
-cd packages/api
-pnpm build
-```
+See the [Contributor Guide for Adapters](../CONTRIBUTING_ADAPTERS.md) for full instructions.
 
 ---
 
 ## 🔧 Troubleshooting
 
-### Port Conflicts
+### Prisma Database Errors
+If you see errors about the database not being found or out of sync:
+```bash
+npx pnpm --filter @agentfoundry/db prisma generate
+npx pnpm --filter @agentfoundry/db prisma db push
+```
 
-If you're running multiple projects and experiencing port conflicts:
-
-1. Edit `.env` files to change ports (e.g., 3200, 4200, 5200)
-2. See [PORT_CONFIGURATION.md](../../PORT_CONFIGURATION.md) for detailed guide
-
-### Database Connection Issues
-
-1. Ensure PostgreSQL is running
-2. Verify `DATABASE_URL` in `.env` files
-3. Run migrations: `pnpm prisma migrate dev`
-
-### Supabase Auth Issues
-
-1. Verify Supabase project URL and keys
-2. Check CORS settings in Supabase dashboard
-3. Ensure JWT secret is configured correctly
-
----
-
-## 📚 Additional Resources
-
-- [ARCHITECTURE.md](../../ARCHITECTURE.md) - System architecture overview
-- [SETUP.md](../../SETUP.md) - Detailed setup instructions
-- [MIGRATION.md](../../MIGRATION.md) - Migration guide (Express → NestJS)
-- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Contribution guidelines
-
----
-
-## 🆘 Getting Help
-
-- **Documentation**: Check the `docs/` directory
-- **Issues**: Report bugs on GitHub Issues
-- **Discussions**: Join GitHub Discussions for questions
-
----
-
-**Ready to build the future of AI agents? Let's go! 🚀**
+### Next.js Cache Issues
+If the dashboard looks broken, clear the `.next` cache:
+```bash
+rm -rf packages/web/.next
+npx pnpm --filter @agentfoundry/web dev
+```
