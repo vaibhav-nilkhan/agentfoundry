@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { AuthProvider, useAuth } from '../AuthContext';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
@@ -29,7 +29,7 @@ const TestComponent = () => {
 describe('AuthContext - Solo Mode Default Defaults', () => {
     beforeEach(() => {
         vi.resetAllMocks();
-        localStorage.clear();
+        globalThis.localStorage.clear();
     });
 
     it('defaults to Solo Mode (user=null) when no users exist', async () => {
@@ -57,7 +57,7 @@ describe('AuthContext - Solo Mode Default Defaults', () => {
         getLocalUsers.mockResolvedValue(mockUsers);
         getLocalTeams.mockResolvedValue([]);
 
-        localStorage.setItem('agentfoundry_user_id', 'u1');
+        globalThis.localStorage.setItem('agentfoundry_user_id', 'u1');
 
         render(
             <AuthProvider>

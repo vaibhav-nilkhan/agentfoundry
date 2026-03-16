@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getLocalUsers, getLocalTeams } from '../app/actions/profiles';
 
 interface User {
@@ -28,19 +28,22 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [activeTeam, setActiveTeam] = useState<Team | null>(null);
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [availableTeams, setAvailableTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
+  const storage = typeof globalThis !== 'undefined' && 'localStorage' in globalThis
+    ? globalThis.localStorage
+    : null;
 
   const loadProfiles = async () => {
     setLoading(true);
     const users = await getLocalUsers();
     setAvailableUsers(users);
 
-    const savedUserId = typeof window !== 'undefined' ? localStorage.getItem('agentfoundry_user_id') : null;
+    const savedUserId = storage?.getItem('agentfoundry_user_id') ?? null;
     let currentUser = null;
 
     if (savedUserId) {
@@ -54,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const teams = await getLocalTeams(currentUser.id);
       setAvailableTeams(teams);
 
-      const savedTeamId = typeof window !== 'undefined' ? localStorage.getItem('agentfoundry_team_id') : null;
+      const savedTeamId = storage?.getItem('agentfoundry_team_id') ?? null;
       if (savedTeamId) {
         setActiveTeam(teams.find(t => t.id === savedTeamId) || null);
       } else if (teams.length > 0) {
@@ -73,8 +76,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const switchUser = (userId: string | null) => {
     if (!userId) {
-      localStorage.removeItem('agentfoundry_user_id');
-      localStorage.removeItem('agentfoundry_team_id');
+      storage?.removeItem('agentfoundry_user_id');
+      storage?.removeItem('agentfoundry_team_id');
       setUser(null);
       setActiveTeam(null);
       setAvailableTeams([]);
@@ -83,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const newUser = availableUsers.find(u => u.id === userId);
     if (newUser) {
-      localStorage.setItem('agentfoundry_user_id', newUser.id);
+      storage?.setItem('agentfoundry_user_id', newUser.id);
       setUser(newUser);
       loadProfiles(); // Reload to get their teams
     }
@@ -91,13 +94,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const switchTeam = (teamId: string | null) => {
     if (!teamId) {
-      localStorage.removeItem('agentfoundry_team_id');
+      storage?.removeItem('agentfoundry_team_id');
       setActiveTeam(null);
       return;
     }
     const newTeam = availableTeams.find(t => t.id === teamId);
     if (newTeam) {
-      localStorage.setItem('agentfoundry_team_id', newTeam.id);
+      storage?.setItem('agentfoundry_team_id', newTeam.id);
       setActiveTeam(newTeam);
     }
   };
