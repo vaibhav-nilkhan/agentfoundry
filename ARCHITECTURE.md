@@ -1,343 +1,91 @@
-# AgentFoundry Architecture
+# AgentFoundry Architecture (V2)
 
 ## System Overview
 
-AgentFoundry is a multi-tier platform designed for building, validating, and distributing AI agent Skills across multiple LLM platforms.
+AgentFoundry is an open-source "Fitbit for coding agents" designed to track costs, quality, and performance of AI agents locally.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      Developer Tools                        │
+│                      Developer Workspace                    │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │     CLI      │  │     SDK      │  │   Web IDE    │     │
+│  │ Claude Code  │  │    Codex     │  │  Gemini CLI  │     │
 │  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘     │
 │         │                 │                  │              │
 └─────────┼─────────────────┼──────────────────┼──────────────┘
           │                 │                  │
-          └─────────────────┼──────────────────┘
-                            │
-┌───────────────────────────▼──────────────────────────────────┐
-│                      API Gateway                              │
-│                   (NestJS + Supabase Auth)                    │
+          ▼                 ▼                  ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  AgentFoundry Watch (Daemon)                 │
+│      • Process Monitor  • Git Watcher  • Log Parser          │
 └───────────────────────────┬──────────────────────────────────┘
                             │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
-        ▼                   ▼                   ▼
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│  Marketplace │   │  Validator   │   │   Adapters   │
-│   Service    │   │  Microservice│   │   (Claude,   │
-│ (PostgreSQL) │   │  (Python)    │   │   GPT, MCP)  │
-└──────────────┘   └──────────────┘   └──────────────┘
-        │                   │
-        └───────────────────┼───────────────────┘
-                            │
-                ┌───────────▼───────────┐
-                │   Data Layer          │
-                │  ┌─────────────────┐  │
-                │  │   PostgreSQL    │  │
-                │  │   (Skills, Users)│ │
-                │  └─────────────────┘  │
-                │  ┌─────────────────┐  │
-                │  │     Redis       │  │
-                │  │  (Cache, Queue) │  │
-                │  └─────────────────┘  │
-                └───────────────────────┘
+┌───────────────────────────▼──────────────────────────────────┐
+│                   Data & Presentation Layer                  │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────┐  │
+│  │   SQLite DB     │  │   Next.js 15    │  │     CLI      │  │
+│  │ (Local First)   │  │ (Dash & API)    │  │ (Reports)    │  │
+│  └─────────────────┘  └─────────────────┘  └──────────────┘  │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ## Core Components
 
-### 1. Frontend Layer (`@agentfoundry/web`)
+### 1. Presentation Layer (`@agentfoundry/web`)
 
-**Technology**: Next.js 15, React 18, Tailwind CSS
-
-**Responsibilities**:
-- Marketplace UI for browsing and discovering Skills
-- User authentication and profile management
-- Skill submission and management interface
-- Analytics dashboard for developers
-
-**Key Routes**:
-- `/` - Homepage and featured Skills
-- `/marketplace` - Browse all Skills
-- `/skill/[slug]` - Skill detail page
-- `/submit` - Submit new Skill
-- `/dashboard` - Developer dashboard
-
-### 2. API Layer (`@agentfoundry/api`)
-
-**Technology**: NestJS, TypeScript, Supabase Auth
+**Technology**: Next.js 15 (App Router), React 18, Tailwind CSS, Framer Motion (Bento UI)
 
 **Responsibilities**:
-- RESTful API with OpenAPI/Swagger documentation
-- Supabase JWT authentication and authorization
-- Modular service architecture with dependency injection
-- Business logic orchestration and validation
+- Local Dashboard for visualizing agent performance
+- Cost analysis and trend visualization
+- Efficiency metrics (Token Yield, Zero-Shot success)
+- Agent Recommendation Engine (Data-driven selection)
 
-**Key Endpoints**:
-```
-GET    /api/v1/skills          - List all Skills
-GET    /api/v1/skills/:id      - Get Skill details
-POST   /api/v1/skills          - Submit new Skill (auth required)
-PUT    /api/v1/skills/:id      - Update Skill (auth required)
-DELETE /api/v1/skills/:id      - Delete Skill (auth required)
-GET    /api/v1/auth/me         - Get current user
-POST   /api/v1/validate/skill  - Trigger validation
-```
+### 2. Monitoring Layer (`@agentfoundry/cli`)
 
-### 3. Validation Service (`@agentfoundry/validator`)
-
-**Technology**: Python, FastAPI, AST parsing
+**Technology**: Node.js, Commander.js
 
 **Responsibilities**:
-- Static code analysis using Python AST
-- Permission manifest validation
-- Security vulnerability scanning
-- Safety score calculation
+- `watch` daemon: Passively monitors agent processes and Git diffs
+- Log Parsers: Modular system for reading Claude, Codex, and Gemini logs
+- `stats`/`costs`/`history`: CLI reporting tools
+- `recommend`: Suggests the best agent for a task based on historical performance
 
-**Validation Pipeline**:
-```python
-1. Parse code → AST
-2. Detect dangerous patterns (eval, exec, subprocess)
-3. Scan for security issues (SQL injection, XSS)
-4. Validate permissions match actual usage
-5. Generate safety score (0-100)
-6. Return validation report
-```
+### 3. Data Layer (`@agentfoundry/db`)
 
-**Key Validators**:
-- `StaticAnalyzer`: AST-based code structure analysis
-- `PermissionScanner`: Permission usage detection
-- `SecurityScanner`: Vulnerability pattern matching
-
-### 4. SDK Layer (`@agentfoundry/sdk`)
-
-**Technology**: TypeScript
-
-**Responsibilities**:
-- Fluent API for building Skills
-- Cross-platform adapters (Claude, GPT, MCP)
-- Manifest validation
-- Type-safe Skill definitions
-
-**Example Usage**:
-```typescript
-const skill = new SkillBuilder()
-  .name('My Skill')
-  .version('1.0.0')
-  .platforms(Platform.MCP)
-  .addFunction({...})
-  .build();
-
-// Convert to MCP format
-const mcpServer = new MCPAdapter().convert(skill);
-```
-
-### 5. CLI Tool (`@agentfoundry/cli`)
-
-**Technology**: Node.js, Commander.js, Inquirer
-
-**Commands**:
-- `agentfoundry init` - Scaffold new Skill project
-- `agentfoundry validate` - Validate Skill locally
-- `agentfoundry publish` - Publish to marketplace
-- `agentfoundry login` - Authenticate with platform
-
-### 6. Database Layer (`@agentfoundry/db`)
-
-**Technology**: PostgreSQL 15, Prisma ORM
+**Technology**: SQLite, Prisma ORM
 
 **Key Models**:
+- `AgentSession`: Core record of an agent run
+- `CostRecord`: Token usage and USD cost data
+- `QualityMetrics`: Test results, lint issues, and build status
+- `GitSnapshot`: File changes and line diffs
 
-```prisma
-model User {
-  id            String   @id
-  firebaseUid   String   @unique
-  email         String   @unique
-  reputation    Int
-  verified      Boolean
-  skills        Skill[]
-}
+### 4. Logic & Services
 
-model Skill {
-  id              String   @id
-  name            String
-  slug            String   @unique
-  status          SkillStatus
-  platforms       Platform[]
-  permissions     String[]
-  validatedAt     DateTime?
-  author          User     @relation(...)
-  reviews         Review[]
-  validationResults ValidationResult[]
-}
-
-model ValidationResult {
-  id              String   @id
-  skillId         String
-  validationType  ValidationType
-  status          ValidationStatus
-  passed          Boolean
-  score           Float?
-  issues          Json
-}
-```
+- **RecommendationService**: Weighted scoring engine (PassRate + TokenYield + Cost)
+- **QualityChecker**: Automated validation runner (tests/lint/build)
+- **TaskClassifier**: Heuristic-based classification (e.g., frontend vs backend)
 
 ## Data Flow
 
-### Skill Submission Flow
-
 ```
-1. Developer creates Skill using CLI or SDK
-   └─> agentfoundry init → generates .claudeskill.md
-
-2. Developer validates locally
-   └─> agentfoundry validate
-       └─> Sends to Validator service
-           └─> Static analysis + security scan
-               └─> Returns validation report
-
-3. Developer publishes
-   └─> agentfoundry publish
-       └─> POST /api/v1/skills (with auth token)
-           └─> API stores in PostgreSQL
-               └─> Triggers async validation
-                   └─> Updates validation results
-                       └─> Changes status: PENDING → VALIDATING → APPROVED
-
-4. Skill appears in marketplace
-   └─> GET /api/v1/skills
-       └─> Returns approved Skills with metadata
+1. Developer runs agent ($ claude "fix bug")
+2. AF Watch detects process and snapshots Git state
+3. Agent finishes → AF Watch snapshots final Git state
+4. Log Parsers extract token usage and costs
+5. QualityChecker runs tests and updates metrics
+6. All data persisted to local SQLite db
+7. Developer views insights in CLI or Web Dashboard
 ```
-
-### Authentication Flow
-
-```
-1. User signs in with Email or Google
-   └─> Firebase Authentication
-       └─> Returns ID token
-
-2. Client sends token in Authorization header
-   └─> Bearer <firebase-id-token>
-
-3. API verifies token with Firebase Admin SDK
-   └─> Extracts uid and email
-       └─> Looks up or creates User in PostgreSQL
-           └─> Attaches user context to request
-```
-
-## Security Architecture
-
-### Permission Model
-
-Skills declare required permissions in manifest:
-```json
-{
-  "permissions": [
-    "network.http",
-    "file.read"
-  ]
-}
-```
-
-Validator scans code to ensure:
-- All used permissions are declared
-- No undeclared permissions are used
-- Permissions follow least-privilege principle
-
-### Sandboxing
-
-MVP uses static analysis only. Future: containerized execution.
-
-### Code Signing
-
-Future: Skills are cryptographically signed by author for integrity verification.
-
-## Scalability Considerations
-
-### Current (MVP)
-
-- Single PostgreSQL instance
-- Stateless API servers (horizontal scaling)
-- Redis for session/cache
-- Validator runs synchronously
-
-### Future (Scale Phase)
-
-- Multi-region PostgreSQL (read replicas)
-- Validation queue (RabbitMQ/SQS)
-- CDN for Skill assets
-- Elasticsearch for search
-- Microservices for billing, analytics
 
 ## Technology Choices
 
 | Decision | Technology | Rationale |
 |----------|-----------|-----------|
-| **Monorepo** | Turborepo + pnpm | Fast builds, shared dependencies, code reuse |
-| **Frontend** | Next.js 15 | SSR, API routes, React ecosystem, Vercel deployment |
-| **API** | NestJS | Modular architecture, OpenAPI generation, dependency injection |
-| **Database** | PostgreSQL (self-hosted) | Relational data, ACID, full-text search, full control |
-| **ORM** | Prisma | Type-safe queries, migrations, developer experience |
-| **Validator** | Python + FastAPI | Best tooling for AST analysis, fast async API |
-| **Auth** | Supabase Auth | Free tier, open-source, integrates with PostgreSQL |
-| **Cache** | Redis | Fast, distributed, pub/sub support |
-
-## Deployment Architecture
-
-### MVP Deployment (Vercel + Railway)
-
-```
-┌──────────────────┐
-│   Vercel CDN     │  (Frontend - Next.js)
-└────────┬─────────┘
-         │
-┌────────▼─────────┐
-│  Railway API     │  (NestJS backend)
-│  + PostgreSQL    │
-│  + Redis         │
-└────────┬─────────┘
-         │
-┌────────▼─────────┐
-│ Railway Validator│  (Python FastAPI)
-└──────────────────┘
-```
-
-### Production Deployment (AWS)
-
-```
-┌──────────────────┐
-│  CloudFront CDN  │
-└────────┬─────────┘
-         │
-┌────────▼─────────┐
-│   ECS (Fargate)  │  API + Validator containers
-│  + Load Balancer │
-└────────┬─────────┘
-         │
-    ┌────┴────┐
-    │         │
-┌───▼────┐ ┌─▼─────┐
-│  RDS   │ │ElastiCache│
-│(Postgres)│(Redis)│
-└────────┘ └───────┘
-```
-
-## Performance Targets
-
-- **API Response Time**: < 200ms (p95)
-- **Validation Time**: < 10s for typical Skill
-- **Marketplace Load**: < 1s initial page load
-- **Database Queries**: < 50ms (p95)
-
-## Monitoring & Observability
-
-Future implementation:
-
-- **Metrics**: Prometheus + Grafana
-- **Logging**: Winston + ELK stack
-- **Tracing**: OpenTelemetry
-- **Alerts**: PagerDuty integration
+| **Database** | SQLite | Zero-setup, local-first, perfect for solo developers |
+| **Framework** | Next.js 15 | Unified frontend and API logic, modern React features |
+| **Monorepo** | pnpm + Turbo | Fast builds, shared types across CLI and Web |
+| **Styling** | Tailwind CSS | Rapid UI development for the Bento-style dashboard |
 
 ---
-
-**Last Updated**: 2025-11-08
+**Last Updated**: 2026-03-20 (V2 Pivot Complete)
