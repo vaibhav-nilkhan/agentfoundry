@@ -355,5 +355,12 @@ A monorepo (9 packages) designed as an "App Store for AI Agent Skills" — with 
 6. **Developer surveys** confirm cost, quality, and agent-switching are top pain points
 7. **80% of code will be AI-driven by 2027** — managing agents becomes essential, not optional
 
-### The Conclusion
+### 10. Future Technology Considerations
+
+### 10.1 High-Performance Rendering (Pretext)
+As the platform evolves into **Swarm Monitoring (Phase 5+)**, we anticipate the need to render massive, real-time log streams from 5-10 concurrent agents. 
+- **Recommendation**: Evaluate the **Pretext** library (by Cheng Lou). 
+- **Rationale**: Pretext bypasses the DOM for text measurement and layout, offering up to 500x speed improvements. This would be ideal for a high-performance, lag-free swarm log viewer in the Next.js dashboard.
+
+## The Conclusion
 AgentFoundry v2 = **open-source fitness tracker for AI coding agents**. Not a marketplace. Not a skills platform. A monitoring and analytics layer that helps developers understand and optimize how they use their coding agents.
