@@ -1,12 +1,12 @@
 import React from 'react';
 import { statsService } from '@/lib/services/stats.service';
-import { Clock } from 'lucide-react';
+import { Clock, Layers } from 'lucide-react';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HistoryPage() {
     // For Phase 3, we default to no specific teamId yet (fetching all)
-    // The service now expects: getHistory(teamId?: string, limit?: number, page?: number)
     const { sessions, total } = await statsService.getHistory(undefined, 50, 1);
 
     return (
@@ -29,12 +29,13 @@ export default async function HistoryPage() {
                             <th className="px-6 py-4 text-left font-medium">Cost</th>
                             <th className="px-6 py-4 text-left font-medium">Lines Changed</th>
                             <th className="px-6 py-4 text-left font-medium">Quality</th>
+                            <th className="px-6 py-4 text-left font-medium">Context</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-border bg-card">
                         {sessions.map((session: any) => (
                             <tr key={session.id} className="data-row-interactive">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground font-mono">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground font-mono text-xs">
                                     {new Date(session.startedAt).toLocaleString(undefined, {
                                         month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
                                     })}
@@ -62,7 +63,7 @@ export default async function HistoryPage() {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     {session.quality ? (
-                                        <div className="flex items-center gap-2 text-xs text-foreground font-mono">
+                                        <div className="flex items-center gap-2 text-xs text-foreground font-mono text-[10px]">
                                             <span className={`status-dot ${session.quality.testsFailed === 0 ? 'success' : 'error'}`}></span>
                                             {session.quality.testsPassed} / {session.quality.testsPassed + session.quality.testsFailed}
                                         </div>
@@ -70,12 +71,25 @@ export default async function HistoryPage() {
                                         <span className="text-muted-foreground opacity-50">-</span>
                                     )}
                                 </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    {session.swarmId ? (
+                                        <Link 
+                                            href={`/history/swarm/${session.swarmId}`}
+                                            className="flex items-center gap-1.5 text-[10px] font-bold text-yellow-500 hover:text-yellow-400 border border-yellow-500/20 bg-yellow-500/5 px-2 py-0.5 rounded transition-colors"
+                                        >
+                                            <Layers className="w-3 h-3" />
+                                            SWARM
+                                        </Link>
+                                    ) : (
+                                        <span className="text-[10px] font-mono text-muted-foreground opacity-30">SOLO</span>
+                                    )}
+                                </td>
                             </tr>
                         ))}
 
                         {sessions.length === 0 && (
                             <tr>
-                                <td colSpan={6} className="px-6 py-20 text-center text-sm text-muted-foreground font-mono italic">
+                                <td colSpan={7} className="px-6 py-20 text-center text-sm text-muted-foreground font-mono italic">
                                     No session telemetry available. Start a background tracking session to begin logging data.
                                 </td>
                             </tr>

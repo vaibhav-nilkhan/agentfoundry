@@ -118,9 +118,9 @@
   - [x] Refactor `watch.ts` to use `SwarmManager`.
   - [x] Implement non-blocking parallel quality check runs (via `QualityQueue`).
   - [x] Update terminal UI to support concurrent agent status displays.
-- [ ] **Phase 3: Dashboard Swarm Visualization**
-  - [ ] Add `swarmId` to Prisma schema and run migrations.
-  - [ ] Update Dashboard "History" page to group sessions by `swarmId`.
-  - [ ] Create a "Swarm View" showing live activity of all agents in the team.
+- [x] **Phase 3: Dashboard Swarm Visualization**
+  - [x] Add `swarmId` to Prisma schema and run migrations.
+  - [x] Update Dashboard "History" page to group sessions by `swarmId`.
+  - [x] Create a "Swarm View" showing live activity of all agents in the team.
 - [ ] **Phase 4: Benchmarking Engine**
   - [ ] Implement `agentfoundry benchmark` to run different agents against the same task and compare results.

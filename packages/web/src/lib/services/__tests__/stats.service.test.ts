@@ -63,4 +63,61 @@ describe('Web StatsService', () => {
             expect(result.dailyCosts['2026-03-01']).toBe(3.00);
         });
     });
+
+    describe('getSwarm', () => {
+        it('should fetch and calculate metrics for a specific swarm', async () => {
+            const mockSessions = [
+                {
+                    id: '1',
+                    agentName: 'claude',
+                    swarmId: 'swarm_123',
+                    startedAt: new Date('2026-03-01T10:00:00Z'),
+                    endedAt: new Date('2026-03-01T10:05:00Z'),
+                    cost: { costUsd: 0.50 },
+                    gitSnapshot: { filesChanged: JSON.stringify(['a.ts', 'b.ts']) }
+                },
+                {
+                    id: '2',
+                    agentName: 'codex',
+                    swarmId: 'swarm_123',
+                    startedAt: new Date('2026-03-01T10:01:00Z'),
+                    endedAt: new Date('2026-03-01T10:06:00Z'),
+                    cost: { costUsd: 0.30 },
+                    gitSnapshot: { filesChanged: JSON.stringify(['b.ts', 'c.ts']) }
+                }
+            ];
+
+            mockPrisma.agentSession.findMany.mockResolvedValue(mockSessions);
+
+            const result = await service.getSwarm('swarm_123');
+
+            expect(result?.swarmId).toBe('swarm_123');
+            expect(result?.totalCost).toBe(0.80);
+            expect(result?.totalFiles).toBe(3); // a.ts, b.ts, c.ts (deduplicated)
+            expect(result?.sessions).toHaveLength(2);
+        });
+
+        it('should return null if no sessions found for swarmId', async () => {
+            mockPrisma.agentSession.findMany.mockResolvedValue([]);
+            const result = await service.getSwarm('non-existent');
+            expect(result).toBeNull();
+        });
+    });
+
+    describe('getActiveSwarms', () => {
+        it('should group currently active sessions into swarms and solos', async () => {
+            mockPrisma.agentSession.findMany.mockResolvedValue([
+                { id: '1', agentName: 'claude', swarmId: 's1', endedAt: null, startedAt: new Date() },
+                { id: '2', agentName: 'codex', swarmId: 's1', endedAt: null, startedAt: new Date() },
+                { id: '3', agentName: 'gemini', swarmId: null, endedAt: null, startedAt: new Date() }
+            ]);
+
+            const result = await service.getActiveSwarms();
+
+            expect(result.swarms).toHaveLength(1);
+            expect(result.swarms[0].sessions).toHaveLength(2);
+            expect(result.solos).toHaveLength(1);
+            expect(result.solos[0].agentName).toBe('gemini');
+        });
+    });
 });

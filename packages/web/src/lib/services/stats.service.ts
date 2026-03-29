@@ -119,6 +119,64 @@ export class StatsService {
         };
     }
 
+    async getSwarm(swarmId: string) {
+        const sessions = await this.db.agentSession.findMany({
+            where: { swarmId },
+            orderBy: { startedAt: 'asc' },
+            include: { cost: true, quality: true, gitSnapshot: true }
+        });
+
+        if (sessions.length === 0) return null;
+
+        const totalCost = sessions.reduce((sum: number, s: any) => sum + (s.cost?.costUsd || 0), 0);
+        const totalFiles = new Set(sessions.flatMap((s: any) => {
+            try {
+                return JSON.parse(s.gitSnapshot?.filesChanged || '[]');
+            } catch {
+                return [];
+            }
+        })).size;
+
+        return {
+            swarmId,
+            startTime: sessions[0].startedAt,
+            endTime: sessions[sessions.length - 1].endedAt,
+            sessions,
+            totalCost,
+            totalFiles
+        };
+    }
+
+    async getActiveSwarms() {
+        const activeSessions = await this.db.agentSession.findMany({
+            where: { endedAt: null },
+            orderBy: { startedAt: 'desc' },
+            include: { cost: true, quality: true, gitSnapshot: true }
+        });
+
+        // Group by swarmId
+        const swarms: Record<string, any[]> = {};
+        const solos: any[] = [];
+
+        for (const s of activeSessions) {
+            if (s.swarmId) {
+                if (!swarms[s.swarmId]) swarms[s.swarmId] = [];
+                swarms[s.swarmId].push(s);
+            } else {
+                solos.push(s);
+            }
+        }
+
+        return {
+            swarms: Object.entries(swarms).map(([id, sessions]) => ({
+                id,
+                sessions,
+                startTime: sessions[sessions.length - 1].startedAt,
+            })),
+            solos
+        };
+    }
+
     async getRecommendations(teamId?: string, taskType?: string) {
         const whereClause: any = teamId ? { teamId } : {};
         const sessions = await this.db.agentSession.findMany({
