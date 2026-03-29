@@ -95,6 +95,7 @@ describe('SwarmManager', () => {
 
         // Stop Agent B
         const resultB = await swarmManager.registerStop(102);
-        expect(resultB?.swarmId).toBeUndefined(); // Only one left when it stopped
+        expect(resultB?.swarmId).toBeDefined();
+        expect(resultB?.swarmId).toMatch(/^swarm_\d+$/);
     });
 });

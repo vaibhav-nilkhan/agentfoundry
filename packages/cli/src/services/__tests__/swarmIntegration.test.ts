@@ -76,5 +76,29 @@ describe('Swarm Orchestration Integration', () => {
         expect(records.map(r => r.agentName)).toContain('codex-test');
         
         console.log(`✅ Integration Passed: Found 2 sessions sharing SwarmID: ${swarmId}`);
+    }, 20000);
+
+    it('should handle rapid parallel stops and preserve swarm consistency', async () => {
+        const timestamp = new Date();
+        
+        // Start 3 agents
+        await swarm.registerStart(2001, 'claude-code', timestamp);
+        await swarm.registerStart(2002, 'codex', timestamp);
+        await swarm.registerStart(2003, 'gemini', timestamp);
+
+        // Stop all 3 in parallel
+        const results = await Promise.all([
+            swarm.registerStop(2001),
+            swarm.registerStop(2002),
+            swarm.registerStop(2003)
+        ]);
+
+        const swarmIds = results.map(r => r?.swarmId).filter(Boolean);
+        
+        // All should have the same swarmId because they were part of the same concurrent block
+        expect(swarmIds).toHaveLength(3);
+        expect(new Set(swarmIds).size).toBe(1);
+        
+        console.log(`✅ Integration Passed: Parallel stops preserved SwarmID: ${swarmIds[0]}`);
     });
 });

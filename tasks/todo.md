@@ -109,10 +109,18 @@
   - [x] Write Vitest specs for `AuthContext` to ensure the default local user is always loaded (Note: Fixed pnpm symlink double-React issue using Vitest resolve.dedupe).
   - [x] Run full workspace test suite `pnpm test` to verify Zero-Setup promise holds (Note: All core logic and AuthContext tests pass).
 ## Week 10 — Multi-Agent Swarm Orchestration 🐝
-- [ ] **Phase 1: Concurrent Session Logic**
-  - [ ] Update `watch` command to handle multiple concurrent agent processes simultaneously.
-  - [ ] Add session "merging" logic if multiple agents work on the same task.
-- [ ] **Phase 2: Swarm Dashboard**
+- [x] **Phase 1: Concurrent Session Logic (SwarmManager)**
+  - [x] Create `SwarmManager.ts` to track overlapping agent PIDs.
+  - [x] Implement "Global Base" snapshot logic for swarm starts.
+  - [x] Add session "merging" and attribution logic for concurrent file edits.
+  - [x] Write unit tests for `SwarmManager` (`swarmManager.test.ts`).
+- [x] **Phase 2: Watch Daemon Refactoring**
+  - [x] Refactor `watch.ts` to use `SwarmManager`.
+  - [x] Implement non-blocking parallel quality check runs (via `QualityQueue`).
+  - [x] Update terminal UI to support concurrent agent status displays.
+- [ ] **Phase 3: Dashboard Swarm Visualization**
+  - [ ] Add `swarmId` to Prisma schema and run migrations.
+  - [ ] Update Dashboard "History" page to group sessions by `swarmId`.
   - [ ] Create a "Swarm View" showing live activity of all agents in the team.
-- [ ] **Phase 3: Benchmarking**
+- [ ] **Phase 4: Benchmarking Engine**
   - [ ] Implement `agentfoundry benchmark` to run different agents against the same task and compare results.

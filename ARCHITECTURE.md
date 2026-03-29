@@ -45,10 +45,10 @@ AgentFoundry is an open-source "Fitbit for coding agents" designed to track cost
 **Technology**: Node.js, Commander.js
 
 **Responsibilities**:
-- `watch` daemon: Passively monitors agent processes and Git diffs
-- Log Parsers: Modular system for reading Claude, Codex, and Gemini logs
-- `stats`/`costs`/`history`: CLI reporting tools
-- `recommend`: Suggests the best agent for a task based on historical performance
+- `watch` daemon: Passively monitors agent processes and Git diffs.
+- **SwarmManager**: Manages overlapping agent sessions and attributes file changes to specific PIDs.
+- **QualityQueue**: Manages sequential execution of build/test runs to prevent race conditions during parallel stops.
+- Log Parsers: Modular system for reading Claude, Codex, and Gemini logs.
 
 ### 3. Data Layer (`@agentfoundry/db`)
 

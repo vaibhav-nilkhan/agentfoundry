@@ -3,9 +3,10 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { ProcessMonitor, ProcessEvent } from '../services/processMonitor';
 import { SwarmManager } from '../services/swarmManager';
+import { qualityQueue } from '../services/qualityQueue';
 import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
-import { TaskClassifier, QualityChecker, EfficiencyCalculator } from '@agentfoundry/validator';
+import { TaskClassifier, EfficiencyCalculator } from '@agentfoundry/validator';
 
 const prisma = new PrismaClient();
 const logParser = new LogParserService(prisma);
@@ -15,7 +16,9 @@ export const watchCommand = new Command()
     .name('watch')
     .description('Run background daemon to monitor local Agent usage (Claude, Codex, etc.)')
     .action(async () => {
-        console.log(chalk.cyan('Starting AgentFoundry Swarm Watcher...'));
+        console.log(chalk.cyan('\n🚀 AgentFoundry Swarm Watcher Active'));
+        console.log(chalk.dim('Monitoring for Claude, Codex, Gemini, and Amp...\n'));
+        
         const mainSpinner = ora('Waiting for agents...').start();
 
         const monitor = new ProcessMonitor(async (event: ProcessEvent) => {
@@ -23,21 +26,23 @@ export const watchCommand = new Command()
                 await swarm.registerStart(event.pid, event.agent, event.timestamp);
                 
                 const activeCount = swarm.getActiveCount();
-                mainSpinner.text = `Tracking ${chalk.green(activeCount)} active agent(s). Last started: ${chalk.green(event.agent)} (PID: ${event.pid})`;
+                mainSpinner.stop();
+                
+                console.log(chalk.green(`[START] `) + chalk.white(`${event.agent} `) + chalk.dim(`(PID: ${event.pid})`));
                 
                 if (activeCount > 1) {
-                    console.log(chalk.yellow(`\n[Swarm] Concurrent session detected: ${event.agent} joined the swarm.`));
+                    console.log(chalk.yellow(`[SWARM] Concurrent activity detected! (${activeCount} agents active)`));
                 }
+                
+                mainSpinner.start(`Tracking ${chalk.green(activeCount)} active agent(s)...`);
 
             } else if (event.type === 'stop') {
-                // Process the stop event asynchronously to avoid blocking the monitor
+                // Process the stop event asynchronously
                 processSessionEnd(event, mainSpinner);
             }
         });
 
         await monitor.start(2000);
-        mainSpinner.succeed('Daemon is running in the background. Close terminal to exit.');
-        mainSpinner.start('Waiting for agents...');
 
         // Keep alive
         setInterval(() => { }, 1000 * 60 * 60);
@@ -49,15 +54,24 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
 
     const { delta, session, swarmId } = result;
     const durationSeconds = Math.round((event.timestamp.getTime() - session.startTime.getTime()) / 1000);
+    const activeCount = swarm.getActiveCount();
+
+    // Stop main spinner during log output to prevent flickering
+    mainSpinner.stop();
+    console.log(chalk.yellow(`[STOP]  `) + chalk.white(`${event.agent} `) + chalk.dim(`(PID: ${event.pid}) after ${durationSeconds}s`));
     
-    const sessionSpinner = ora(`Processing ${chalk.yellow(event.agent)} (PID: ${event.pid})...`).start();
+    if (activeCount > 0) {
+        mainSpinner.start(`Tracking ${chalk.green(activeCount)} active agent(s)...`);
+    } else {
+        mainSpinner.start('Finalizing processing...');
+    }
 
     try {
         const taskType = TaskClassifier.classify(delta.filesChanged);
         
-        sessionSpinner.text = `Running quality checks for ${chalk.yellow(event.agent)}...`;
-        const qualityChecker = new QualityChecker(process.cwd());
-        const qualityResults = await qualityChecker.runChecks();
+        // Enqueue quality checks to prevent concurrent build/test collisions
+        console.log(chalk.blue(`[QUEUE] `) + chalk.dim(`Quality checks for ${event.agent}...`));
+        const qualityResults = await qualityQueue.enqueue(process.cwd());
 
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
         const recentFailures = await prisma.agentSession.count({
@@ -111,6 +125,7 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
             event.timestamp
         );
 
+        mainSpinner.stop();
         if (cost) {
             const tokenYield = EfficiencyCalculator.calculateTokenYield(cost.tokensOut, delta.linesAdded, delta.linesRemoved);
             await prisma.qualityMetrics.update({
@@ -118,22 +133,20 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
                 data: { tokenYield }
             });
 
-            sessionSpinner.succeed(
-                `${chalk.green(event.agent)} finished (${durationSeconds}s). ` +
-                `Files: ${delta.filesChanged.length} | ` +
-                `Cost: $${cost.costUsd.toFixed(4)} | ` +
-                `Yield: ${tokenYield}`
-            );
+            console.log(chalk.green(`[SAVED] `) + chalk.white(`${event.agent}: `) + 
+                chalk.dim(`${delta.filesChanged.length} files | $${cost.costUsd.toFixed(4)} | Yield: ${tokenYield}`));
         } else {
-            sessionSpinner.succeed(`${chalk.green(event.agent)} finished (${durationSeconds}s). Files: ${delta.filesChanged.length}.`);
+            console.log(chalk.green(`[SAVED] `) + chalk.white(`${event.agent}: `) + chalk.dim(`${delta.filesChanged.length} files. (No cost data)`));
         }
     } catch (error) {
-        sessionSpinner.fail(`Failed to save session for ${event.agent}: ${error}`);
+        console.log(chalk.red(`[ERROR] `) + chalk.white(`${event.agent}: `) + chalk.red(error));
     }
 
     if (swarm.getActiveCount() === 0) {
         mainSpinner.text = 'Waiting for agents...';
         mainSpinner.start();
+    } else {
+        mainSpinner.start(`Tracking ${chalk.green(swarm.getActiveCount())} active agent(s)...`);
     }
 }
 
