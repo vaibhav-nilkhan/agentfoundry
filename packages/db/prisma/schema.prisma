@@ -57,6 +57,7 @@ model AgentSession {
   taskHint        String?          // e.g., command line args
   taskType        String?          // Auto-classified from files changed
   swarmId         String?          // Optional ID to group concurrent agent sessions
+  benchmarkId     String?          // Optional ID to group agents competing on the same task
 
   startedAt       DateTime         @default(now())
   endedAt         DateTime?

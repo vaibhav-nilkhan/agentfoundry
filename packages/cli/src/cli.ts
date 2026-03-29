@@ -11,6 +11,7 @@ import { statsCommand } from './commands/stats';
 import { costsCommand } from './commands/costs';
 import { historyCommand } from './commands/history';
 import { recommendCommand } from './commands/recommend';
+import { benchmarkCommand } from './commands/benchmark';
 
 const program = new Command();
 
@@ -39,5 +40,6 @@ program.addCommand(statsCommand);
 program.addCommand(costsCommand);
 program.addCommand(historyCommand);
 program.addCommand(recommendCommand);
+program.addCommand(benchmarkCommand);
 
 program.parse();

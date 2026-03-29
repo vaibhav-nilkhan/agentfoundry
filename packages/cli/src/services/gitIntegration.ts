@@ -64,4 +64,18 @@ export class GitIntegration {
             linesRemoved: removedDelta
         };
     }
+
+    /**
+     * Resets the working directory to a clean state (HEAD).
+     * WARNING: This will discard all uncommitted changes and untracked files.
+     */
+    public async resetToCleanState(): Promise<void> {
+        try {
+            await this.git.reset(['--hard', 'HEAD']);
+            await this.git.clean('f', ['-d']);
+        } catch (error) {
+            console.error('[GitIntegration] Failed to reset working tree:', error);
+            throw error;
+        }
+    }
 }

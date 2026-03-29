@@ -122,5 +122,14 @@
   - [x] Add `swarmId` to Prisma schema and run migrations.
   - [x] Update Dashboard "History" page to group sessions by `swarmId`.
   - [x] Create a "Swarm View" showing live activity of all agents in the team.
-- [ ] **Phase 4: Benchmarking Engine**
-  - [ ] Implement `agentfoundry benchmark` to run different agents against the same task and compare results.
+- [x] **Phase 4: Benchmarking Engine 📊**
+  - [x] Add `benchmarkId` to `AgentSession` in Prisma schema and run migration.
+  - [x] Implement `restoreState` in `GitIntegration` to allow reverting changes between benchmark runs.
+  - [x] Create `BenchmarkService.ts` to orchestrate multi-agent runs on a single task.
+  - [x] Implement `agentfoundry benchmark` CLI command with comparison reporting.
+  - [x] Write unit tests for `BenchmarkService`.
+
+## Week 11 — Benchmarking Dashboard & Visualizations
+- [ ] **Phase 1: Leaderboard UI**
+  - [ ] Create a "Benchmark Leaderboard" in the web dashboard.
+  - [ ] Implement group-by-task visualization to compare agent effectiveness.
