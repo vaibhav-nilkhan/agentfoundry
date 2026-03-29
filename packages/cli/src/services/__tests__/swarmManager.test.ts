@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SwarmManager } from '../swarmManager';
-import { GitIntegration } from '../gitIntegration';
 
 // Mock GitIntegration
 vi.mock('../gitIntegration', () => {
@@ -76,7 +75,10 @@ describe('SwarmManager', () => {
         // Verify that Agent B's startSnapshot was updated to stopSnapshotA
         // @ts-ignore
         const sessionB = swarmManager.activeSessions.get(102);
-        expect(sessionB.startSnapshot).toEqual(stopSnapshotA);
+        expect(sessionB).toBeDefined();
+        if (sessionB) {
+            expect(sessionB.startSnapshot).toEqual(stopSnapshotA);
+        }
     });
 
     it('should generate and return a swarmId for concurrent sessions', async () => {

@@ -1,8 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { TaskClassifier } from '../TaskClassifier';
 import { QualityChecker } from '../QualityChecker';
-import * as child_process from 'child_process';
-import { promisify } from 'util';
 
 // Mock child_process
 vi.mock('child_process', () => ({

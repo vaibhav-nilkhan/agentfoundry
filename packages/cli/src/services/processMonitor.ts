@@ -18,7 +18,7 @@ export interface ProcessEvent {
 
 export class ProcessMonitor {
     private activeProcesses: Map<number, AgentProcess> = new Map();
-    private pollIntervalId?: NodeJS.Timeout;
+    private pollIntervalId?: ReturnType<typeof setInterval>;
     private onEvent?: (event: ProcessEvent) => void;
 
     // Signatures for known agents

@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
 import { ProcessMonitor, ProcessEvent } from '../services/processMonitor';
-import { SwarmManager, SwarmSession } from '../services/swarmManager';
+import { SwarmManager } from '../services/swarmManager';
 import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
 import { TaskClassifier, QualityChecker, EfficiencyCalculator } from '@agentfoundry/validator';

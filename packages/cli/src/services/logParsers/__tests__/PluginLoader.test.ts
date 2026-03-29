@@ -1,14 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { PluginLoader } from '../PluginLoader';
 import * as fs from 'fs';
-import * as path from 'path';
-import * as os from 'os';
 
 vi.mock('fs');
 
 describe('PluginLoader', () => {
-    const mockPluginDir = path.join(os.homedir(), '.agentfoundry', 'plugins');
-
     beforeEach(() => {
         vi.clearAllMocks();
     });
