@@ -62,8 +62,9 @@ export class ProcessMonitor {
 
     private async scanProcesses(): Promise<void> {
         try {
-            // Find node processes (since claude, codex are often node/python CLIs)
-            const processes = await findProcess('name', 'node');
+            // Scan all processes to find matches for our target agents
+            // findProcess('name', 'node') was too restrictive
+            const processes = await findProcess('name', /.*/);
             const processList = processes.map(p => ({
                 pid: p.pid,
                 name: p.name,
