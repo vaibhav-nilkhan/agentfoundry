@@ -105,16 +105,21 @@ Documentation outside the `docs/` directory:
 
 ---
 
-## 🎯 Current Phase: Week 1-2 Foundation
+## 🎯 Current Phase: Week 10 (Multi-Agent Swarm Orchestration)
 
-**Focus**: Define the product and build critical infrastructure
+**Focus**: Implementing concurrent agent monitoring and swarm benchmarking.
 
-### Critical Priorities 🔴
-1. **MCP Integration** - Adapter to convert Skills to MCP format
-2. **Skill Format Specification** - Finalize canonical format
-3. **20 Production Skills** - Build Skill inventory for marketplace
+### Finished Milestones ✅
+1. **Phase 1 (Weeks 1-5)** - Agent monitoring, cost tracking, and basic CLI/Web dashboard.
+2. **Phase 2 (Weeks 6-8)** - Efficiency metrics (Token Yield) and Recommendation Engine.
+3. **Phase 3 (Week 9)** - Local Team Mode and Profile Switcher (Zero-Setup Architecture).
 
-See [2-Week Sprint Plan](./planning/2-week-sprint.md) for detailed breakdown.
+### Immediate Priorities 🔴
+1. **Concurrent Session Logic** - Detect and track multiple agents running at the same time.
+2. **Swarm Dashboard** - Real-time view of team-wide agent activity.
+3. **Benchmarking** - Tooling to compare different agents on the same task.
+
+See [tasks/todo.md](../tasks/todo.md) for detailed task-level tracking.
 
 ---
 
