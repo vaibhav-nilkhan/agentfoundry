@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import { BarChart3, Clock, LayoutDashboard, Settings, Activity, Lightbulb, Layers } from 'lucide-react';
+import { BarChart3, Clock, LayoutDashboard, Settings, Activity, Lightbulb, Layers, Trophy } from 'lucide-react';
 import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -39,6 +39,11 @@ function Sidebar() {
         <Link href="/performance" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group">
           <Activity className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
           Performance
+        </Link>
+        
+        <Link href="/performance/benchmarks" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group border-l-2 border-transparent hover:border-accent/50">
+          <Trophy className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
+          Leaderboard
         </Link>
 
         <Link href="/performance/swarm" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-secondary hover:text-white transition-all group border-l-2 border-transparent hover:border-yellow-500/50">

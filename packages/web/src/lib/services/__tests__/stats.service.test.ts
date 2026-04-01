@@ -120,4 +120,56 @@ describe('Web StatsService', () => {
             expect(result.solos[0].agentName).toBe('gemini');
         });
     });
+
+    describe('getBenchmarks', () => {
+        it('should group sessions by benchmarkId and sort agents by pass rate, token yield, and cost', async () => {
+            const mockSessions = [
+                {
+                    id: '1',
+                    agentName: 'claude',
+                    benchmarkId: 'bench_123',
+                    taskHint: 'Build a login form',
+                    createdAt: new Date('2026-03-01T10:00:00Z'),
+                    quality: { testsPassed: 10, testsFailed: 0, tokenYield: 2.5 },
+                    cost: { costUsd: 0.10 }
+                },
+                {
+                    id: '2',
+                    agentName: 'codex',
+                    benchmarkId: 'bench_123',
+                    taskHint: 'Build a login form',
+                    createdAt: new Date('2026-03-01T10:00:00Z'),
+                    quality: { testsPassed: 8, testsFailed: 2, tokenYield: 1.5 },
+                    cost: { costUsd: 0.05 }
+                },
+                {
+                    id: '3',
+                    agentName: 'gemini',
+                    benchmarkId: 'bench_123',
+                    taskHint: 'Build a login form',
+                    createdAt: new Date('2026-03-01T10:00:00Z'),
+                    quality: { testsPassed: 10, testsFailed: 0, tokenYield: 1.2 }, // Better yield than claude
+                    cost: { costUsd: 0.08 }
+                }
+            ];
+
+            mockPrisma.agentSession.findMany.mockResolvedValue(mockSessions);
+
+            const result = await service.getBenchmarks();
+
+            expect(result).toHaveLength(1);
+            expect(result[0].id).toBe('bench_123');
+            expect(result[0].taskHint).toBe('Build a login form');
+            
+            // Expected Order:
+            // 1. gemini (100% pass, 1.2 yield, $0.08)
+            // 2. claude (100% pass, 2.5 yield, $0.10)
+            // 3. codex (80% pass, 1.5 yield, $0.05)
+            expect(result[0].sessions).toHaveLength(3);
+            expect(result[0].sessions[0].agentName).toBe('gemini');
+            expect(result[0].sessions[1].agentName).toBe('claude');
+            expect(result[0].sessions[2].agentName).toBe('codex');
+            expect(result[0].winner).toBe('gemini');
+        });
+    });
 });

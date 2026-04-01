@@ -186,6 +186,70 @@ export class StatsService {
 
         return calculateRecommendations(sessions, taskType);
     }
+
+    /**
+     * Fetches and groups benchmark sessions to generate a comparative leaderboard.
+     * Sorts agents by a heuristic: highest pass rate, then lowest token yield, then lowest cost.
+     * 
+     * @param teamId - Optional ID to filter benchmarks by a specific team.
+     * @returns An array of benchmark groups, sorted by newest first, containing ranked agent sessions.
+     */
+    async getBenchmarks(teamId?: string) {
+        const whereClause: any = {
+            benchmarkId: { not: null },
+            ...(teamId ? { teamId } : {})
+        };
+
+        const sessions = await this.db.agentSession.findMany({
+            where: whereClause,
+            orderBy: { startedAt: 'desc' },
+            include: { cost: true, quality: true, gitSnapshot: true }
+        });
+
+        // Group by benchmarkId
+        const benchmarksMap: Record<string, any[]> = {};
+        for (const s of sessions) {
+            const bId = s.benchmarkId!;
+            if (!benchmarksMap[bId]) benchmarksMap[bId] = [];
+            benchmarksMap[bId].push(s);
+        }
+
+        const benchmarks = Object.entries(benchmarksMap).map(([id, groupSessions]) => {
+            // Sort agents by performance:
+            // 1. Highest pass rate (testsPassed / (testsPassed + testsFailed))
+            // 2. Lowest tokenYield
+            // 3. Lowest costUsd
+            const sortedSessions = [...groupSessions].sort((a, b) => {
+                const aTotalTests = (a.quality?.testsPassed || 0) + (a.quality?.testsFailed || 0);
+                const bTotalTests = (b.quality?.testsPassed || 0) + (b.quality?.testsFailed || 0);
+                const aPassRate = aTotalTests > 0 ? (a.quality?.testsPassed || 0) / aTotalTests : 0;
+                const bPassRate = bTotalTests > 0 ? (b.quality?.testsPassed || 0) / bTotalTests : 0;
+
+                if (bPassRate !== aPassRate) return bPassRate - aPassRate;
+
+                const aYield = a.quality?.tokenYield || Infinity;
+                const bYield = b.quality?.tokenYield || Infinity;
+                if (aYield !== bYield) return aYield - bYield;
+
+                const aCost = a.cost?.costUsd || Infinity;
+                const bCost = b.cost?.costUsd || Infinity;
+                return aCost - bCost;
+            });
+
+            return {
+                id,
+                taskHint: groupSessions[0].taskHint || 'Unknown Task',
+                createdAt: groupSessions[0].createdAt,
+                sessions: sortedSessions,
+                winner: sortedSessions[0]?.agentName || null
+            };
+        });
+
+        // Sort benchmarks by newest first
+        benchmarks.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+        return benchmarks;
+    }
 }
 
 export const statsService = new StatsService();

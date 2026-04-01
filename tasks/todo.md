@@ -130,6 +130,6 @@
   - [x] Write unit tests for `BenchmarkService`.
 
 ## Week 11 — Benchmarking Dashboard & Visualizations
-- [ ] **Phase 1: Leaderboard UI**
-  - [ ] Create a "Benchmark Leaderboard" in the web dashboard.
-  - [ ] Implement group-by-task visualization to compare agent effectiveness.
+- [x] **Phase 1: Leaderboard UI**
+  - [x] Create a "Benchmark Leaderboard" in the web dashboard.
+  - [x] Implement group-by-task visualization to compare agent effectiveness.
