@@ -105,19 +105,19 @@ Documentation outside the `docs/` directory:
 
 ---
 
-## 🎯 Current Phase: Week 11 (Benchmarking Dashboard & Visualizations)
+## 🎯 Current Phase: Week 12 (Closed-Loop Prompt Optimization)
 
-**Focus**: Building UI to visualize agent performance comparisons on identical tasks.
+**Focus**: AI agents use AgentFoundry metrics to automatically optimize workspace instructions.
 
 ### Finished Milestones ✅
 1. **Phase 1 (Weeks 1-5)** - Agent monitoring, cost tracking, and basic CLI/Web dashboard.
 2. **Phase 2 (Weeks 6-8)** - Efficiency metrics (Token Yield) and Recommendation Engine.
 3. **Phase 3 (Week 9)** - Local Team Mode and Profile Switcher (Zero-Setup Architecture).
 4. **Phase 4 (Week 10)** - Multi-Agent Swarm Orchestration and Benchmarking Engine.
+5. **Phase 5 (Week 11)** - Benchmarking Dashboard & Visualizations.
 
 ### Immediate Priorities 🔴
-1. **Leaderboard UI** - Build visual group-by-task tables (Completed).
-2. **Agent Recommendations** - Expand visualizations to show why certain agents are recommended based on historical benchmarks.
+1. **Self-Improving Workflow** - Implement Closed-Loop Prompt Optimization based on TokenYield and ZeroShot metrics.
 
 See [tasks/todo.md](../tasks/todo.md) for detailed task-level tracking.
 

@@ -129,6 +129,7 @@ describe('Web StatsService', () => {
                     agentName: 'claude',
                     benchmarkId: 'bench_123',
                     taskHint: 'Build a login form',
+                    taskType: 'frontend',
                     createdAt: new Date('2026-03-01T10:00:00Z'),
                     quality: { testsPassed: 10, testsFailed: 0, tokenYield: 2.5 },
                     cost: { costUsd: 0.10 }
@@ -138,6 +139,7 @@ describe('Web StatsService', () => {
                     agentName: 'codex',
                     benchmarkId: 'bench_123',
                     taskHint: 'Build a login form',
+                    taskType: 'frontend',
                     createdAt: new Date('2026-03-01T10:00:00Z'),
                     quality: { testsPassed: 8, testsFailed: 2, tokenYield: 1.5 },
                     cost: { costUsd: 0.05 }
@@ -147,6 +149,7 @@ describe('Web StatsService', () => {
                     agentName: 'gemini',
                     benchmarkId: 'bench_123',
                     taskHint: 'Build a login form',
+                    taskType: 'frontend',
                     createdAt: new Date('2026-03-01T10:00:00Z'),
                     quality: { testsPassed: 10, testsFailed: 0, tokenYield: 1.2 }, // Better yield than claude
                     cost: { costUsd: 0.08 }
@@ -160,6 +163,7 @@ describe('Web StatsService', () => {
             expect(result).toHaveLength(1);
             expect(result[0].id).toBe('bench_123');
             expect(result[0].taskHint).toBe('Build a login form');
+            expect(result[0].taskType).toBe('frontend');
             
             // Expected Order:
             // 1. gemini (100% pass, 1.2 yield, $0.08)

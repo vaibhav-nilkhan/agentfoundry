@@ -133,3 +133,7 @@
 - [x] **Phase 1: Leaderboard UI**
   - [x] Create a "Benchmark Leaderboard" in the web dashboard.
   - [x] Implement group-by-task visualization to compare agent effectiveness.
+- [x] **Phase 2: Agent Recommendations Visualizations**
+  - [x] Expose taskType in benchmark queries.
+  - [x] Add Benchmark Evidence to the Insights page.
+  - [x] Visualize head-to-head matchups for recommended agents.

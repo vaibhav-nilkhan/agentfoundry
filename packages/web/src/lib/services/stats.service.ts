@@ -239,6 +239,7 @@ export class StatsService {
             return {
                 id,
                 taskHint: groupSessions[0].taskHint || 'Unknown Task',
+                taskType: groupSessions[0].taskType || 'unknown',
                 createdAt: groupSessions[0].createdAt,
                 sessions: sortedSessions,
                 winner: sortedSessions[0]?.agentName || null
