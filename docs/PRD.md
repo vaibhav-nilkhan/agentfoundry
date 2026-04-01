@@ -267,9 +267,10 @@ Inspired by autonomous AI research loops (like Karpathy's `autoresearch`), Agent
 
 | Week | Deliverable |
 |---|---|
-| **9-10** | **Team Mode & PostgreSQL**: Aggregate data across devs for centralized hosted tracking. |
-| **11-12** | **Multi-Agent Swarm Tracking**: Support for monitoring parallel "agent swarms" (multiple agents testing different hypotheses simultaneously). |
-| **13+** | **Closed-Loop Prompt Optimization**: AI agents use AgentFoundry's local SQLite metrics (`TokenYield` and `ZeroShot`) to automatically rewrite and optimize the workspace's `AGENT_INSTRUCTIONS.md`, creating a self-improving workflow. |
+| **9** | **Team Mode & PostgreSQL Integration**: Aggregate data across devs for centralized hosted tracking, plus local-first zero-setup fallback. |
+| **10** | **Multi-Agent Swarm Orchestration**: Concurrent session logic, parallel watch daemon, and swarm benchmarking engine. |
+| **11** | **Benchmarking Dashboard & Visualizations**: Leaderboard UI and visual agent recommendations based on historical benchmarks. |
+| **12+** | **Closed-Loop Prompt Optimization**: AI agents use AgentFoundry's local SQLite metrics (`TokenYield` and `ZeroShot`) to automatically rewrite and optimize the workspace's `AGENT_INSTRUCTIONS.md`, creating a self-improving workflow. |
 
 ---
 
