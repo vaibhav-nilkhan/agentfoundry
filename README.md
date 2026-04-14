@@ -40,27 +40,31 @@ A high-performance Next.js 15 dashboard featuring a "God Tier" Bento Grid aesthe
 
 ## 🏁 Getting Started
 
-### 1. Installation
+AgentFoundry V2 is a Node.js CLI tool with a local SQLite database (Zero Setup). It runs natively on macOS, Linux, and Windows.
+
+### Option 1: Global NPM Install (All Platforms)
 ```bash
-git clone https://github.com/vaibhav-nilkhan/agentfoundry.git
-cd agentfoundry
-pnpm install
+npm install -g @agentfoundry/cli
 ```
 
-### 2. Setup Database
+### Option 2: One-Click Install Script (macOS & Linux)
 ```bash
-npx pnpm --filter @agentfoundry/db build
-npx pnpm --filter @agentfoundry/db prisma db push
+curl -fsSL https://raw.githubusercontent.com/agentfoundry/agentfoundry/main/install.sh | bash
 ```
 
-### 3. Start Tracking
+### Start Tracking & Viewing Data
 ```bash
-# Start the background daemon
-npx pnpm --filter @agentfoundry/cli start watch
+# 1. Start the background daemon in any project directory
+agentfoundry watch
 
-# Open the visual dashboard
-npx pnpm --filter @agentfoundry/web dev
+# 2. View your metrics in the terminal
+agentfoundry stats
+
+# 3. Open the visual web dashboard
+agentfoundry dashboard
 ```
+
+📚 **Read the full [Installation Guide](./docs/guides/installation.md)** for detailed prerequisites and advanced setups.
 
 ## 🔌 Community Plugins
 AgentFoundry is extensible! You can build your own adapters for new agents (e.g. Cursor, Windsurf) by adding a simple JavaScript file to `~/.agentfoundry/plugins`.

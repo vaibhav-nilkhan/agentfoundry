@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # ==============================================
-# AgentFoundry - One-Click Installation Script
+# AgentFoundry V2 - One-Click Installation Script
 # ==============================================
-# This script sets up AgentFoundry with Docker
-# Prerequisites: Docker and Docker Compose installed
+# This script sets up the AgentFoundry CLI for macOS and Linux.
+# AgentFoundry V2 uses a local SQLite database (Zero Setup).
 # ==============================================
 
 set -e  # Exit on error
@@ -20,13 +20,12 @@ NC='\033[0m' # No Color
 SUCCESS="✅"
 ERROR="❌"
 INFO="ℹ️ "
-WARNING="⚠️ "
 ROCKET="🚀"
 
 echo -e "${BLUE}"
 echo "╔═══════════════════════════════════════════════════════════════╗"
 echo "║                                                               ║"
-echo "║           AgentFoundry - One-Click Installation              ║"
+echo "║           AgentFoundry V2 - CLI Installation                 ║"
 echo "║                                                               ║"
 echo "║         The Fitbit for your AI Coding Agents                 ║"
 echo "║                                                               ║"
@@ -35,158 +34,81 @@ echo -e "${NC}"
 echo ""
 
 # ----------------------------------------------
-# Step 1: Check Prerequisites
+# Step 1: Check Prerequisites (Node.js & npm)
 # ----------------------------------------------
-echo -e "${BLUE}[1/6]${NC} Checking prerequisites..."
+echo -e "${BLUE}[1/3]${NC} Checking prerequisites..."
 
-# Check if Docker is installed
-if ! command -v docker &> /dev/null; then
-    echo -e "${ERROR} ${RED}Docker is not installed!${NC}"
-    echo -e "${INFO} Please install Docker from: https://docs.docker.com/get-docker/"
+if ! command -v node &> /dev/null; then
+    echo -e "${ERROR} ${RED}Node.js is not installed!${NC}"
+    echo -e "${INFO} AgentFoundry requires Node.js v18 or higher."
+    echo -e "${INFO} Please install Node.js from: https://nodejs.org/"
     exit 1
 fi
 
-# Check if Docker Compose is installed
-if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
-    echo -e "${ERROR} ${RED}Docker Compose is not installed!${NC}"
-    echo -e "${INFO} Please install Docker Compose from: https://docs.docker.com/compose/install/"
+if ! command -v npm &> /dev/null; then
+    echo -e "${ERROR} ${RED}npm is not installed!${NC}"
+    echo -e "${INFO} Please install npm (usually bundled with Node.js)."
     exit 1
 fi
 
-# Check if Docker daemon is running
-if ! docker info &> /dev/null; then
-    echo -e "${ERROR} ${RED}Docker daemon is not running!${NC}"
-    echo -e "${INFO} Please start Docker and try again."
-    exit 1
-fi
-
-echo -e "${SUCCESS} ${GREEN}Docker and Docker Compose are ready!${NC}"
+NODE_VERSION=$(node -v)
+echo -e "${SUCCESS} ${GREEN}Found Node.js ${NODE_VERSION} and npm!${NC}"
 echo ""
 
 # ----------------------------------------------
-# Step 2: Environment Configuration
+# Step 2: Install the CLI Globally via NPM
 # ----------------------------------------------
-echo -e "${BLUE}[2/6]${NC} Setting up environment configuration..."
+echo -e "${BLUE}[2/3]${NC} Installing @agentfoundry/cli globally..."
+echo -e "${INFO} Running: npm install -g @agentfoundry/cli"
 
-if [ ! -f .env ]; then
-    echo -e "${INFO} Creating .env file from template..."
-    cp .env.example .env
-    echo -e "${SUCCESS} ${GREEN}.env file created!${NC}"
-    echo ""
-    echo -e "${YELLOW}${WARNING} IMPORTANT: Configure Supabase credentials in .env${NC}"
-    echo -e "${INFO} Get your credentials from: https://supabase.com/dashboard"
-    echo ""
-    echo -e "Do you want to edit .env now? (y/n)"
-    read -r response
-    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        ${EDITOR:-nano} .env
-    fi
+# Execute npm install. We use sudo if needed, but normally npm -g shouldn't need it if configured well via nvm.
+if npm install -g @agentfoundry/cli 2>/dev/null; then
+    echo -e "${SUCCESS} ${GREEN}CLI installed successfully!${NC}"
 else
-    echo -e "${SUCCESS} ${GREEN}.env file already exists!${NC}"
+    echo -e "${YELLOW}Standard install failed. Attempting with sudo...${NC}"
+    sudo npm install -g @agentfoundry/cli
+    echo -e "${SUCCESS} ${GREEN}CLI installed successfully via sudo!${NC}"
+fi
+echo ""
+
+# ----------------------------------------------
+# Step 3: Initialize Local Config
+# ----------------------------------------------
+echo -e "${BLUE}[3/3]${NC} Initializing local configuration..."
+
+# Create the local directory for the SQLite db and plugins if it doesn't exist
+AGENTFOUNDRY_DIR="$HOME/.agentfoundry"
+if [ ! -d "$AGENTFOUNDRY_DIR" ]; then
+    mkdir -p "$AGENTFOUNDRY_DIR"
+    mkdir -p "$AGENTFOUNDRY_DIR/plugins"
+    echo -e "${SUCCESS} ${GREEN}Created local data directory at ~/.agentfoundry${NC}"
+else
+    echo -e "${SUCCESS} ${GREEN}Local data directory already exists at ~/.agentfoundry${NC}"
 fi
 
 echo ""
 
 # ----------------------------------------------
-# Step 3: Pull Docker Images (Pre-download)
+# Step 4: Verification & Next Steps
 # ----------------------------------------------
-echo -e "${BLUE}[3/6]${NC} Pulling Docker images..."
-echo -e "${INFO} This may take a few minutes on first run..."
-
-docker-compose pull postgres redis 2>&1 | grep -v "Pulling from" || true
-
-echo -e "${SUCCESS} ${GREEN}Base images downloaded!${NC}"
-echo ""
-
-# ----------------------------------------------
-# Step 4: Build Application Images
-# ----------------------------------------------
-echo -e "${BLUE}[4/6]${NC} Building application images..."
-echo -e "${INFO} This may take 5-10 minutes on first run..."
-
-docker-compose build --parallel
-
-echo -e "${SUCCESS} ${GREEN}Application images built!${NC}"
-echo ""
-
-# ----------------------------------------------
-# Step 5: Start Services
-# ----------------------------------------------
-echo -e "${BLUE}[5/6]${NC} Starting AgentFoundry services..."
-
-docker-compose up -d
-
-echo -e "${INFO} Waiting for services to be healthy..."
-sleep 10
-
-# Wait for services to be healthy
-MAX_WAIT=120
-WAITED=0
-while [ $WAITED -lt $MAX_WAIT ]; do
-    if docker-compose ps | grep -q "healthy"; then
-        break
-    fi
-    echo -n "."
-    sleep 2
-    WAITED=$((WAITED + 2))
-done
-
-echo ""
-echo -e "${SUCCESS} ${GREEN}All services started!${NC}"
-echo ""
-
-# ----------------------------------------------
-# Step 6: Display Status
-# ----------------------------------------------
-echo -e "${BLUE}[6/6]${NC} Checking service status..."
-echo ""
-
-docker-compose ps
-
-echo ""
-echo -e "${GREEN}${ROCKET} AgentFoundry is now running!${NC}"
-echo ""
-echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║                     Access Your Platform                     ║${NC}"
-echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
-echo -e "${GREEN}  🌐 Web Platform:${NC}     http://localhost:3100"
-echo -e "${GREEN}  🔧 API Server:${NC}       http://localhost:4100"
-echo -e "${GREEN}  📚 API Docs:${NC}         http://localhost:4100/api/docs"
-echo -e "${GREEN}  🔬 Validator:${NC}        http://localhost:5100"
-echo -e "${GREEN}  🗄️  Database:${NC}        localhost:5432"
-echo ""
-echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║                      Default Credentials                     ║${NC}"
-echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
-echo -e "${YELLOW}  Database User:${NC}     agentfoundry"
-echo -e "${YELLOW}  Database Password:${NC} agentfoundry_dev_password"
-echo -e "${YELLOW}  Database Name:${NC}     agentfoundry"
-echo ""
-echo -e "${RED}${WARNING} Remember to change these in production!${NC}"
-echo ""
-echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║                      Useful Commands                         ║${NC}"
-echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
-echo -e "${GREEN}  View logs:${NC}           docker-compose logs -f"
-echo -e "${GREEN}  Stop services:${NC}       docker-compose stop"
-echo -e "${GREEN}  Restart services:${NC}    docker-compose restart"
-echo -e "${GREEN}  Remove everything:${NC}   docker-compose down -v"
-echo -e "${GREEN}  Update platform:${NC}     git pull && docker-compose up -d --build"
-echo ""
-echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║                       Next Steps                             ║${NC}"
-echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
-echo -e "  1. ${GREEN}${SUCCESS}${NC} Open http://localhost:3100 in your browser"
-echo -e "  2. ${INFO} Browse the 23 production-ready skills"
-echo -e "  3. ${INFO} Check out the interactive showcase at /showcase"
-echo -e "  4. ${INFO} Explore the admin panel at /admin"
-echo -e "  5. ${ROCKET} Start building AI agents with validated skills!"
-echo ""
-echo -e "${GREEN}Thank you for using AgentFoundry!${NC}"
-echo -e "${INFO} Documentation: https://github.com/yourusername/agentfoundry"
-echo -e "${INFO} Issues: https://github.com/yourusername/agentfoundry/issues"
-echo ""
+if command -v agentfoundry &> /dev/null || command -v af &> /dev/null; then
+    echo -e "${GREEN}${ROCKET} AgentFoundry V2 has been successfully installed!${NC}"
+    echo ""
+    echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${BLUE}║                       Getting Started                        ║${NC}"
+    echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "  1. ${GREEN}Start the Background Tracker:${NC}"
+    echo -e "     Run \`agentfoundry watch\` in your project directory."
+    echo ""
+    echo -e "  2. ${GREEN}View Your Agent Stats:${NC}"
+    echo -e "     Run \`agentfoundry stats\` to see your terminal leaderboard."
+    echo ""
+    echo -e "  3. ${GREEN}Open the Web Dashboard:${NC}"
+    echo -e "     Run \`agentfoundry dashboard\` to view the Bento UI."
+    echo ""
+    echo -e "${INFO} Documentation: https://github.com/agentfoundry/agentfoundry"
+else
+    echo -e "${ERROR} ${RED}Installation appeared to succeed, but 'agentfoundry' command is not available.${NC}"
+    echo -e "${INFO} Please ensure your global npm bin directory is in your system PATH."
+fi

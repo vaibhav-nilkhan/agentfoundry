@@ -138,7 +138,7 @@
   - [x] Add Benchmark Evidence to the Insights page.
   - [x] Visualize head-to-head matchups for recommended agents.
 
-## Week 12+ — Closed-Loop Prompt Optimization
-- [ ] **Phase 1: Self-Improving Workflow**
-  - [ ] Implement logic to analyze TokenYield and ZeroShot metrics.
-  - [ ] Automatically rewrite and optimize the workspace's `AGENT_INSTRUCTIONS.md` based on performance.
+## Week 12+ — Closed-Loop Prompt Optimization ✅
+- [x] **Phase 1: Self-Improving Workflow**
+  - [x] Implement logic to analyze TokenYield and ZeroShot metrics (with Trend Analysis for Degradation).
+  - [x] Automatically rewrite and optimize the workspace's `tasks/lessons.md` based on performance, wiring all agent instruction files.

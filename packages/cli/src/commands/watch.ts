@@ -7,10 +7,12 @@ import { qualityQueue } from '../services/qualityQueue';
 import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
 import { TaskClassifier, EfficiencyCalculator } from '@agentfoundry/validator';
+import { OptimizationService } from '../services/OptimizationService';
 
 const prisma = new PrismaClient();
 const logParser = new LogParserService(prisma);
 const swarm = new SwarmManager();
+const optimizationService = new OptimizationService(prisma);
 
 export const watchCommand = new Command()
     .name('watch')
@@ -135,8 +137,28 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
 
             console.log(chalk.green(`[SAVED] `) + chalk.white(`${event.agent}: `) + 
                 chalk.dim(`${delta.filesChanged.length} files | $${cost.costUsd.toFixed(4)} | Yield: ${tokenYield}`));
+
+            // Trigger Prompt Optimization if session was inefficient
+            if (tokenYield > 1.5 || !isZeroShot) {
+                console.log(chalk.blue(`[OPTIMIZE] `) + chalk.dim(`Analyzing metrics to update tasks/lessons.md...`));
+                try {
+                    await optimizationService.applyOptimizations(process.cwd());
+                } catch (optErr) {
+                    console.error(chalk.yellow(`[WARN] Failed to auto-optimize: ${optErr}`));
+                }
+            }
         } else {
             console.log(chalk.green(`[SAVED] `) + chalk.white(`${event.agent}: `) + chalk.dim(`${delta.filesChanged.length} files. (No cost data)`));
+            
+            // Trigger Prompt Optimization if session failed zero-shot
+            if (!isZeroShot) {
+                console.log(chalk.blue(`[OPTIMIZE] `) + chalk.dim(`Analyzing metrics to update tasks/lessons.md...`));
+                try {
+                    await optimizationService.applyOptimizations(process.cwd());
+                } catch (optErr) {
+                    console.error(chalk.yellow(`[WARN] Failed to auto-optimize: ${optErr}`));
+                }
+            }
         }
     } catch (error) {
         console.log(chalk.red(`[ERROR] `) + chalk.white(`${event.agent}: `) + chalk.red(error));
@@ -149,4 +171,3 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
         mainSpinner.start(`Tracking ${chalk.green(swarm.getActiveCount())} active agent(s)...`);
     }
 }
-
