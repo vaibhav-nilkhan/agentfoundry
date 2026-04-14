@@ -6,7 +6,7 @@ import fs from 'fs';
 import { RecommendationService } from '../RecommendationService';
 
 // Ensure a unique test database
-const TEST_DB_PATH = path.join(__dirname, 'test.db');
+const TEST_DB_PATH = path.join(__dirname, 'test-recommendation.db');
 process.env.DATABASE_URL = `file:${TEST_DB_PATH}`;
 
 const prisma = new PrismaClient({
@@ -21,6 +21,17 @@ describe('RecommendationService - Real DB Integration', () => {
     let service: RecommendationService;
 
     beforeAll(async () => {
+        // Run Prisma DB push to initialize the schema
+        const dbDir = path.resolve(__dirname, '../../../../../packages/db');
+        execSync(`npx prisma db push --schema=./prisma/schema.prisma --accept-data-loss`, {
+            cwd: dbDir,
+            env: {
+                ...process.env,
+                DATABASE_URL: `file:${TEST_DB_PATH}`
+            },
+            stdio: 'ignore' // Hide verbose output
+        });
+        
         await prisma.$connect();
         service = new RecommendationService(prisma);
     });

@@ -1,6 +1,13 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 import { SwarmManager } from '../swarmManager';
 import { PrismaClient } from '@agentfoundry/db';
+import { execSync } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+
+// Ensure a unique test database
+const TEST_DB_PATH = path.join(__dirname, 'test-swarm.db');
+process.env.DATABASE_URL = `file:${TEST_DB_PATH}`;
 
 // This is a Real Logic Integration Test
 // It tests the interaction between ProcessMonitor, SwarmManager, and the Database
@@ -8,8 +15,37 @@ describe('Swarm Orchestration Integration', () => {
     let prisma: PrismaClient;
     let swarm: SwarmManager;
 
+    beforeAll(async () => {
+        // Run Prisma DB push to initialize the schema
+        const dbDir = path.resolve(__dirname, '../../../../../packages/db');
+        execSync(`npx prisma db push --schema=./prisma/schema.prisma --accept-data-loss`, {
+            cwd: dbDir,
+            env: {
+                ...process.env,
+                DATABASE_URL: `file:${TEST_DB_PATH}`
+            },
+            stdio: 'ignore' // Hide verbose output
+        });
+        
+        prisma = new PrismaClient({
+            datasources: {
+                db: {
+                    url: `file:${TEST_DB_PATH}`
+                }
+            }
+        });
+        await prisma.$connect();
+    });
+
+    afterAll(async () => {
+        await prisma.$disconnect();
+        // Cleanup the test database
+        if (fs.existsSync(TEST_DB_PATH)) {
+            fs.unlinkSync(TEST_DB_PATH);
+        }
+    });
+
     beforeEach(async () => {
-        prisma = new PrismaClient();
         swarm = new SwarmManager();
         
         // Clear test data
@@ -17,7 +53,7 @@ describe('Swarm Orchestration Integration', () => {
     });
 
     afterEach(async () => {
-        await prisma.$disconnect();
+        // No disconnect needed here anymore
     });
 
     it('should correctly group concurrent agent sessions under the same swarmId in the database', async () => {

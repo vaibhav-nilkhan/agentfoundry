@@ -1,21 +1,43 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll, afterAll } from 'vitest';
 import * as fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+import { PrismaClient } from '@agentfoundry/db';
 import { OptimizationService } from '../OptimizationService';
 
 vi.mock('fs');
 
-const mockPrisma = {
-    agentSession: {
-        findMany: vi.fn()
-    }
-} as any;
+const TEST_DB_PATH = path.join(__dirname, 'test-optimization.db');
+process.env.DATABASE_URL = `file:${TEST_DB_PATH}`;
 
-describe('OptimizationService', () => {
+const prisma = new PrismaClient({
+    datasources: {
+        db: {
+            url: `file:${TEST_DB_PATH}`
+        }
+    }
+});
+
+describe('OptimizationService - Real DB Integration', () => {
     let service: OptimizationService;
 
-    beforeEach(() => {
+    beforeAll(async () => {
+        const schemaPath = path.resolve(__dirname, '../../../../db/prisma/schema.prisma');
+        execSync(`npx prisma db push --schema=${schemaPath} --accept-data-loss`, { stdio: 'ignore' });
+        await prisma.$connect();
+        service = new OptimizationService(prisma);
+    });
+
+    afterAll(async () => {
+        await prisma.$disconnect();
+        if (fs.existsSync(TEST_DB_PATH)) {
+            fs.unlinkSync(TEST_DB_PATH);
+        }
+    });
+
+    beforeEach(async () => {
         vi.clearAllMocks();
-        service = new OptimizationService(mockPrisma);
+        await prisma.agentSession.deleteMany();
         
         (fs.existsSync as any).mockReturnValue(false);
         (fs.readFileSync as any).mockReturnValue('');
@@ -24,24 +46,33 @@ describe('OptimizationService', () => {
     });
 
     it('should generate no rules if no bad metrics exist', async () => {
-        mockPrisma.agentSession.findMany.mockResolvedValue([]);
+        // Bug this catches: Optimizations running and creating dummy rules even when there's no data
         const rules = await service.applyOptimizations('/test/workspace');
         expect(rules).toEqual([]);
         expect(fs.writeFileSync).not.toHaveBeenCalled();
     });
 
     it('should generate rules for high token yield (thrashing)', async () => {
-        const mockSessions = [
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 2.5, isZeroShot: true } },
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 2.0, isZeroShot: true } },
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 1.8, isZeroShot: true } },
-        ];
+        // Bug this catches: Not detecting high token yield or failing to persist thrashing metrics correctly
+        const recentDate = new Date();
         
-        mockPrisma.agentSession.findMany.mockImplementation(({ where }: any) => {
-            if (where.createdAt.gte) {
-                return Promise.resolve(mockSessions);
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: recentDate,
+                quality: { create: { tokenYield: 2.5, isZeroShot: true, buildSuccess: true } }
             }
-            return Promise.resolve([]);
+        });
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: recentDate,
+                quality: { create: { tokenYield: 2.0, isZeroShot: true, buildSuccess: true } }
+            }
+        });
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: recentDate,
+                quality: { create: { tokenYield: 1.8, isZeroShot: true, buildSuccess: true } }
+            }
         });
 
         const rules = await service.applyOptimizations('/test/workspace');
@@ -51,23 +82,49 @@ describe('OptimizationService', () => {
     });
 
     it('should detect agent degradation (token inflation)', async () => {
-        const recentSessions = [
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 3.0, isZeroShot: true } },
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 3.0, isZeroShot: true } },
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 3.0, isZeroShot: true } }
-        ];
+        // Bug this catches: Missing degradation alert when recent token yield spikes compared to historical average
+        const recentDate = new Date();
+        const historicalDate = new Date();
+        historicalDate.setDate(historicalDate.getDate() - 10); // 10 days ago
 
-        const historicalSessions = [
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 1.0, isZeroShot: true } },
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 1.0, isZeroShot: true } },
-            { agentName: 'claude-code', taskType: 'frontend', quality: { tokenYield: 1.0, isZeroShot: true } }
-        ];
-
-        mockPrisma.agentSession.findMany.mockImplementation(({ where }: any) => {
-            if (where.createdAt.gte) {
-                return Promise.resolve(recentSessions);
+        // Recent sessions
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: recentDate,
+                quality: { create: { tokenYield: 3.0, isZeroShot: true, buildSuccess: true } }
             }
-            return Promise.resolve(historicalSessions);
+        });
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: recentDate,
+                quality: { create: { tokenYield: 3.0, isZeroShot: true, buildSuccess: true } }
+            }
+        });
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: recentDate,
+                quality: { create: { tokenYield: 3.0, isZeroShot: true, buildSuccess: true } }
+            }
+        });
+
+        // Historical sessions
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: historicalDate,
+                quality: { create: { tokenYield: 1.0, isZeroShot: true, buildSuccess: true } }
+            }
+        });
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: historicalDate,
+                quality: { create: { tokenYield: 1.0, isZeroShot: true, buildSuccess: true } }
+            }
+        });
+        await prisma.agentSession.create({
+            data: {
+                agentName: 'claude-code', taskType: 'frontend', createdAt: historicalDate,
+                quality: { create: { tokenYield: 1.0, isZeroShot: true, buildSuccess: true } }
+            }
         });
 
         const rules = await service.applyOptimizations('/test/workspace');
