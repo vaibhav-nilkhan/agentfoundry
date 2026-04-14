@@ -46,6 +46,8 @@ Before writing new code, analyze existing utilities, components, hooks, helpers,
 ### 2.4 Test To Verify Functionality
 *If you didn't test it, it doesn't work.*
 
+**CRITICAL:** You MUST read and follow `TESTING_RULES.md` before writing any tests. No mocking Prisma. You must state the bug your test catches.
+
 Verify written code by:
 - Running unit tests
 - Running end-to-end tests

@@ -18,6 +18,8 @@
     "validator:dev": "cd packages/validator && poetry run uvicorn app.main:app --reload"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/vitest-runner": "^9.6.1",
     "@types/node": "^20.10.5",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^10.1.8",

@@ -73,3 +73,6 @@ logs/
 .firebase/
 firebase-debug.log
 firestore-debug.log
+\n# Stryker Mutation Testing
+.stryker-tmp/
+packages/cli/stryker.log
