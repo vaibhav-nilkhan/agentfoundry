@@ -1,3 +1,4 @@
 packages:
   - 'packages/*'
+  - '!v1_archive'
   - '!packages/api-express-backup'

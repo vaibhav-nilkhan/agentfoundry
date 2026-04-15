@@ -14,8 +14,7 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "db:migrate": "pnpm --filter @agentfoundry/db migrate",
-    "db:studio": "pnpm --filter @agentfoundry/db studio",
-    "validator:dev": "cd packages/validator && poetry run uvicorn app.main:app --reload"
+    "db:studio": "pnpm --filter @agentfoundry/db studio"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^9.6.1",

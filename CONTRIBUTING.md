@@ -1,6 +1,6 @@
 # Contributing to AgentFoundry
 
-Thank you for your interest in contributing to AgentFoundry! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to AgentFoundry! This document provides guidelines and instructions for contributing to the V2 coding agent orchestrator.
 
 ## 📋 Code of Conduct
 
@@ -14,7 +14,7 @@ Thank you for your interest in contributing to AgentFoundry! This document provi
 
 ```bash
 # Fork the repository on GitHub
-git clone https://github.com/YOUR_USERNAME/agentfoundry.git
+git clone https://github.com/vaibhav-nilkhan/agentfoundry.git
 cd agentfoundry
 ```
 
@@ -23,10 +23,6 @@ cd agentfoundry
 ```bash
 # Install Node.js dependencies
 pnpm install
-
-# Install Python dependencies
-cd packages/validator
-poetry install
 ```
 
 ### 3. Set Up Development Environment
@@ -34,13 +30,10 @@ poetry install
 ```bash
 # Copy environment files
 cp packages/web/.env.example packages/web/.env.local
-cp packages/api/.env.example packages/api/.env
-cp packages/validator/.env.example packages/validator/.env
 
-# Set up database
+# Set up local SQLite database
 cd packages/db
-pnpm prisma migrate dev
-pnpm prisma db seed
+npx prisma db push
 ```
 
 ## 🔧 Development Workflow
@@ -88,9 +81,9 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 Examples:
 ```
-feat: add Claude Skills adapter
-fix: resolve validation timeout issue
-docs: update SDK usage examples
+feat(cli): add Claude Code detection
+fix(web): resolve cost calculation error
+docs: update installation instructions
 ```
 
 ## 🧪 Testing
@@ -100,133 +93,7 @@ docs: update SDK usage examples
 pnpm test
 
 # Run tests for a specific package
-pnpm --filter @agentfoundry/sdk test
-
-# Run tests in watch mode
-pnpm test -- --watch
-```
-
-## 📝 Documentation
-
-- Update README.md if you change functionality
-- Add JSDoc comments for new functions
-- Update ARCHITECTURE.md for architectural changes
-- Include examples in package READMEs
-
-## 🎯 Pull Request Process
-
-1. **Update Documentation**: Ensure all relevant docs are updated
-2. **Add Tests**: Include tests for new features
-3. **Run Linters**: Fix all linting errors
-4. **Update Changelog**: Add entry to CHANGELOG.md (if exists)
-5. **Create PR**: Use the PR template and provide clear description
-
-### PR Title Format
-
-```
-feat(package): brief description
-
-Example:
-feat(sdk): add GPT adapter support
-fix(validator): handle timeout edge cases
-```
-
-### PR Description Template
-
-```markdown
-## Description
-Brief description of changes
-
-## Type of Change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Breaking change
-- [ ] Documentation update
-
-## Testing
-- [ ] Tests pass locally
-- [ ] Added new tests for new features
-- [ ] Manual testing completed
-
-## Screenshots (if applicable)
-[Add screenshots here]
-
-## Related Issues
-Closes #123
-```
-
-## 🐛 Reporting Bugs
-
-Use GitHub Issues with the bug template:
-
-- Clear, descriptive title
-- Steps to reproduce
-- Expected vs actual behavior
-- Screenshots/logs if applicable
-- Environment details (OS, Node version, etc.)
-
-## 💡 Suggesting Features
-
-Use GitHub Issues with the feature template:
-
-- Clear use case description
-- Proposed solution
-- Alternative solutions considered
-- Additional context
-
-## 🎨 Contributing Skills
-
-Skills are the core of AgentFoundry. To contribute a Skill:
-
-### Skill Format
-
-See [Skill Format Specification](./docs/architecture/skill-format-spec.md) for complete details.
-
-**Required files**:
-- `skill.yaml` - Metadata and configuration
-- `README.md` - Human-readable documentation
-- `src/tools/` - Tool implementations
-- `tests/` - Unit and integration tests (>80% coverage)
-- `examples/` - Usage examples
-
-### Skill Quality Checklist
-
-Before submitting a Skill:
-- [ ] `skill.yaml` is complete and valid
-- [ ] All required fields populated
-- [ ] README with installation, usage, and examples
-- [ ] Tests with >80% coverage passing
-- [ ] Security scan passed (no critical issues)
-- [ ] License file included
-- [ ] At least one working tool implemented
-- [ ] Examples demonstrate all features
-
-### Skill Categories
-
-Choose appropriate category:
-- `memory-storage` - Long-term memory, caching, state
-- `data-retrieval` - Search, APIs, web scraping
-- `data-processing` - Transform, analyze, compute
-- `communication` - Email, Slack, notifications
-- `file-operations` - Read, write, parse files
-- `reasoning` - Chain-of-thought, planning
-- `validation` - Testing, verification
-- `monitoring` - Logging, telemetry, errors
-- `security` - Auth, encryption, secrets
-- `integration` - Third-party service wrappers
-
-### Testing Your Skill
-
-```bash
-# Validate skill format
-agentforge validate ./my-skill
-
-# Run tests
-cd my-skill
-npm test  # or pytest for Python skills
-
-# Test as MCP server
-agentforge mcp ./my-skill
+pnpm --filter @agentfoundry/cli test
 ```
 
 ---
@@ -235,74 +102,31 @@ agentforge mcp ./my-skill
 
 ### @agentfoundry/web (Frontend)
 
-- Follow Next.js best practices
+- Follow Next.js 15 (App Router) best practices
 - Use TypeScript strict mode
-- Style with Tailwind utility classes
-- Ensure components are accessible (a11y)
+- Style with Tailwind utility classes (Bento UI aesthetic)
 
-### @agentfoundry/api (Backend)
+### @agentfoundry/cli (Background Daemon)
 
-- Keep routes RESTful
-- Add proper error handling
-- Use TypeScript types (no `any`)
-- Document API endpoints
+- Use `agentfoundry watch` to test the daemon
+- Ensure commands are documented in `--help`
+- Maintain high-contrast terminal outputs using `chalk`
 
-### @agentfoundry/validator (Python)
+### @agentfoundry/db (Prisma & SQLite)
 
-- Follow PEP 8 style guide
-- Add type hints
-- Write docstrings for functions
-- Use async/await for I/O operations
-
-### @agentfoundry/sdk
-
-- Maintain backward compatibility
-- Export types for public APIs
-- Add usage examples in docstrings
-- Keep bundle size minimal
-
-### @agentfoundry/cli
-
-- Keep commands intuitive
-- Add `--help` documentation
-- Handle errors gracefully
-- Use colored output for clarity
+- Always run `npx prisma generate` after schema changes
+- Use local SQLite for solo development (no Postgres required)
 
 ## 🔍 Code Review Process
 
 All PRs require:
 
-1. Passing CI checks
+1. Passing CI checks (Vitest & Lint)
 2. Approval from at least one maintainer
 3. No merge conflicts
-4. Updated documentation
-
-Maintainers will review within 48 hours (usually faster).
-
-## 🏗️ Architecture Decisions
-
-For major architectural changes:
-
-1. Open a GitHub Discussion first
-2. Propose alternatives
-3. Get consensus from maintainers
-4. Document decision in ARCHITECTURE.md
 
 ## 📄 License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
-
-## 🙋 Questions?
-
-- Open a GitHub Discussion
-- Join our Discord (coming soon)
-- Email: dev@agentfoundry.ai (coming soon)
-
-## 🌟 Recognition
-
-Contributors will be recognized in:
-- README.md Contributors section
-- Release notes
-- Annual contributor spotlight
 
 Thank you for helping make AgentFoundry better! 🚀
