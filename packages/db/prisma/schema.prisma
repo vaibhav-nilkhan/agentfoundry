@@ -87,6 +87,9 @@ model CostRecord {
   tokensOut       Int          @default(0)
   costUsd         Float        @default(0.0)
   
+  modelName       String?      // The primary model used
+  breakdown       String?      // JSON stringified array of UsageBreakdown (for multi-model agents like Amp)
+  
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }

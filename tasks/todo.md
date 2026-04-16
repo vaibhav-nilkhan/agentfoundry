@@ -142,3 +142,15 @@
 - [x] **Phase 1: Self-Improving Workflow**
   - [x] Implement logic to analyze TokenYield and ZeroShot metrics (with Trend Analysis for Degradation).
   - [x] Automatically rewrite and optimize the workspace's `tasks/lessons.md` based on performance, wiring all agent instruction files.
+
+## Week 13 — Multi-Model & Reasoning Costing (2026 Frontier Update) ✅
+- [x] **Phase 1: Granular Token Tracking**
+  - [x] Update `types.ts` to support `UsageBreakdown` (model-specific usage in a single session).
+  - [x] Implement `AmpParser.ts` to extract model-switching data from proprietary JSON logs.
+- [x] **Phase 2: Reasoning-Based Pricing**
+  - [x] Upgrade `pricingConfig.ts` to support 2026 frontier models (GPT 5.4, Codex 5.3, Sonnet 4.6, Opus 4.6).
+  - [x] Implement "Reasoning Effort" classification (`low`, `medium`, `high`) and apply cost multipliers for deep-thinking sessions.
+- [x] **Phase 3: Real DB Validation**
+  - [x] Add `logParser_multiModel.test.ts` following the "Real DB" testing standard.
+  - [x] Verify persistence of model-specific breakdowns and reasoning metrics in SQLite.
+  - [x] Synchronize all core tests (`logParser.test.ts`, `pricingConfig.test.ts`) with 2026 model lineup.

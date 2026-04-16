@@ -2,6 +2,7 @@ import { BaseParser } from './BaseParser';
 import { ClaudeParser } from './claude';
 import { CodexParser } from './codex';
 import { GeminiParser } from './gemini';
+import { AmpParser } from './amp';
 import { PluginLoader } from './PluginLoader';
 import { AgentType } from '../processMonitor';
 
@@ -15,8 +16,7 @@ export function getParserForAgent(agentName: AgentType | string): BaseParser | n
         case 'gemini':
             return new GeminiParser();
         case 'amp':
-            // Amp Code log format is not yet publicly documented.
-            return null;
+            return new AmpParser();
     }
 
     // 2. Fallback to external plugins

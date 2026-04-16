@@ -36,13 +36,14 @@ export class LogParserService {
 
             const totalIn = usage.inputTokens + usage.cacheCreationTokens + usage.cacheReadTokens;
             const totalOut = usage.outputTokens;
-            const costUsd = calculateTokenCost(agentName, totalIn, totalOut, usage.model);
+            const costUsd = calculateTokenCost(agentName, totalIn, totalOut, usage.model, usage.breakdown);
 
             const result: ParsedSessionCost = {
                 tokensIn: totalIn,
                 tokensOut: totalOut,
                 costUsd,
-                model: usage.model
+                model: usage.model,
+                breakdown: usage.breakdown
             };
 
             await this.saveCostRecord(sessionId, result);
@@ -63,7 +64,9 @@ export class LogParserService {
                 sessionId,
                 tokensIn: cost.tokensIn,
                 tokensOut: cost.tokensOut,
-                costUsd: cost.costUsd
+                costUsd: cost.costUsd,
+                modelName: cost.model,
+                breakdown: cost.breakdown ? JSON.stringify(cost.breakdown) : null
             }
         });
     }

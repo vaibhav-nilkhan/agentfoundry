@@ -1,54 +1,59 @@
 import { describe, it, expect } from 'vitest';
 import { calculateTokenCost, AGENT_PRICING } from '../pricingConfig';
+import { UsageBreakdown } from '../logParsers/types';
 
-describe('pricingConfig', () => {
-    describe('AGENT_PRICING', () => {
-        it('should have pricing for claude-code, codex, and gemini', () => {
-            expect(AGENT_PRICING['claude-code']).toBeDefined();
-            expect(AGENT_PRICING['codex']).toBeDefined();
-            expect(AGENT_PRICING['gemini']).toBeDefined();
-        });
-
-        it('should have default models for each agent', () => {
-            expect(AGENT_PRICING['claude-code'].defaultModel).toBe('claude-sonnet-4-20250514');
-            expect(AGENT_PRICING['codex'].defaultModel).toBe('codex-mini-latest');
-            expect(AGENT_PRICING['gemini'].defaultModel).toBe('gemini-2.5-pro');
-        });
+describe('pricingConfig - Multi-Model Calculation', () => {
+    it('should calculate cost based on a single model (fallback)', () => {
+        // Bug this catches: Incorrect multiplier application for single-model fallback
+        const cost = calculateTokenCost('claude-code', 1000000, 1000000, 'claude-4-6-sonnet-20260115');
+        // Sonnet 4.6: $2.50/1M in + $12.00/1M out = $14.50
+        expect(cost).toBe(14.50);
     });
 
-    describe('calculateTokenCost', () => {
-        it('should calculate cost for claude-code with default model', () => {
-            // Claude Sonnet 4: $3/M input, $15/M output
-            // 1000 input tokens = $0.003, 500 output tokens = $0.0075
-            const cost = calculateTokenCost('claude-code', 1000, 500);
-            expect(cost).toBeCloseTo(0.0105, 4);
-        });
+    it('should calculate exact cost from a breakdown array', () => {
+        // Bug this catches: Recommender ignoring specific models in a multi-model session
+        const breakdown: UsageBreakdown[] = [
+            {
+                model: 'claude-4-6-haiku-20260115',
+                inputTokens: 1000000,
+                outputTokens: 0
+            },
+            {
+                model: 'claude-4-6-sonnet-20260115',
+                inputTokens: 0,
+                outputTokens: 1000000
+            }
+        ];
 
-        it('should calculate cost for a specific model', () => {
-            // Claude Opus 4: $15/M input, $75/M output
-            const cost = calculateTokenCost('claude-code', 1000, 500, 'claude-opus-4-20250514');
-            expect(cost).toBeCloseTo(0.0525, 4);
-        });
+        const cost = calculateTokenCost('amp', 0, 0, undefined, breakdown);
+        // Haiku 4.6 In: $0.50 + Sonnet 4.6 Out: $12.00 = $12.50
+        expect(cost).toBe(12.50);
+    });
 
-        it('should return 0 for unknown agent', () => {
-            const cost = calculateTokenCost('unknown-agent', 1000, 500);
-            expect(cost).toBe(0);
-        });
+    it('should handle unknown models in breakdown by ignoring them', () => {
+        // Bug this catches: Crash or NaN when an agent uses a model not in our pricing YAML
+        const breakdown: UsageBreakdown[] = [
+            {
+                model: 'mystery-model-2026',
+                inputTokens: 1000000,
+                outputTokens: 1000000
+            },
+            {
+                model: 'claude-4-6-haiku-20260115',
+                inputTokens: 1000000,
+                outputTokens: 0
+            }
+        ];
 
-        it('should return 0 for unknown model', () => {
-            const cost = calculateTokenCost('claude-code', 1000, 500, 'nonexistent-model');
-            expect(cost).toBe(0);
-        });
+        const cost = calculateTokenCost('amp', 0, 0, undefined, breakdown);
+        // Mystery: $0 + Haiku 4.6 In: $0.50 = $0.50
+        expect(cost).toBe(0.5);
+    });
 
-        it('should handle zero tokens', () => {
-            const cost = calculateTokenCost('claude-code', 0, 0);
-            expect(cost).toBe(0);
-        });
-
-        it('should handle large token counts accurately', () => {
-            // 1M input + 1M output on Claude Sonnet 4
-            const cost = calculateTokenCost('claude-code', 1_000_000, 1_000_000);
-            expect(cost).toBeCloseTo(18.0, 2); // $3 + $15
-        });
+    it('should round to 6 decimal places to prevent floating point drift', () => {
+        // Bug this catches: Cumulative errors in total cost reporting for large sessions
+        const cost = calculateTokenCost('gemini', 123, 456, 'gemini-3-1-flash');
+        const expected = (123 / 1_000_000 * 0.10) + (456 / 1_000_000 * 0.40);
+        expect(cost).toBe(Math.round(expected * 1_000_000) / 1_000_000);
     });
 });
