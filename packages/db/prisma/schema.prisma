@@ -54,6 +54,7 @@ model Membership {
 model AgentSession {
   id              String           @id @default(cuid())
   agentName       String           // e.g., 'claude-code', 'codex', 'gemini'
+  status          String           @default("ACTIVE") // ACTIVE | COMPLETED
   taskHint        String?          // e.g., command line args
   taskType        String?          // Auto-classified from files changed
   swarmId         String?          // Optional ID to group concurrent agent sessions

@@ -8,11 +8,13 @@ import { LogParserService } from '../services/logParser';
 import { PrismaClient } from '@agentfoundry/db';
 import { TaskClassifier, EfficiencyCalculator } from '@agentfoundry/validator';
 import { OptimizationService } from '../services/OptimizationService';
+import { HeartbeatService } from '../services/HeartbeatService';
 
 const prisma = new PrismaClient();
 const logParser = new LogParserService(prisma);
 const swarm = new SwarmManager();
 const optimizationService = new OptimizationService(prisma);
+const heartbeatService = new HeartbeatService(prisma, swarm, logParser);
 
 export const watchCommand = new Command()
     .name('watch')
@@ -26,6 +28,20 @@ export const watchCommand = new Command()
         const monitor = new ProcessMonitor(async (event: ProcessEvent) => {
             if (event.type === 'start') {
                 await swarm.registerStart(event.pid, event.agent, event.timestamp);
+                
+                // Immediately create the ACTIVE session in DB to anchor it
+                const dbSession = await prisma.agentSession.create({
+                    data: {
+                        agentName: event.agent,
+                        taskHint: event.cmdHint,
+                        status: 'ACTIVE',
+                        startedAt: event.timestamp,
+                        quality: { create: {} },
+                        gitSnapshot: { create: { filesChanged: '[]' } }
+                    }
+                });
+
+                heartbeatService.registerSessionMapping(event.pid, dbSession.id);
                 
                 const activeCount = swarm.getActiveCount();
                 mainSpinner.stop();
@@ -45,6 +61,13 @@ export const watchCommand = new Command()
         });
 
         await monitor.start(2000);
+
+        // HEARTBEAT: Every 15 minutes, update active sessions with current progress
+        setInterval(async () => {
+            if (swarm.getActiveCount() > 0) {
+                await heartbeatService.processActiveSessions();
+            }
+        }, 1000 * 60 * 15);
 
         // Keep alive
         setInterval(() => { }, 1000 * 60 * 60);
@@ -91,18 +114,19 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
         });
         const isZeroShot = EfficiencyCalculator.calculateIsZeroShot(qualityResults, recentFailures);
 
-        // Save to SQLite via Prisma
-        const dbSession = await prisma.agentSession.create({
+        // Update the existing session to COMPLETED
+        const dbSessionId = (heartbeatService as any).activeSessionIds.get(event.pid);
+        
+        const dbSession = await prisma.agentSession.update({
+            where: { id: dbSessionId },
             data: {
-                agentName: event.agent,
-                taskHint: event.cmdHint || session.agent,
-                swarmId,
-                startedAt: session.startTime,
+                status: 'COMPLETED',
                 endedAt: event.timestamp,
                 durationSeconds,
                 taskType,
+                swarmId,
                 quality: {
-                    create: {
+                    update: {
                         testsPassed: qualityResults.testsPassed,
                         testsFailed: qualityResults.testsFailed,
                         lintIssues: qualityResults.lintIssues,
@@ -111,7 +135,7 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
                     }
                 },
                 gitSnapshot: {
-                    create: {
+                    update: {
                         filesChanged: JSON.stringify(delta.filesChanged),
                         linesAdded: delta.linesAdded,
                         linesRemoved: delta.linesRemoved
@@ -119,6 +143,8 @@ async function processSessionEnd(event: ProcessEvent, mainSpinner: any) {
                 }
             }
         });
+
+        heartbeatService.removeSessionMapping(event.pid);
 
         const cost = await logParser.parseAndSaveCost(
             dbSession.id,

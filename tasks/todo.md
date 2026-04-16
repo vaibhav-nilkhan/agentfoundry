@@ -154,3 +154,14 @@
   - [x] Add `logParser_multiModel.test.ts` following the "Real DB" testing standard.
   - [x] Verify persistence of model-specific breakdowns and reasoning metrics in SQLite.
   - [x] Synchronize all core tests (`logParser.test.ts`, `pricingConfig.test.ts`) with 2026 model lineup.
+
+## Week 14 — High-Precision Heartbeat Tracking (Long Sessions) ✅
+- [x] **Phase 1: Real-Time Persistence Infrastructure**
+  - [x] Update `schema.prisma` with `status` field (ACTIVE/COMPLETED).
+  - [x] Refactor `LogParserService` to use idempotent `upsert` for intermediate cost updates.
+- [x] **Phase 2: Heartbeat Daemon Integration**
+  - [x] Implement `HeartbeatService.ts` to capture Git deltas and token usage without closing sessions.
+  - [x] Integrate 15-minute heartbeat interval into `watch` command.
+- [x] **Phase 3: Validation & Crash Resilience**
+  - [x] Add `heartbeat.test.ts` following "Real DB" standard.
+  - [x] Verify that intermediate progress is saved to SQLite even if the process is still running.

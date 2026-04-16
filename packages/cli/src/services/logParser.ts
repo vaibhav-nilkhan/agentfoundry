@@ -57,10 +57,19 @@ export class LogParserService {
 
     /**
      * Saves the parsed cost data to the CostRecord table via Prisma.
+     * Uses upsert to support intermediate heartbeat updates.
      */
     private async saveCostRecord(sessionId: string, cost: ParsedSessionCost): Promise<void> {
-        await this.prisma.costRecord.create({
-            data: {
+        await this.prisma.costRecord.upsert({
+            where: { sessionId },
+            update: {
+                tokensIn: cost.tokensIn,
+                tokensOut: cost.tokensOut,
+                costUsd: cost.costUsd,
+                modelName: cost.model,
+                breakdown: cost.breakdown ? JSON.stringify(cost.breakdown) : null
+            },
+            create: {
                 sessionId,
                 tokensIn: cost.tokensIn,
                 tokensOut: cost.tokensOut,

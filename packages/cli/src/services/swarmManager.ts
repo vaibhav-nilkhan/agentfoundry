@@ -90,6 +90,10 @@ export class SwarmManager {
         session.startSnapshot = currentSnapshot;
     }
 
+    public getActiveSessions(): Map<number, SwarmSession> {
+        return this.activeSessions;
+    }
+
     public getActiveCount(): number {
         return this.activeSessions.size;
     }
