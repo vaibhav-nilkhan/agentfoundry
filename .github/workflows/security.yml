@@ -44,7 +44,7 @@ jobs:
 
   # 3. Automatic NPM/PNPM Vulnerability Audit
   dependency-audit:
-    name: "NPM Audit"
+    name: "PNPM Audit"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout Repository"
@@ -53,5 +53,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: "Run NPM Audit"
-        run: npm audit --audit-level=high
+      - name: "Install pnpm"
+        run: corepack enable && corepack prepare pnpm@latest --activate
+      - name: "Run PNPM Audit"
+        run: pnpm audit --audit-level=high
