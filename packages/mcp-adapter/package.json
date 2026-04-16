@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "@agentfoundry/shared": "workspace:*",
+    "@agentfoundry/shared": "file:../shared",
     "yaml": "^2.3.4"
   },
   "devDependencies": {

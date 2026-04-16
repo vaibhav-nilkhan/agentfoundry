@@ -22,12 +22,11 @@
     "skills"
   ],
   "dependencies": {
-    "@agentfoundry/db": "workspace:*",
-    "@agentfoundry/mcp-adapter": "workspace:*",
-    "@agentfoundry/sdk": "workspace:*",
-    "@agentfoundry/shared": "workspace:*",
-    "@agentfoundry/validator": "workspace:*",
-    "axios": "^1.6.5",
+    "@agentfoundry/db": "file:../db",
+    "@agentfoundry/mcp-adapter": "file:../mcp-adapter",
+    "@agentfoundry/sdk": "file:../sdk",
+    "@agentfoundry/shared": "file:../shared",
+    "@agentfoundry/validator": "file:../validator",
     "chalk": "^4.1.2",
     "cli-table3": "^0.6.5",
     "commander": "^11.1.0",

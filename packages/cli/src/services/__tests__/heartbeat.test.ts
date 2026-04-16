@@ -58,7 +58,7 @@ describe('HeartbeatService - Real DB Integration', () => {
 
     beforeAll(async () => {
         const dbDir = path.resolve(__dirname, '../../../../../packages/db');
-        execSync(`npx prisma db push --schema=./prisma/schema.prisma --accept-data-loss`, {
+        execSync(`npx pnpm exec prisma db push --schema=./prisma/schema.prisma --accept-data-loss`, {
             cwd: dbDir,
             env: { ...process.env, DATABASE_URL: `file:${TEST_DB_PATH}` },
             stdio: 'ignore'

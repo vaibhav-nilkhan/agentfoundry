@@ -12,7 +12,7 @@
         "clean": "rm -rf dist"
     },
     "dependencies": {
-        "@agentfoundry/shared": "workspace:*"
+        "@agentfoundry/shared": "file:../shared"
     },
     "devDependencies": {
         "@types/node": "^20.19.24",

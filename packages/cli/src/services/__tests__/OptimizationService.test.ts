@@ -23,7 +23,7 @@ describe('OptimizationService - Real DB Integration', () => {
 
     beforeAll(async () => {
         const schemaPath = path.resolve(__dirname, '../../../../db/prisma/schema.prisma');
-        execSync(`npx prisma db push --schema=${schemaPath} --accept-data-loss`, { stdio: 'ignore' });
+        execSync(`npx pnpm exec prisma db push --schema=${schemaPath} --accept-data-loss`, { stdio: 'ignore' });
         await prisma.$connect();
         service = new OptimizationService(prisma);
     });

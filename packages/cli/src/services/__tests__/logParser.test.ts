@@ -38,7 +38,7 @@ describe('LogParser adapters', () => {
     beforeAll(async () => {
         // Initialize the DB schema
         const schemaPath = path.resolve(__dirname, '../../../../../packages/db/prisma/schema.prisma');
-        execSync(`npx prisma db push --schema=${schemaPath} --accept-data-loss`, {
+        execSync(`npx pnpm exec prisma db push --schema=${schemaPath} --accept-data-loss`, {
             env: { ...process.env, DATABASE_URL: `file:${TEST_DB_PATH}` },
             stdio: 'ignore'
         });

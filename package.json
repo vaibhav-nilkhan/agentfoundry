@@ -19,12 +19,12 @@
   "devDependencies": {
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/vitest-runner": "^9.6.1",
-    "@types/node": "^20.10.5",
-    "eslint": "^8.56.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.1.1",
-    "turbo": "^1.11.2",
-    "typescript": "^5.3.3"
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.6",
+    "typescript": "^6.0.2"
   },
   "engines": {
     "node": ">=20.0.0",
